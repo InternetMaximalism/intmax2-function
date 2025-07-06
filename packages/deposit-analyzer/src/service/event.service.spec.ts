@@ -28,9 +28,9 @@ vi.mock("@intmax2-function/shared", () => ({
 }));
 
 import {
+  fetchEvents,
   LIQUIDITY_CONTRACT_ADDRESS,
   LiquidityAbi,
-  fetchEvents,
   logger,
 } from "@intmax2-function/shared";
 

@@ -1,4 +1,4 @@
-import { FIRESTORE_DOCUMENTS, FIRESTORE_DOCUMENT_EVENTS } from "../constants";
+import { FIRESTORE_DOCUMENT_EVENTS, FIRESTORE_DOCUMENTS } from "../constants";
 
 export type CustomError = {
   code: string;

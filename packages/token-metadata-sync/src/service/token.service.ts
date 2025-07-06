@@ -1,10 +1,10 @@
 import {
-  FILE_PATHS,
-  type Token,
   config,
   createNetworkClient,
+  FILE_PATHS,
   fetchTokenList,
   logger,
+  type Token,
   uploadData,
 } from "@intmax2-function/shared";
 import { CoinGeckoClient, CoinListResponseItem } from "coingecko-api-v3";

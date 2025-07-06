@@ -1,13 +1,13 @@
 import {
   Alchemy,
+  createNetworkClient,
   ITX_AMOUNT_TO_LIQUIDITY,
+  logger,
   MINT_INTERVAL_WEEKS,
   type MintEvent,
   type MintEventData,
   type MintedEvent,
   TRANSFER_INTERVAL_WEEKS,
-  createNetworkClient,
-  logger,
 } from "@intmax2-function/shared";
 import { hexToNumber } from "viem";
 import { getMintedEvent, getTransferredToLiquidityEvent } from "./event.service";

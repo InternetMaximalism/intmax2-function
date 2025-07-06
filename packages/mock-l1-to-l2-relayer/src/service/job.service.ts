@@ -1,11 +1,11 @@
 import {
+  createNetworkClient,
   Event,
   type EventData,
   FIRESTORE_DOCUMENT_EVENTS,
-  MOCK_L1_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK,
-  createNetworkClient,
   getStartBlockNumber,
   logger,
+  MOCK_L1_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK,
   validateBlockRange,
 } from "@intmax2-function/shared";
 import { generateDepositsCalldata } from "./decode.service";

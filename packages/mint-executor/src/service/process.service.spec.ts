@@ -1,12 +1,12 @@
 import {
   Alchemy,
   ITX_AMOUNT_TO_LIQUIDITY,
+  logger,
   MintedEvent,
   TransferredToLiquidityEvent,
-  logger,
 } from "@intmax2-function/shared";
 import { hexToNumber } from "viem";
-import { type MockedFunction, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, type MockedFunction, vi } from "vitest";
 import { getMintedEvent, getTransferredToLiquidityEvent } from "./event.service";
 import { shouldExecuteAction } from "./interval.service";
 import { mint } from "./mint.service";

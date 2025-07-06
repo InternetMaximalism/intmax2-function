@@ -1,4 +1,4 @@
-import { Block, FeeData, ethers } from "ethers";
+import { Block, ethers, FeeData } from "ethers";
 import type { PublicClient } from "viem";
 import { config } from "../config";
 

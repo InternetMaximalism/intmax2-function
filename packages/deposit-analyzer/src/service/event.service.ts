@@ -2,12 +2,12 @@ import {
   BLOCK_RANGE_MINIMUM,
   type DepositEvent,
   type DepositsRelayedEvent,
-  type EventData,
-  LIQUIDITY_CONTRACT_ADDRESS,
-  LiquidityAbi,
   depositedEvent,
   depositsRelayedEvent,
+  type EventData,
   fetchEvents,
+  LIQUIDITY_CONTRACT_ADDRESS,
+  LiquidityAbi,
   logger,
 } from "@intmax2-function/shared";
 import type { Abi, PublicClient } from "viem";

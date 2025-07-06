@@ -2,10 +2,10 @@ import { randomInt } from "node:crypto";
 import { type IndexerInfo } from "@intmax2-function/shared";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  getRandomBuilderWithAllowlistPriority,
   getRandomBuilders,
   getRandomBuildersWithGuaranteedAllowlist,
   getRandomBuildersWithOnlyAllowlist,
+  getRandomBuilderWithAllowlistPriority,
 } from "./builder";
 
 vi.mock("node:crypto", () => ({

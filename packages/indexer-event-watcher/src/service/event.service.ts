@@ -1,7 +1,7 @@
 import {
   BLOCK_RANGE_MINIMUM,
-  BUILDER_REGISTRY_CONTRACT_ADDRESS,
   type BlockBuilderHeartbeatEvent,
+  BUILDER_REGISTRY_CONTRACT_ADDRESS,
   blockBuilderHeartbeatEvent,
   fetchEvents,
 } from "@intmax2-function/shared";

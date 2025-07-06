@@ -1,12 +1,12 @@
 import {
+  createNetworkClient,
   Event,
   type EventData,
   FIRESTORE_DOCUMENT_EVENTS,
-  MINTER_CONTRACT_DEPLOYED_BLOCK,
-  MintEvent,
-  createNetworkClient,
   getStartBlockNumber,
   logger,
+  MINTER_CONTRACT_DEPLOYED_BLOCK,
+  MintEvent,
   validateBlockRange,
 } from "@intmax2-function/shared";
 import { executeAutomaticOperations, processEvents } from "./process.service";

@@ -1,9 +1,9 @@
 import {
+  config,
+  createNetworkClient,
   type DepositsRelayedEventData,
   Event,
   FIRESTORE_DOCUMENT_EVENTS,
-  config,
-  createNetworkClient,
   logger,
 } from "@intmax2-function/shared";
 import type { PublicClient } from "viem";

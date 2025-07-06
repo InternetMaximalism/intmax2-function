@@ -1,11 +1,11 @@
 import {
-  Discord,
   config,
   createNetworkClient,
+  Discord,
   getMockWalletClient,
   getWalletClient,
 } from "@intmax2-function/shared";
-import { type WalletClient, mockWalletTypes, walletTypes } from "../type";
+import { mockWalletTypes, type WalletClient, walletTypes } from "../type";
 import { getBalance } from "./observer.service";
 
 export const performJob = async () => {

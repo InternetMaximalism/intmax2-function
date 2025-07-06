@@ -1,10 +1,10 @@
 import {
+  config,
   DEFAULT_IMAGE_NAME,
   DEFAULT_IMAGE_PATH,
+  downloadData,
   FILE_PATHS,
   GCP_STORAGE_URL,
-  config,
-  downloadData,
   logger,
   uploadData,
 } from "@intmax2-function/shared";

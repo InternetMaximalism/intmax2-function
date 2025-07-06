@@ -1,4 +1,4 @@
-import { type Token, logger, sleep } from "@intmax2-function/shared";
+import { logger, sleep, type Token } from "@intmax2-function/shared";
 import { CoinGeckoClient } from "coingecko-api-v3";
 import {
   COIN_GECKO_API_TIMEOUT,

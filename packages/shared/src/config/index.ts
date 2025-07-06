@@ -1,4 +1,4 @@
-import { url, bool, cleanEnv, json, num, str } from "envalid";
+import { bool, cleanEnv, json, num, str, url } from "envalid";
 import { version } from "../../../../package.json";
 
 export const config = cleanEnv(process.env, {

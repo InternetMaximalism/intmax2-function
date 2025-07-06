@@ -1,9 +1,9 @@
 import {
   BLOCK_RANGE_MINIMUM,
-  MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS,
-  type SentMessageEvent,
   fetchEvents,
   l1SentMessageEvent,
+  MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS,
+  type SentMessageEvent,
 } from "@intmax2-function/shared";
 import type { PublicClient } from "viem";
 

@@ -1,4 +1,4 @@
-import { IndexerInfo, config, createNetworkClient, logger } from "@intmax2-function/shared";
+import { config, createNetworkClient, IndexerInfo, logger } from "@intmax2-function/shared";
 import { type PublicClient, parseEther } from "viem";
 import { BLOCK_BUILDER_ALLOWLIST, INDEXER_BATCH_SIZE } from "../constants";
 import { fetchEthBalances } from "../lib/balance-check";

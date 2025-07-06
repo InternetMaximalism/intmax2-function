@@ -1,10 +1,10 @@
 import {
+  createNetworkClient,
   Event,
   type EventData,
   FIRESTORE_DOCUMENT_EVENTS,
-  LIQUIDITY_CONTRACT_DEPLOYED_BLOCK,
-  createNetworkClient,
   getStartBlockNumber,
+  LIQUIDITY_CONTRACT_DEPLOYED_BLOCK,
   logger,
   validateBlockRange,
 } from "@intmax2-function/shared";

@@ -1,9 +1,9 @@
 import {
   BUILDER_REGISTRY_CONTRACT_DEPLOYED_BLOCK,
+  createNetworkClient,
   Event,
   type EventData,
   FIRESTORE_DOCUMENT_EVENTS,
-  createNetworkClient,
   getStartBlockNumber,
   logger,
   validateBlockRange,

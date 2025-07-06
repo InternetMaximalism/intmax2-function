@@ -1,4 +1,4 @@
-import { MINT_AVAILABLE_FROM, type MintEventData, logger } from "@intmax2-function/shared";
+import { logger, MINT_AVAILABLE_FROM, type MintEventData } from "@intmax2-function/shared";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { shouldExecuteAction } from "./interval.service";
 

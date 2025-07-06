@@ -1,11 +1,11 @@
 import {
   BLOCK_RANGE_MINIMUM,
-  MINTER_CONTRACT_ADDRESS,
-  type MintedEvent,
-  type TransferredToLiquidityEvent,
   fetchEvents,
   logger,
+  MINTER_CONTRACT_ADDRESS,
+  type MintedEvent,
   mintedEvent,
+  type TransferredToLiquidityEvent,
   transferredToLiquidityEvent,
 } from "@intmax2-function/shared";
 import type { PublicClient } from "viem";

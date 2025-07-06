@@ -1,7 +1,7 @@
 import {
   type BlockBuilderHeartbeatEvent,
-  FIRESTORE_DOCUMENTS,
   createNetworkClient,
+  FIRESTORE_DOCUMENTS,
   getIndexer,
 } from "@intmax2-function/shared";
 import { BATCH_SIZE } from "../constants";
