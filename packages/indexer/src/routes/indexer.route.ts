@@ -8,9 +8,9 @@ route.use("/builders/meta", (c, next) => cacheMiddleware(c, next, CACHE_TIMEOUTS
 route.use("/builders/registration/:address", (c, next) =>
   cacheMiddleware(c, next, CACHE_TIMEOUTS.DETAIL),
 );
-// route.use("/builders", (c, next) =>
-//   cacheMiddleware(c, next, CACHE_TIMEOUTS.BLOCK_BUILDER_INDEXER_LIST),
-// );
+route.use("/builders", (c, next) =>
+  cacheMiddleware(c, next, CACHE_TIMEOUTS.BLOCK_BUILDER_INDEXER_LIST),
+);
 
 route.get("/builders/meta", indexerController.getBlockBuilderMeta);
 route.get("/builders/registration/:address", indexerController.checkIndexerRegistration);
