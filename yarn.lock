@@ -924,7 +924,7 @@ __metadata:
     pino-pretty: "npm:^13.0.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     zod: "npm:^3.25.74"
   languageName: unknown
   linkType: soft
@@ -1935,7 +1935,7 @@ __metadata:
     axios: "npm:^1.10.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -2251,7 +2251,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -3205,7 +3205,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3219,7 +3219,7 @@ __metadata:
     semver: "npm:^7.7.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3575,7 +3575,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3717,7 +3717,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3738,7 +3738,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -3751,7 +3751,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4701,7 +4701,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4714,7 +4714,7 @@ __metadata:
     coingecko-api-v3: "npm:^0.0.31"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4913,9 +4913,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.31.7":
-  version: 2.31.7
-  resolution: "viem@npm:2.31.7"
+"viem@npm:^2.33.1":
+  version: 2.33.1
+  resolution: "viem@npm:2.33.1"
   dependencies:
     "@noble/curves": "npm:1.9.2"
     "@noble/hashes": "npm:1.8.0"
@@ -4930,7 +4930,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/b75d83e2af264bb4274dad6f6382db035d3231d1e1ae1d8ff9874d0368754f632124f486a76e6bf0a22236608f53292a55c3a57675e742b7c2f89e54fee60c8c
+  checksum: 10c0/3f6cb3f43492a6a6e8849bca57e08b798eb8e61346abb83010a67f11e910ff2f97fbca4c0614f76cd000e7929d93acdaa4d93e3f8ded922c9bb68664bf2f6781
   languageName: node
   linkType: hard
 
@@ -5067,7 +5067,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
