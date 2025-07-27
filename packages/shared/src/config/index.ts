@@ -20,6 +20,7 @@ export const config = cleanEnv(process.env, {
   RATE_LIMIT: num({
     default: 1000,
   }),
+  X_API_KEY: str({ default: "dummy" }),
   // gcp
   K_SERVICE: str({ default: process.env.CLOUD_RUN_JOB || "default-service" }),
   K_REVISION: str({ default: process.env.CLOUD_RUN_EXECUTION || "default-revision" }),
