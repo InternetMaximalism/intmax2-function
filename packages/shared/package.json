@@ -12,7 +12,7 @@
     "discord.js": "^14.21.0",
     "envalid": "^8.0.0",
     "ethers": "^6.15.0",
-    "hono": "^4.8.4",
+    "hono": "^4.8.9",
     "hono-rate-limiter": "^0.4.2",
     "http-status": "2.1.0",
     "pino": "^9.7.0",
