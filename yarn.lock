@@ -811,16 +811,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/firestore@npm:^7.11.2":
-  version: 7.11.2
-  resolution: "@google-cloud/firestore@npm:7.11.2"
+"@google-cloud/firestore@npm:^7.11.3":
+  version: 7.11.3
+  resolution: "@google-cloud/firestore@npm:7.11.3"
   dependencies:
     "@opentelemetry/api": "npm:^1.3.0"
     fast-deep-equal: "npm:^3.1.1"
     functional-red-black-tree: "npm:^1.0.1"
     google-gax: "npm:^4.3.3"
     protobufjs: "npm:^7.2.6"
-  checksum: 10c0/8685c841b9014cb8905816a8f5bd39fac3e796cc8f7d2ddce24629e317b992f3a2d2a455bd9deee54b7323305f7198e3ac979b659250dc7e0aaf8085218c81e2
+  checksum: 10c0/a5a403727a2978248fed4c53e4f637f4149e4c5bcab74039e9cf6751b29b04ea85b15c8c3e42ef5a0d4f65bc530807095750bf907ab44c0b61c1e7ae4bf5fa38
   languageName: node
   linkType: hard
 
@@ -908,7 +908,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@intmax2-function/shared@workspace:packages/shared"
   dependencies:
-    "@google-cloud/firestore": "npm:^7.11.2"
+    "@google-cloud/firestore": "npm:^7.11.3"
     "@google-cloud/storage": "npm:^7.16.0"
     "@hono/node-server": "npm:^1.15.0"
     abitype: "npm:^1.0.8"
