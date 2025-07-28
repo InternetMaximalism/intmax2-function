@@ -28,6 +28,9 @@ export const config = cleanEnv(process.env, {
   GOOGLE_STORE_BUCKET: str({ devDefault: "local-bucket" }),
   // firestore
   FIRESTORE_DATABASE_ID: str({ devDefault: "(default)" }),
+  // redis
+  REDIS_ENABLED: bool({ default: false }),
+  REDIS_URL: str({ default: "redis://localhost:6379" }),
   // block builder
   BLOCK_BUILDER_URL: url({ devDefault: "http://localhost:3001" }),
   // proxy
