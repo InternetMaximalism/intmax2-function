@@ -78,18 +78,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/biome@npm:2.0.6"
+"@biomejs/biome@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/biome@npm:2.1.2"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.0.6"
-    "@biomejs/cli-darwin-x64": "npm:2.0.6"
-    "@biomejs/cli-linux-arm64": "npm:2.0.6"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.0.6"
-    "@biomejs/cli-linux-x64": "npm:2.0.6"
-    "@biomejs/cli-linux-x64-musl": "npm:2.0.6"
-    "@biomejs/cli-win32-arm64": "npm:2.0.6"
-    "@biomejs/cli-win32-x64": "npm:2.0.6"
+    "@biomejs/cli-darwin-arm64": "npm:2.1.2"
+    "@biomejs/cli-darwin-x64": "npm:2.1.2"
+    "@biomejs/cli-linux-arm64": "npm:2.1.2"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.1.2"
+    "@biomejs/cli-linux-x64": "npm:2.1.2"
+    "@biomejs/cli-linux-x64-musl": "npm:2.1.2"
+    "@biomejs/cli-win32-arm64": "npm:2.1.2"
+    "@biomejs/cli-win32-x64": "npm:2.1.2"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -109,62 +109,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/eafaf3981580314c08085542152396f3417637d08d7b8aaee6a5173a978435d7688b1b6b547096e3a9d3573f03cfe526f7342dd341143c322c03d545df126f18
+  checksum: 10c0/4863a5d64ff7e47c1f535aca3c0d59769fd1e59868b178798bf1f10de94f41188f235accddb852778743b16239dd890a520266dd2f93ecbcd147ad339caa8e23
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.0.6"
+"@biomejs/cli-darwin-arm64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.1.2"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-darwin-x64@npm:2.0.6"
+"@biomejs/cli-darwin-x64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-darwin-x64@npm:2.1.2"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.0.6"
+"@biomejs/cli-linux-arm64-musl@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.1.2"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-linux-arm64@npm:2.0.6"
+"@biomejs/cli-linux-arm64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-linux-arm64@npm:2.1.2"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.0.6"
+"@biomejs/cli-linux-x64-musl@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.1.2"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-linux-x64@npm:2.0.6"
+"@biomejs/cli-linux-x64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-linux-x64@npm:2.1.2"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-win32-arm64@npm:2.0.6"
+"@biomejs/cli-win32-arm64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-win32-arm64@npm:2.1.2"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@biomejs/cli-win32-x64@npm:2.0.6"
+"@biomejs/cli-win32-x64@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@biomejs/cli-win32-x64@npm:2.1.2"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -811,16 +811,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/firestore@npm:^7.11.2":
-  version: 7.11.2
-  resolution: "@google-cloud/firestore@npm:7.11.2"
+"@google-cloud/firestore@npm:^7.11.3":
+  version: 7.11.3
+  resolution: "@google-cloud/firestore@npm:7.11.3"
   dependencies:
     "@opentelemetry/api": "npm:^1.3.0"
     fast-deep-equal: "npm:^3.1.1"
     functional-red-black-tree: "npm:^1.0.1"
     google-gax: "npm:^4.3.3"
     protobufjs: "npm:^7.2.6"
-  checksum: 10c0/8685c841b9014cb8905816a8f5bd39fac3e796cc8f7d2ddce24629e317b992f3a2d2a455bd9deee54b7323305f7198e3ac979b659250dc7e0aaf8085218c81e2
+  checksum: 10c0/a5a403727a2978248fed4c53e4f637f4149e4c5bcab74039e9cf6751b29b04ea85b15c8c3e42ef5a0d4f65bc530807095750bf907ab44c0b61c1e7ae4bf5fa38
   languageName: node
   linkType: hard
 
@@ -895,12 +895,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/node-server@npm:^1.15.0":
-  version: 1.15.0
-  resolution: "@hono/node-server@npm:1.15.0"
+"@hono/node-server@npm:^1.17.1":
+  version: 1.17.1
+  resolution: "@hono/node-server@npm:1.17.1"
   peerDependencies:
     hono: ^4
-  checksum: 10c0/e7a93c02a50cff228e049a51f538e9c9182f534b7efcd151a66454fb3ac182e7f61437ba163e17b52954f0e6dde41c53c56efea43c700658979abfa5405cc566
+  checksum: 10c0/a313e389a34782dbf310fc180dbd62bc3b32f41eeb5810718b560416122cdf81cd1bec1c31a3117e7fae26b596f9d8ffb2f7ac37a3a0194e2db89d4d4126998d
   languageName: node
   linkType: hard
 
@@ -908,24 +908,24 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@intmax2-function/shared@workspace:packages/shared"
   dependencies:
-    "@google-cloud/firestore": "npm:^7.11.2"
+    "@google-cloud/firestore": "npm:^7.11.3"
     "@google-cloud/storage": "npm:^7.16.0"
-    "@hono/node-server": "npm:^1.15.0"
+    "@hono/node-server": "npm:^1.17.1"
     abitype: "npm:^1.0.8"
-    alchemy-sdk: "npm:^3.6.1"
-    axios: "npm:^1.10.0"
+    alchemy-sdk: "npm:^3.6.2"
+    axios: "npm:^1.11.0"
     discord.js: "npm:^14.21.0"
-    envalid: "npm:^8.0.0"
+    envalid: "npm:^8.1.0"
     ethers: "npm:^6.15.0"
-    hono: "npm:^4.8.4"
+    hono: "npm:^4.8.9"
     hono-rate-limiter: "npm:^0.4.2"
     http-status: "npm:2.1.0"
     pino: "npm:^9.7.0"
     pino-pretty: "npm:^13.0.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
-    zod: "npm:^3.25.74"
+    viem: "npm:^2.33.1"
+    zod: "npm:3.25.74"
   languageName: unknown
   linkType: soft
 
@@ -1758,9 +1758,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"alchemy-sdk@npm:^3.6.1":
-  version: 3.6.1
-  resolution: "alchemy-sdk@npm:3.6.1"
+"alchemy-sdk@npm:^3.6.2":
+  version: 3.6.2
+  resolution: "alchemy-sdk@npm:3.6.2"
   dependencies:
     "@ethersproject/abi": "npm:^5.7.0"
     "@ethersproject/abstract-provider": "npm:^5.7.0"
@@ -1777,7 +1777,7 @@ __metadata:
     axios: "npm:^1.7.4"
     sturdy-websocket: "npm:^0.2.1"
     websocket: "npm:^1.0.34"
-  checksum: 10c0/44c169ba36ae15a3129cdd6cb9b460d9c1251366de8e64598e24b9a88c7bb9acbf467bd2caca5b7ad77c4311a70d16dda38b3157d34780c17b4579d60c90ba4a
+  checksum: 10c0/749947850c978b5adf508da96ddbe4e4b44debfdfcd87c2d5221a2cca072ccdec714221a22e2bbeb0869f937543028261cfc365622b33d565ad68337ec55897c
   languageName: node
   linkType: hard
 
@@ -1868,14 +1868,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.10.0":
-  version: 1.10.0
-  resolution: "axios@npm:1.10.0"
+"axios@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "axios@npm:1.11.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
+    form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/2239cb269cc789eac22f5d1aabd58e1a83f8f364c92c2caa97b6f5cbb4ab2903d2e557d9dc670b5813e9bcdebfb149e783fb8ab3e45098635cd2f559b06bd5d8
+  checksum: 10c0/5de273d33d43058610e4d252f0963cc4f10714da0bfe872e8ef2cbc23c2c999acc300fd357b6bce0fc84a2ca9bd45740fa6bb28199ce2c1266c8b1a393f2b36e
   languageName: node
   linkType: hard
 
@@ -1932,10 +1932,10 @@ __metadata:
   resolution: "block-sync-monitor@workspace:packages/block-sync-monitor"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    axios: "npm:^1.10.0"
+    axios: "npm:^1.11.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -2251,7 +2251,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -2384,12 +2384,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"envalid@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "envalid@npm:8.0.0"
+"envalid@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "envalid@npm:8.1.0"
   dependencies:
-    tslib: "npm:2.6.2"
-  checksum: 10c0/8a12cdce071f54d780b2efa68ed77c1c1f397e44e47b2e23d9ec2130d7decc7502ffabff962760371e4eecf696a40a79188fdbd7bfc080d7283d484a8798c6e4
+    tslib: "npm:2.8.1"
+  checksum: 10c0/cdf9f27ba78b11317dc347ec537f0df0374f69a282cfe484e385fcbe14432a3ff16b74eeb09c99b1cc1dd71c3ba4c3ec01e839f0a16bc5706a400fde6f4e7dad
   languageName: node
   linkType: hard
 
@@ -2823,6 +2823,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"form-data@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "form-data@npm:4.0.4"
+  dependencies:
+    asynckit: "npm:^0.4.0"
+    combined-stream: "npm:^1.0.8"
+    es-set-tostringtag: "npm:^2.1.0"
+    hasown: "npm:^2.0.2"
+    mime-types: "npm:^2.1.12"
+  checksum: 10c0/373525a9a034b9d57073e55eab79e501a714ffac02e7a9b01be1c820780652b16e4101819785e1e18f8d98f0aee866cc654d660a435c378e16a72f2e7cac9695
+  languageName: node
+  linkType: hard
+
 "fs-minipass@npm:^3.0.0":
   version: 3.0.3
   resolution: "fs-minipass@npm:3.0.3"
@@ -3083,10 +3096,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.8.4":
-  version: 4.8.4
-  resolution: "hono@npm:4.8.4"
-  checksum: 10c0/3712bbb4f7d24b5f4f30d75730ae30111cafdb92132728c92e83c257008cfd64e234a6c0657807cb4dd7bc001e3e1daf2e4dd5eb0a73a32ef3a70eff0415d3b7
+"hono@npm:^4.8.9":
+  version: 4.8.9
+  resolution: "hono@npm:4.8.9"
+  checksum: 10c0/385539d1787fdc747bc869ef0e5ccc9f39cbe40289b94f23eecfc82c6ca440f059704647cd6381a5066d2cf7baa43ab25184c78d44af4c5c98a5c5b07670059e
   languageName: node
   linkType: hard
 
@@ -3205,7 +3218,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3215,11 +3228,11 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     "@types/semver": "npm:^7"
-    axios: "npm:^1.10.0"
+    axios: "npm:^1.11.0"
     semver: "npm:^7.7.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3227,9 +3240,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "indexer@workspace:packages/indexer"
   dependencies:
-    "@hono/node-server": "npm:^1.15.0"
+    "@hono/node-server": "npm:^1.17.1"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.8.4"
+    hono: "npm:^4.8.9"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -3246,7 +3259,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "intmax2-function@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.0.6"
+    "@biomejs/biome": "npm:2.1.2"
     "@vitest/coverage-v8": "npm:^3.2.4"
     typescript: "npm:^5.8.3"
     vitest: "npm:^3.2.4"
@@ -3571,11 +3584,11 @@ __metadata:
   resolution: "messenger-relayer@workspace:packages/messenger-relayer"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    axios: "npm:^1.10.0"
+    axios: "npm:^1.11.0"
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3717,7 +3730,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -3738,7 +3751,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -3751,7 +3764,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4046,10 +4059,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "predicate@workspace:packages/predicate"
   dependencies:
-    "@hono/node-server": "npm:^1.15.0"
+    "@hono/node-server": "npm:^1.17.1"
     "@intmax2-function/shared": "workspace:*"
-    axios: "npm:^1.10.0"
-    hono: "npm:^4.8.4"
+    axios: "npm:^1.11.0"
+    hono: "npm:^4.8.9"
     predicate-sdk: "npm:^0.1.3"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
@@ -4701,7 +4714,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4710,11 +4723,11 @@ __metadata:
   resolution: "token-metadata-sync@workspace:packages/token-metadata-sync"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    axios: "npm:^1.10.0"
+    axios: "npm:^1.11.0"
     coingecko-api-v3: "npm:^0.0.31"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -4722,9 +4735,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "token@workspace:packages/token"
   dependencies:
-    "@hono/node-server": "npm:^1.15.0"
+    "@hono/node-server": "npm:^1.17.1"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.8.4"
+    hono: "npm:^4.8.9"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -4744,13 +4757,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.6.2":
-  version: 2.6.2
-  resolution: "tslib@npm:2.6.2"
-  checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
-  languageName: node
-  linkType: hard
-
 "tslib@npm:2.7.0":
   version: 2.7.0
   resolution: "tslib@npm:2.7.0"
@@ -4758,7 +4764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.0":
+"tslib@npm:2.8.1, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
@@ -4795,9 +4801,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tx-map@workspace:packages/tx-map"
   dependencies:
-    "@hono/node-server": "npm:^1.15.0"
+    "@hono/node-server": "npm:^1.17.1"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.8.4"
+    hono: "npm:^4.8.9"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -4913,9 +4919,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.31.7":
-  version: 2.31.7
-  resolution: "viem@npm:2.31.7"
+"viem@npm:^2.33.1":
+  version: 2.33.1
+  resolution: "viem@npm:2.33.1"
   dependencies:
     "@noble/curves": "npm:1.9.2"
     "@noble/hashes": "npm:1.8.0"
@@ -4930,7 +4936,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/b75d83e2af264bb4274dad6f6382db035d3231d1e1ae1d8ff9874d0368754f632124f486a76e6bf0a22236608f53292a55c3a57675e742b7c2f89e54fee60c8c
+  checksum: 10c0/3f6cb3f43492a6a6e8849bca57e08b798eb8e61346abb83010a67f11e910ff2f97fbca4c0614f76cd000e7929d93acdaa4d93e3f8ded922c9bb68664bf2f6781
   languageName: node
   linkType: hard
 
@@ -5067,7 +5073,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.33.1"
   languageName: unknown
   linkType: soft
 
@@ -5297,7 +5303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.25.74":
+"zod@npm:3.25.74":
   version: 3.25.74
   resolution: "zod@npm:3.25.74"
   checksum: 10c0/59e38b046ac333b5bd1ba325a83b6798721227cbfb1e69dfc7159bd7824b904241ab923026edb714fafefec3624265ae374a70aee9a5a45b365bd31781ffa105
