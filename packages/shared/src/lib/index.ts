@@ -1,4 +1,5 @@
 export * from "./block";
+export * from "./cache";
 export * from "./cacheStore";
 export * from "./cloudStorage";
 export * from "./discord";

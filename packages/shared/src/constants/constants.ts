@@ -109,10 +109,13 @@ export const MAP_KEY_LENGTH = 8;
 export const SHUTDOWN_TIMEOUT = 2000;
 
 export const CACHE_TIMEOUTS = {
-  LIST: 30 * 1000, // 30 seconds
-  DETAIL: 60 * 1000, // 60 seconds
-  BLOCK_BUILDER_INDEXER_LIST: 120 * 1000, // 120 seconds
+  LIST: 30, // 30 seconds
+  DETAIL: 60, // 60 seconds
+  BLOCK_BUILDER_INDEXER_LIST: 120, // 120 seconds
 } as const;
+
+export const CACHE_DEFAULT_STD_TTL = 300; // 5 minutes
+export const CACHE_DEFAULT_CLEANUP_INTERVAL = 120; // 2 minutes
 
 // query map
 export const MIN_EXPIRES_IN = 300; // 5 minutes
