@@ -114,6 +114,10 @@ export const CACHE_TIMEOUTS = {
   BLOCK_BUILDER_INDEXER_LIST: 120, // 120 seconds
 } as const;
 
+export const CACHE_KEYS = {
+  BLOCK_BUILDER_INDEXER_LIST: "block_builder_indexer_list",
+};
+
 export const CACHE_DEFAULT_STD_TTL = 300; // 5 minutes
 export const CACHE_DEFAULT_CLEANUP_INTERVAL = 120; // 2 minutes
 

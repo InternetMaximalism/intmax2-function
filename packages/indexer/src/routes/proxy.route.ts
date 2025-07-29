@@ -6,6 +6,6 @@ import * as proxyController from "../controllers/proxy.controller";
 export const route = new Hono();
 
 route.use("*", etag());
-route.use("*", (c, next) => cacheMiddleware(c, next, CACHE_TIMEOUTS.DETAIL));
+route.use("*", (c, next) => cacheMiddleware(c, next, { expire: CACHE_TIMEOUTS.DETAIL }));
 
 route.get("/meta", proxyController.getProxyMeta);

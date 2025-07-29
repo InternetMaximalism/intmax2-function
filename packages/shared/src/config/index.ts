@@ -97,3 +97,5 @@ export const config = cleanEnv(process.env, {
   WALLET_REQUIRED_ETH_MIN_BALANCE: str({ default: "0.1" }),
   USE_MOCK_WALLET_OBSERVER: bool({ default: false }),
 });
+
+export const isProduction = config.NODE_ENV === "production";

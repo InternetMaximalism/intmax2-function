@@ -10,7 +10,7 @@ export const createBaseRouter = (config: RouterConfig): Hono => {
   const router = new Hono();
 
   router.use("*", etag());
-  router.use("*", (c, next) => cacheMiddleware(c, next, CACHE_TIMEOUTS.LIST));
+  router.use("*", (c, next) => cacheMiddleware(c, next, { expire: CACHE_TIMEOUTS.LIST }));
 
   router.get("/list", config.listHandler);
 

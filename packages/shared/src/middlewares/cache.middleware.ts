@@ -7,15 +7,20 @@ type CachedResponse = {
   status: number;
 };
 
+type CacheOptions = {
+  expire: number;
+  key?: string;
+};
+
 const validateKeys = ["perPage", "cursor", "tokenIndexes", "contractAddresses"];
 
-export const cacheMiddleware = async (c: Context, next: Next, expire: number) => {
+export const cacheMiddleware = async (c: Context, next: Next, options: CacheOptions) => {
   if (c.req.method !== "GET") {
     await next();
     return;
   }
 
-  const cacheKey = getCacheKey(c);
+  const cacheKey = options.key || getCacheKey(c);
   const cachedResponse = await cache.get<CachedResponse>(cacheKey);
   if (cachedResponse) {
     c.header("X-Cache", "HIT");
@@ -48,7 +53,7 @@ export const cacheMiddleware = async (c: Context, next: Next, expire: number) =>
 
     c.header("X-Cache", "MISS");
 
-    await cache.set(cacheKey, cacheResponse, expire);
+    await cache.set(cacheKey, cacheResponse, options.expire);
   }
   return;
 };
