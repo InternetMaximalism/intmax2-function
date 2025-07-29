@@ -1,5 +1,5 @@
-import { config } from "../config";
+import { REDIS_ENABLED } from "../constants";
 import { nodeCache } from "./nodeCache";
 import { RedisClient } from "./redis";
 
-export const cache = config.REDIS_ENABLED ? RedisClient.getInstance() : nodeCache;
+export const cache = REDIS_ENABLED ? RedisClient.getInstance() : nodeCache;

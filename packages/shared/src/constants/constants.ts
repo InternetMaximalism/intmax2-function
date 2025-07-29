@@ -126,3 +126,11 @@ export const MINT_AVAILABLE_FROM = config.MINT_AVAILABLE_FROM;
 export const ITX_AMOUNT_TO_LIQUIDITY = "3910156250000000000000000";
 export const MINT_INTERVAL_WEEKS = 4;
 export const TRANSFER_INTERVAL_WEEKS = 1;
+
+// redis
+export const REDIS_USING_PROCESS_NAMES = ["indexer", "token", "tx-map"];
+const isRedisProcessDetected = process.argv.some((commandLineArg) =>
+  REDIS_USING_PROCESS_NAMES.some((processName) => commandLineArg.includes(processName)),
+);
+
+export const REDIS_ENABLED = config.REDIS_ENABLED && isRedisProcessDetected;

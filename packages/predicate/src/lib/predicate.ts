@@ -1,32 +1,13 @@
 import { BadRequestError, config } from "@intmax2-function/shared";
-import type {
-  IPredicateClient,
-  PredicateConfig,
-  PredicateRequest,
-  PredicateResponse,
-} from "../types.js";
+import type { PredicateRequest, PredicateResponse } from "../types";
 
 export class Predicate {
   private static instance: Predicate | undefined;
-  readonly predicateClient: IPredicateClient;
-
-  constructor(predicateClient: IPredicateClient) {
-    this.predicateClient = predicateClient;
-  }
 
   public static async getInstance() {
     if (!Predicate.instance) {
-      const { PredicateClient } = await import("predicate-sdk");
-
-      const predicateConfig: PredicateConfig = {
-        apiUrl: config.PREDICATE_API_URL,
-        apiKey: config.PREDICATE_API_KEY,
-      };
-
-      const predicateClient = new PredicateClient(predicateConfig);
-      Predicate.instance = new Predicate(predicateClient);
+      Predicate.instance = new Predicate();
     }
-
     return Predicate.instance;
   }
 

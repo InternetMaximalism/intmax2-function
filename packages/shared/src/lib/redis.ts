@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { config } from "../config";
+import { REDIS_ENABLED } from "../constants";
 import { logger } from "./logger";
 
 export class RedisClient {
@@ -7,7 +8,7 @@ export class RedisClient {
   private client: Redis | null = null;
 
   private constructor() {
-    if (!config.REDIS_ENABLED) {
+    if (!REDIS_ENABLED) {
       logger.info("Redis is disabled by configuration");
       return;
     }
