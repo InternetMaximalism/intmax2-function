@@ -132,12 +132,7 @@ export const MINT_INTERVAL_WEEKS = 4;
 export const TRANSFER_INTERVAL_WEEKS = 1;
 
 // redis
-export const REDIS_USING_PROCESS_NAMES = ["indexer", "token", "tx-map", "indexer-cache-validator"];
-const isRedisProcessDetected = process.argv.some((commandLineArg) =>
-  REDIS_USING_PROCESS_NAMES.some((processName) => commandLineArg.includes(processName)),
-);
-
-export const REDIS_ENABLED = config.REDIS_ENABLED && isRedisProcessDetected;
+export const REDIS_ENABLED = config.REDIS_ENABLED;
 
 // indexer
 export const BATCH_SIZE = 50;
