@@ -22,7 +22,6 @@ export const cacheMiddleware = async (c: Context, next: Next, options: CacheOpti
 
   const cacheKey = options.key || getCacheKey(c);
   const cachedResponse = await cache.get<CachedResponse>(cacheKey);
-  console.log("cachedResponse", cachedResponse);
   if (cachedResponse) {
     c.header("X-Cache", "HIT");
 
