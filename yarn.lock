@@ -3210,6 +3210,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"indexer-cache-validator@workspace:packages/indexer-cache-validator":
+  version: 0.0.0-use.local
+  resolution: "indexer-cache-validator@workspace:packages/indexer-cache-validator"
+  dependencies:
+    "@intmax2-function/shared": "workspace:*"
+    "@types/semver": "npm:^7"
+    axios: "npm:^1.11.0"
+    semver: "npm:^7.7.2"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
+    viem: "npm:^2.33.1"
+  languageName: unknown
+  linkType: soft
+
 "indexer-event-watcher@workspace:packages/indexer-event-watcher":
   version: 0.0.0-use.local
   resolution: "indexer-event-watcher@workspace:packages/indexer-event-watcher"

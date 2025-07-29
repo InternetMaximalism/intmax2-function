@@ -11,3 +11,4 @@ export * from "./services";
 export * from "./typechainTypes";
 export * from "./types";
 export * from "./validations";
+export * from "./monitor";

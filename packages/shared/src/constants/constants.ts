@@ -138,3 +138,12 @@ const isRedisProcessDetected = process.argv.some((commandLineArg) =>
 );
 
 export const REDIS_ENABLED = config.REDIS_ENABLED && isRedisProcessDetected;
+
+// indexer
+export const BATCH_SIZE = 50;
+export const INDEXER_BATCH_SIZE = 30;
+export const INDEXER_REQUEST_TIMEOUT = 5000; // 5 seconds
+
+// blockchain
+export const MULTICALL_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+export const BLOCK_BUILDER_ALLOWLIST = config.BLOCK_BUILDER_ALLOWLIST;

@@ -1,7 +1,7 @@
-import { logger } from "@intmax2-function/shared";
 import type { ContractFunctionParameters, PublicClient } from "viem";
 import { multicall } from "viem/actions";
 import { MULTICALL_ADDRESS } from "../constants";
+import { logger } from "../lib";
 
 export const fetchEthBalances = async (
   ethereumClient: PublicClient,

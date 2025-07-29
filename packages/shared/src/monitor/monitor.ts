@@ -1,9 +1,24 @@
-import { config, createNetworkClient, IndexerInfo, logger } from "@intmax2-function/shared";
 import { type PublicClient, parseEther } from "viem";
 import { BLOCK_BUILDER_ALLOWLIST, INDEXER_BATCH_SIZE } from "../constants";
-import { fetchEthBalances } from "../lib/balance-check";
-import { requestFeeInfoCheck } from "../lib/fee-info-check";
-import { validateIndexerInfo } from "../lib/validation";
+import { fetchEthBalances } from "./balance-check";
+import { requestFeeInfoCheck } from "./fee-info-check";
+import { validateIndexerInfo } from "./validation";
+import { logger } from "../lib";
+import { config } from "../config";
+import { createNetworkClient } from "../blockchain";
+import { BaseIndexer } from "../db";
+import type { IndexerInfo } from "../types";
+
+export const fetchRecentSyncIndexerBuilders = async (indexer: BaseIndexer) => {
+  const dayAgoTimestamp = getTimeStampFromLast24Hours();
+  const indexers = indexer.fetchIndexers({ lastSyncedTime: dayAgoTimestamp });
+  return indexers;
+};
+
+const getTimeStampFromLast24Hours = () => {
+  const now = new Date().getTime();
+  return new Date(now - 1000 * 60 * 60 * 24);
+};
 
 export const processMonitor = async (indexers: IndexerInfo[]) => {
   const ethereumClient = createNetworkClient("scroll");
