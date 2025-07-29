@@ -28,3 +28,24 @@ export const shutdown = (server: ServerType, callback?: Function) => {
     process.exit(0);
   }, SHUTDOWN_TIMEOUT);
 };
+
+let isOperationShuttingDown = false;
+
+export const shutdownOperation = async (callback?: Function) => {
+  if (isOperationShuttingDown) {
+    logger.info("Operation shutdown already in progress...");
+    return;
+  }
+
+  isOperationShuttingDown = true;
+
+  try {
+    if (callback) await callback();
+
+    logger.info("Shutdown completed successfully.");
+    process.exit(0);
+  } catch (error) {
+    logger.error("Error during shutdown:", error);
+    process.exit(1);
+  }
+};
