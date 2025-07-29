@@ -1,6 +1,5 @@
 import {
   CACHE_KEYS,
-  CACHE_TIMEOUTS,
   CachedResponse,
   cache,
   FIRESTORE_DOCUMENTS,
@@ -41,13 +40,22 @@ export const performJob = async (): Promise<void> => {
     activeIndexers.some((activeIndexer) => activeIndexer.address === indexer.address),
   );
 
-  await cache.set(
-    CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST,
-    {
-      ...cachedIndexer,
-      body: JSON.stringify(cachedActiveIndexers),
-    },
-    CACHE_TIMEOUTS.BLOCK_BUILDER_INDEXER_LIST,
-  );
-  logger.info(`Cache updated with ${cachedActiveIndexers.length} active indexers`);
+  const ttl = await cache.getTtl(CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST);
+
+  if (ttl && ttl > 0) {
+    await cache.set(
+      CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST,
+      {
+        ...cachedIndexer,
+        body: JSON.stringify(cachedActiveIndexers),
+      },
+      ttl,
+    );
+    logger.info(
+      `Cache updated with ${cachedActiveIndexers.length} active indexers at TTL: ${ttl} seconds.`,
+    );
+    return;
+  }
+
+  logger.info("Cache TTL is not set or expired, cache will not be updated.");
 };
