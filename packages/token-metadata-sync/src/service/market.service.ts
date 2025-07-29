@@ -32,6 +32,11 @@ export const processMarketBatch = async (
   const batchIds = batch.map((item) => item.id).join(",");
 
   try {
+    const pingResponse = await client.ping();
+    if (!pingResponse.gecko_says) {
+      throw new Error(`CoinGecko API ping failed ${JSON.stringify(pingResponse)}`);
+    }
+
     const markets = await client.coinMarket({
       vs_currency: VS_CURRENCY,
       ids: batchIds,
@@ -45,7 +50,8 @@ export const processMarketBatch = async (
 
     return isUploadImage ? await uploadImageFromCoinGecko(marketData) : marketData;
   } catch (error) {
-    logger.error("Error processing market batch", error);
-    return [];
+    const message = error instanceof Error ? error.message : "Unknown error";
+    logger.error(`Error processing market batch: ${message}`);
+    throw new Error(`Failed to process market batch: ${message}`);
   }
 };
