@@ -1,6 +1,7 @@
 import { serve } from "@hono/node-server";
 import {
   APP_TIMEOUT,
+  cache,
   config,
   configureLogging,
   corsMiddleware,
@@ -49,5 +50,5 @@ const server = serve({
   port,
 });
 
-process.on("SIGTERM", () => shutdown(server));
-process.on("SIGINT", () => shutdown(server));
+process.on("SIGTERM", () => shutdown(server, () => cache.flushAll()));
+process.on("SIGINT", () => shutdown(server, () => cache.flushAll()));

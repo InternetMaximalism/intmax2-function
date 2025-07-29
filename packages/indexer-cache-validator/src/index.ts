@@ -1,10 +1,4 @@
-import {
-  cache,
-  logger,
-  REDIS_ENABLED,
-  shutdownOperation,
-  timeOperation,
-} from "@intmax2-function/shared";
+import { cache, logger, shutdownOperation, timeOperation } from "@intmax2-function/shared";
 import { name } from "../package.json";
 import { INTERVAL_MS } from "./constants";
 import { performJob } from "./service/job.service";

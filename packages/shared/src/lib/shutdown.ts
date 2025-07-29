@@ -12,10 +12,12 @@ export const shutdown = (server: ServerType, callback?: Function) => {
   isShuttingDown = true;
   logger.info("Shutting down server...");
 
-  server.close(() => {
+  server.close(async () => {
     logger.info("Server closed for new connections");
     try {
-      if (callback) callback();
+      console.log("1");
+      if (callback) await callback();
+      console.log("2");
       process.exit(0);
     } catch (error) {
       logger.error(`Shutdown failed: ${error instanceof Error ? error.message : "Unknown error"}`);
