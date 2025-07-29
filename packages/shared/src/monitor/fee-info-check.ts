@@ -1,7 +1,7 @@
 import axios from "axios";
 import { INDEXER_REQUEST_TIMEOUT } from "../constants";
-import type { BuilderFeeInfoResponse } from "../types";
 import { logger } from "../lib";
+import type { BuilderFeeInfoResponse } from "../types";
 
 export const requestFeeInfoCheck = async (url: string, maxRetries = 3, retryDelay = 1000) => {
   let lastError: Error | null = null;

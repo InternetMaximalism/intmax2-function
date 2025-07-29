@@ -1,17 +1,17 @@
 import { type PublicClient, parseEther } from "viem";
+import { createNetworkClient } from "../blockchain";
+import { config } from "../config";
 import { BLOCK_BUILDER_ALLOWLIST, INDEXER_BATCH_SIZE } from "../constants";
+import { BaseIndexer } from "../db";
+import { logger } from "../lib";
+import type { IndexerInfo } from "../types";
 import { fetchEthBalances } from "./balance-check";
 import { requestFeeInfoCheck } from "./fee-info-check";
 import { validateIndexerInfo } from "./validation";
-import { logger } from "../lib";
-import { config } from "../config";
-import { createNetworkClient } from "../blockchain";
-import { BaseIndexer } from "../db";
-import type { IndexerInfo } from "../types";
 
 export const fetchRecentSyncIndexerBuilders = async (indexer: BaseIndexer) => {
   const dayAgoTimestamp = getTimeStampFromLast24Hours();
-  const indexers = indexer.fetchIndexers({ lastSyncedTime: dayAgoTimestamp });
+  const indexers = await indexer.fetchIndexers({ lastSyncedTime: dayAgoTimestamp });
   return indexers;
 };
 

@@ -1,8 +1,8 @@
 import {
   FIRESTORE_DOCUMENTS,
+  fetchRecentSyncIndexerBuilders,
   getIndexer,
   logger,
-  fetchRecentSyncIndexerBuilders,
   processMonitor,
 } from "@intmax2-function/shared";
 

@@ -1,6 +1,6 @@
 import semver from "semver";
-import type { BuilderFeeInfoResponse, TokenFee } from "../types";
 import { config } from "../config";
+import type { BuilderFeeInfoResponse, TokenFee } from "../types";
 
 const allowedTokenIndices = config.BLOCK_BUILDER_ALLOWED_TOKEN_INDICES?.split(",").map((index) =>
   parseInt(index.trim(), 10),

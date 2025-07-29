@@ -92,6 +92,13 @@ export class RedisClient {
     return await this.client.set(key, stringValue);
   }
 
+  async del(key: string): Promise<number> {
+    if (!this.client) {
+      return Promise.resolve(0);
+    }
+    return this.client.del(key);
+  }
+
   public async flushAll() {
     if (this.client) {
       try {

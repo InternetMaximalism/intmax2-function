@@ -1,16 +1,53 @@
 import {
+  CACHE_KEYS,
+  CACHE_TIMEOUTS,
+  CachedResponse,
+  cache,
   FIRESTORE_DOCUMENTS,
   getIndexer,
+  IndexerInfo,
   logger,
-  fetchRecentSyncIndexerBuilders,
   processMonitor,
 } from "@intmax2-function/shared";
 
 export const performJob = async (): Promise<void> => {
-  const indexer = getIndexer(FIRESTORE_DOCUMENTS.BUILDERS);
-  const indexers = await fetchRecentSyncIndexerBuilders(indexer);
-  const activeIndexers = await processMonitor(indexers);
-  await indexer.syncIndexerActiveStates(activeIndexers.map((indexer) => indexer.address));
+  const indexerInstance = getIndexer(FIRESTORE_DOCUMENTS.BUILDERS);
+  const cachedIndexer = await cache.get<CachedResponse>(CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST);
 
-  logger.info(`Active indexers updated: ${activeIndexers.length}`);
+  if (!cachedIndexer) {
+    logger.info("No cached indexer found.");
+    return;
+  }
+
+  const indexerInfo = JSON.parse(cachedIndexer.body) as IndexerInfo[];
+  const indexers = await indexerInstance.fetchIndexers({
+    addresses: indexerInfo.map(({ address }) => address),
+  });
+  const activeIndexers = await processMonitor(indexers);
+  await indexerInstance.syncIndexerActiveStates(activeIndexers.map((indexer) => indexer.address));
+
+  if (activeIndexers.length === 0) {
+    await cache.del(CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST);
+    logger.info("No active indexers found, cache cleared.");
+    return;
+  }
+
+  if (activeIndexers.length === indexerInfo.length) {
+    logger.info("All indexers are active, no cache update needed.");
+    return;
+  }
+
+  const cachedActiveIndexers = indexerInfo.filter((indexer) =>
+    activeIndexers.some((activeIndexer) => activeIndexer.address === indexer.address),
+  );
+
+  await cache.set(
+    CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST,
+    {
+      ...cachedIndexer,
+      body: JSON.stringify(cachedActiveIndexers),
+    },
+    CACHE_TIMEOUTS.BLOCK_BUILDER_INDEXER_LIST,
+  );
+  logger.info(`Cache updated with ${cachedActiveIndexers.length} active indexers`);
 };
