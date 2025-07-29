@@ -86,6 +86,16 @@ docker build -f docker/Dockerfile -t intmax2-function .
 docker run --rm -p 3000:3000 --env-file .env intmax2-function workspace token start
 ```
 
+## Redis
+
+```sh
+docker run -d --rm \
+  --name redis \
+  -p 6379:6379 \
+  -v redis-data:/data \
+  redis redis-server --appendonly yes
+```
+
 ## Bootstrap Tasks
 
 ```sh

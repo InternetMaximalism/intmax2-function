@@ -2,18 +2,18 @@ import { Storage } from "@google-cloud/storage";
 import { config } from "../config";
 import { logger } from "../lib";
 
-const storage = new Storage({
-  projectId: config.GOOGLE_CLOUD_PROJECT,
-});
-
-type Params = {
+type UploadDataParams = {
   bucketName: string;
   fileName: string;
   buffer: Buffer;
   makePublic: boolean;
 };
 
-export const uploadData = ({ bucketName, fileName, buffer, makePublic }: Params) => {
+const storage = new Storage({
+  projectId: config.GOOGLE_CLOUD_PROJECT,
+});
+
+export const uploadData = ({ bucketName, fileName, buffer, makePublic }: UploadDataParams) => {
   const bucket = storage.bucket(bucketName);
 
   return new Promise<string>((resolve, reject) => {
