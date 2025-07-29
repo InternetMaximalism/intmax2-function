@@ -1,6 +1,7 @@
 import { cache, logger, shutdownOperation, timeOperation } from "@intmax2-function/shared";
 import { name } from "../package.json";
 import { INTERVAL_MS } from "./constants";
+import { startHealthCheckServer } from "./lib/healthCheck";
 import { performJob } from "./service/job.service";
 
 async function executeJob() {
@@ -29,6 +30,14 @@ async function scheduleNextExecution() {
 }
 
 async function main() {
+  try {
+    await startHealthCheckServer();
+    logger.info("Health check server started successfully");
+  } catch (error) {
+    logger.error("Failed to start health check server:", error);
+    throw error;
+  }
+
   logger.info(`Starting ${name} adaptive interval job (target interval: ${INTERVAL_MS / 1000}s)`);
 
   scheduleNextExecution();
