@@ -60,8 +60,10 @@ export const handleError = (err: unknown, c: Context) => {
   }
 
   const shouldLogError =
-    (err instanceof Error && !IGNORE_ERROR_MESSAGES.includes(err.message)) ||
-    (!(err instanceof NotFoundError) && !(err instanceof TooManyRequestsError));
+    err instanceof Error &&
+    !IGNORE_ERROR_MESSAGES.includes(err.message) &&
+    !(err instanceof NotFoundError) &&
+    !(err instanceof TooManyRequestsError);
 
   if (shouldLogError) {
     logger.error(`Unhandled error: ${(err as Error).stack}`);
