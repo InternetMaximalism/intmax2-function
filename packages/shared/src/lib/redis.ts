@@ -92,6 +92,21 @@ export class RedisClient {
     return await this.client.set(key, stringValue);
   }
 
+  async del(key: string): Promise<number> {
+    if (!this.client) {
+      return Promise.resolve(0);
+    }
+    return this.client.del(key);
+  }
+
+  async getTtl(key: string): Promise<number | null> {
+    if (!this.client) {
+      return Promise.resolve(null);
+    }
+    const ttl = await this.client.ttl(key);
+    return ttl === -1 ? null : ttl;
+  }
+
   public async flushAll() {
     if (this.client) {
       try {

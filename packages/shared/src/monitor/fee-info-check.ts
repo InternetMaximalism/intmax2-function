@@ -1,6 +1,6 @@
-import { logger } from "@intmax2-function/shared";
 import axios from "axios";
-import { API_TIMEOUT } from "../constants";
+import { INDEXER_REQUEST_TIMEOUT } from "../constants";
+import { logger } from "../lib";
 import type { BuilderFeeInfoResponse } from "../types";
 
 export const requestFeeInfoCheck = async (url: string, maxRetries = 3, retryDelay = 1000) => {
@@ -9,7 +9,7 @@ export const requestFeeInfoCheck = async (url: string, maxRetries = 3, retryDela
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const response = await axios.get<BuilderFeeInfoResponse>(`${url}/fee-info`, {
-        timeout: API_TIMEOUT,
+        timeout: INDEXER_REQUEST_TIMEOUT,
         headers: {
           Accept: "application/json",
         },

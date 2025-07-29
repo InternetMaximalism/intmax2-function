@@ -6,6 +6,7 @@ export * from "./constants";
 export * from "./db";
 export * from "./lib";
 export * from "./middlewares";
+export * from "./monitor";
 export * from "./routes";
 export * from "./services";
 export * from "./typechainTypes";

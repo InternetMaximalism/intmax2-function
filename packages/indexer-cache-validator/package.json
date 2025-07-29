@@ -1,0 +1,21 @@
+{
+  "name": "indexer-cache-validator",
+  "version": "1.0.0",
+  "dependencies": {
+    "@intmax2-function/shared": "workspace:*",
+    "axios": "^1.11.0",
+    "semver": "^7.7.2",
+    "viem": "^2.33.1"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx watch --env-file=./../../.env src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/semver": "^7",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

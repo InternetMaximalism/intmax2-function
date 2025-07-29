@@ -114,6 +114,10 @@ export const CACHE_TIMEOUTS = {
   BLOCK_BUILDER_INDEXER_LIST: 120, // 120 seconds
 } as const;
 
+export const CACHE_KEYS = {
+  BLOCK_BUILDER_INDEXER_LIST: "block_builder_indexer_list",
+};
+
 export const CACHE_DEFAULT_STD_TTL = 300; // 5 minutes
 export const CACHE_DEFAULT_CLEANUP_INTERVAL = 120; // 2 minutes
 
@@ -128,9 +132,18 @@ export const MINT_INTERVAL_WEEKS = 4;
 export const TRANSFER_INTERVAL_WEEKS = 1;
 
 // redis
-export const REDIS_USING_PROCESS_NAMES = ["indexer", "token", "tx-map"];
+export const REDIS_USING_PROCESS_NAMES = ["indexer", "token", "tx-map", "indexer-cache-validator"];
 const isRedisProcessDetected = process.argv.some((commandLineArg) =>
   REDIS_USING_PROCESS_NAMES.some((processName) => commandLineArg.includes(processName)),
 );
 
 export const REDIS_ENABLED = config.REDIS_ENABLED && isRedisProcessDetected;
+
+// indexer
+export const BATCH_SIZE = 50;
+export const INDEXER_BATCH_SIZE = 30;
+export const INDEXER_REQUEST_TIMEOUT = 5000; // 5 seconds
+
+// blockchain
+export const MULTICALL_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+export const BLOCK_BUILDER_ALLOWLIST = config.BLOCK_BUILDER_ALLOWLIST;

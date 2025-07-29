@@ -1,14 +1,11 @@
 import type { Context } from "hono";
-import { HTTPException } from "hono/http-exception";
 import { ContentfulStatusCode } from "hono/utils/http-status";
 import { ZodError } from "zod";
-import { config } from "../config";
+import { isProduction } from "../config";
 import { logger } from "./logger";
 
 export enum ErrorCode {
   BAD_REQUEST = "BAD_REQUEST",
-  UNAUTHORIZED = "UNAUTHORIZED",
-  FORBIDDEN = "FORBIDDEN",
   NOT_FOUND = "NOT_FOUND",
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
   VALIDATION_ERROR = "VALIDATION_ERROR",
@@ -27,18 +24,6 @@ export class AppError extends Error {
 export class BadRequestError extends AppError {
   constructor(message: string = "Bad request") {
     super(400, "BAD_REQUEST", message);
-  }
-}
-
-export class UnAuthorizedError extends AppError {
-  constructor(message: string = "Authentication failed") {
-    super(401, "UN_AUTHORIZED_ERROR", message);
-  }
-}
-
-export class ForbiddenError extends AppError {
-  constructor(message: string = "Forbidden") {
-    super(403, "FORBIDDEN", message);
   }
 }
 
@@ -63,10 +48,6 @@ export class InternalServerError extends AppError {
 const IGNORE_ERROR_MESSAGES = ["URI malformed"];
 
 export const handleError = (err: unknown, c: Context) => {
-  if (err instanceof HTTPException) {
-    return c.json({ code: `HTTP_${err.status}`, message: err.message }, err.status);
-  }
-
   if (err instanceof ZodError) {
     return c.json(
       {
@@ -78,15 +59,18 @@ export const handleError = (err: unknown, c: Context) => {
     );
   }
 
+  const shouldLogError =
+    (err instanceof Error && !IGNORE_ERROR_MESSAGES.includes(err.message)) ||
+    (!(err instanceof NotFoundError) && !(err instanceof TooManyRequestsError));
+
+  if (shouldLogError) {
+    logger.error(`Unhandled error: ${(err as Error).stack}`);
+  }
+
   if (err instanceof AppError) {
     return c.json({ code: err.code, message: err.message }, err.statusCode as ContentfulStatusCode);
   }
 
-  if (err instanceof Error && !IGNORE_ERROR_MESSAGES.includes(err.message)) {
-    logger.warn(`Unhandled error: ${(err as Error).stack}`);
-  }
-
-  const isProduction = config.NODE_ENV === "production";
   const statusCode = err instanceof Error ? 500 : 400;
   const code = err instanceof Error ? "INTERNAL_SERVER_ERROR" : "BAD_REQUEST";
   const message = err instanceof Error ? "Internal Server Error" : "Bad Request";

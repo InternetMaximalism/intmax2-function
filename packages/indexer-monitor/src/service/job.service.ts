@@ -1,6 +1,10 @@
-import { FIRESTORE_DOCUMENTS, getIndexer, logger } from "@intmax2-function/shared";
-import { fetchRecentSyncIndexerBuilders } from "./indexer.service";
-import { processMonitor } from "./monitor.service";
+import {
+  FIRESTORE_DOCUMENTS,
+  fetchRecentSyncIndexerBuilders,
+  getIndexer,
+  logger,
+  processMonitor,
+} from "@intmax2-function/shared";
 
 export const performJob = async (): Promise<void> => {
   const indexer = getIndexer(FIRESTORE_DOCUMENTS.BUILDERS);

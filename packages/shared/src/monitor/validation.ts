@@ -1,5 +1,5 @@
-import { config } from "@intmax2-function/shared";
 import semver from "semver";
+import { config } from "../config";
 import type { BuilderFeeInfoResponse, TokenFee } from "../types";
 
 const allowedTokenIndices = config.BLOCK_BUILDER_ALLOWED_TOKEN_INDICES?.split(",").map((index) =>
