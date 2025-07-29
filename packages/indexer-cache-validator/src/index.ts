@@ -1,22 +1,52 @@
-import { logger, timeOperation } from "@intmax2-function/shared";
+import { cache, logger, shutdownOperation, timeOperation } from "@intmax2-function/shared";
 import { name } from "../package.json";
+import { INTERVAL_MS } from "./constants";
 import { performJob } from "./service/job.service";
 
-async function main() {
+async function executeJob() {
   try {
     logger.info(`Starting ${name} job`);
     const { durationInSeconds } = await timeOperation(performJob);
     logger.info(`Completed ${name} job executed successfully in ${durationInSeconds}s`);
-    process.exit(0);
+    console.log("durationInSeconds:", durationInSeconds);
+    return Number(durationInSeconds) * 1000;
   } catch (error) {
-    logger.error(error);
-    process.exit(1);
+    logger.error(`Job execution failed:`, error);
+    return 0;
   }
 }
 
-process.on("unhandledRejection", (reason, promise) => {
+async function scheduleNextExecution() {
+  const executionTimeMs = await executeJob();
+
+  const waitTime = Math.max(0, INTERVAL_MS - executionTimeMs);
+
+  logger.info(`Job took ${executionTimeMs}ms, waiting ${waitTime}ms until next execution`);
+
+  setTimeout(() => {
+    scheduleNextExecution();
+  }, waitTime);
+}
+
+async function main() {
+  logger.info(`Starting ${name} adaptive interval job (target interval: ${INTERVAL_MS / 1000}s)`);
+
+  scheduleNextExecution();
+}
+
+process.on("unhandledRejection", async (reason, promise) => {
   logger.error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
-  process.exit(1);
+  await shutdownOperation(() => cache.flushAll());
+});
+
+process.on("SIGINT", async () => {
+  logger.info("Received SIGINT, shutting down gracefully...");
+  await shutdownOperation(() => cache.flushAll());
+});
+
+process.on("SIGTERM", async () => {
+  logger.info("Received SIGTERM, shutting down gracefully...");
+  await shutdownOperation(() => cache.flushAll());
 });
 
 if (require.main === module) {

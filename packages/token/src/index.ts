@@ -1,6 +1,7 @@
 import { serve } from "@hono/node-server";
 import {
   APP_TIMEOUT,
+  cache,
   config,
   configureLogging,
   corsMiddleware,
@@ -55,5 +56,15 @@ const server = serve({
   port,
 });
 
-process.on("SIGTERM", () => shutdown(server, () => TokenPrice.getInstance().cleanup()));
-process.on("SIGINT", () => shutdown(server, () => TokenPrice.getInstance().cleanup()));
+process.on("SIGTERM", () =>
+  shutdown(server, async () => {
+    TokenPrice.getInstance().cleanup();
+    await cache.flushAll();
+  }),
+);
+process.on("SIGINT", () =>
+  shutdown(server, async () => {
+    TokenPrice.getInstance().cleanup();
+    await cache.flushAll();
+  }),
+);
