@@ -51,6 +51,7 @@ packages
 ├── block-sync-monitor
 ├── deposit-analyzer
 ├── indexer
+├── indexer-cache-validator
 ├── indexer-event-watcher
 ├── indexer-monitor
 ├── messenger-relayer
@@ -58,7 +59,6 @@ packages
 ├── mock-l1-to-l2-relayer
 ├── mock-l2-to-l1-relayer
 ├── predicate
-├── referral
 ├── shared
 ├── token
 ├── token-map-register
@@ -84,6 +84,22 @@ Build and run the project in a Docker container:
 ```sh
 docker build -f docker/Dockerfile -t intmax2-function .
 docker run --rm -p 3000:3000 --env-file .env intmax2-function workspace token start
+```
+
+
+## Testing
+
+The project uses Vitest for testing. Run tests with the following commands:
+
+```sh
+# Run all tests
+yarn test
+
+# Run tests in watch mode
+yarn test --watch
+
+# Run tests with coverage report
+yarn coverage
 ```
 
 ## Redis

@@ -2,7 +2,7 @@
   "name": "intmax2-function",
   "version": "1.0.6",
   "license": "MIT",
-  "description": "A collection of function for INTMAX",
+  "description": "A collection of function for INTMAX2 blockchain",
   "repository": {
     "type": "git",
     "url": "https://github.com/InternetMaximalism/intmax2-function.git"
@@ -18,7 +18,7 @@
     "api"
   ],
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "yarn": ">=4.0.0"
   },
   "workspaces": [
