@@ -136,7 +136,7 @@ This mono-repo is organized under the `packages/` directory, with each package f
 
 ```txt
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          API Layer                                     │
+│                          API Layer                                      │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
 │  │   Indexer    │  │    Token     │  │  Predicate   │  │   TX-Map     │ │
 │  │   Service    │  │   Service    │  │   Service    │  │   Service    │ │
@@ -144,7 +144,7 @@ This mono-repo is organized under the `packages/` directory, with each package f
 └─────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                       Background Services                              │
+│                       Background Services                               │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
 │  │ Deposit      │  │ Messenger    │  │ Block Sync   │  │ Indexer      │ │
 │  │ Analyzer     │  │ Relayer      │  │ Monitor      │  │ Event        │ │
@@ -159,11 +159,11 @@ This mono-repo is organized under the `packages/` directory, with each package f
 └─────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      Infrastructure Layer                              │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐             │
-│  │ FireStore   │  │    Redis    │  │   RPC Provider      │             │
-│  │  Database   │  │   Cache     │  │   (Ethereum/Scroll) │             │
-│  └─────────────┘  └─────────────┘  └─────────────────────┘             │
+│                      Infrastructure Layer                               │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐              │
+│  │ FireStore   │  │    Redis    │  │   RPC Provider      │              │
+│  │  Database   │  │   Cache     │  │   (Ethereum/Scroll) │              │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘              │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -434,7 +434,7 @@ The deposit processing system optimizes gas costs through intelligent batching a
 
 ```txt
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    Deposit Processing System Flow                      │
+│                    Deposit Processing System Flow                       │
 └─────────────────────────────────────────────────────────────────────────┘
 
 1. Event Monitoring (Deposit Analyzer)
@@ -472,7 +472,7 @@ The cross-layer message relay system enables secure communication between L2 and
 
 ```txt
 ┌────────────────────────────────────────────────────────────────────────────┐
-│                   Cross-Layer Message Relay System Flow                   │
+│                   Cross-Layer Message Relay System Flow                    │
 └────────────────────────────────────────────────────────────────────────────┘
 
 1. Proof Submission Detection (Withdrawal / Claim Aggregator)
@@ -524,7 +524,7 @@ The token mapping system is a comprehensive pipeline that maintains accurate tok
 
 ```txt
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    Token Mapping System Flow                           │
+│                    Token Mapping System Flow                            │
 └─────────────────────────────────────────────────────────────────────────┘
 
 1. Token Metadata Collection (Token Metadata Sync)
@@ -578,7 +578,7 @@ The block builder indexer system ensures reliable and validated block builder se
 
 ```txt
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    Block Builder Indexer System Flow                   │
+│                    Block Builder Indexer System Flow                    │
 └─────────────────────────────────────────────────────────────────────────┘
 
 1. Heartbeat Monitoring (Indexer Event Watcher)
