@@ -5,7 +5,7 @@
     "@intmax2-function/shared": "workspace:*",
     "axios": "^1.11.0",
     "semver": "^7.7.2",
-    "viem": "^2.33.1"
+    "viem": "^2.33.2"
   },
   "scripts": {
     "start": "node dist/index.js",
@@ -16,6 +16,6 @@
   "devDependencies": {
     "@types/semver": "^7",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
