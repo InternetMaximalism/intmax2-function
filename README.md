@@ -2,25 +2,22 @@
 
 This document provides instructions for setting up, running, building with Docker, and deploying the `intmax2-function` project.
 
-## Installing Dependencies
+## Setup
 
-First, install the project dependencies, build the project, and set up the environment.
+Before running any service, make sure to:
 
-```bash
-# install
+```sh
+# Install dependencies
 yarn
 
-# build:shared
-yarn build:shared
-
-# build
-yarn build
-
-# setup env
+# Copy environment variables
 cp .env.example .env
+
+# Build shared packages
+yarn build:shared
 ```
 
-## Running the Project
+## Development
 
 To start the development mode for each workspace, use the following commands:
 
@@ -74,6 +71,9 @@ If your development workflow involves Firestore, you can start a local emulator:
 
 ```sh
 gcloud emulators firestore start
+
+# Set the FIRESTORE_EMULATOR_HOST variable in the same terminal where you will run your application.
+export FIRESTORE_EMULATOR_HOST="HOST:PORT"
 export FIRESTORE_EMULATOR_HOST="HOST:PORT" # We will use what is displayed in the console.
 ```
 
@@ -86,6 +86,17 @@ docker build -f docker/Dockerfile -t intmax2-function .
 docker run --rm -p 3000:3000 --env-file .env intmax2-function workspace token start
 ```
 
+## Redis
+
+Run Redis in a Docker container with data persistence enabled.
+
+```sh
+docker run -d --rm \
+  --name redis \
+  -p 6379:6379 \
+  -v redis-data:/data \
+  redis redis-server --appendonly yes
+```
 
 ## Testing
 
@@ -102,17 +113,9 @@ yarn test --watch
 yarn coverage
 ```
 
-## Redis
-
-```sh
-docker run -d --rm \
-  --name redis \
-  -p 6379:6379 \
-  -v redis-data:/data \
-  redis redis-server --appendonly yes
-```
-
 ## Bootstrap Tasks
+
+Run the following commands to initialize the token map configuration.
 
 ```sh
 # Bootstrap token map configuration
@@ -121,3 +124,10 @@ yarn token-map-bootstrap
 # Bootstrap token image assets
 yarn token-image-bootstrap
 ```
+
+## Docs
+
+This document explains the overall system design of intmax2-function. It covers the architectural components, interactions between modules, data flow, and the process of generating and verifying ZKPs (Zero-Knowledge Proofs). It is intended to help developers and infrastructure engineers understand the technical foundation of the system.
+
+- [SYSTEM Design](./docs/SYSTEM_DESIGN.md)
+- [API Usage](./docs/API.md)

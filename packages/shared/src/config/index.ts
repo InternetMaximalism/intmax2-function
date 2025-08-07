@@ -17,6 +17,9 @@ export const config = cleanEnv(process.env, {
   // auth
   ALLOWED_ORIGINS: str({ default: "http://localhost:3000,http://localhost:5173" }),
   AUTH_IP_ALLOW_LIST: str({ devDefault: "127.0.0.1,::1" }),
+  RATE_LIMIT_WINDOW_MS: num({
+    default: 10 * 60 * 1000, // 10 minutes
+  }),
   RATE_LIMIT: num({
     default: 1000,
   }),
@@ -35,16 +38,18 @@ export const config = cleanEnv(process.env, {
   BLOCK_BUILDER_URL: url({ devDefault: "http://localhost:3001" }),
   // proxy
   BLOCK_BUILDER_VERSION: str({ default: "0.0.0" }),
-  PROXY_DOMAIN: str({ default: "localhost" }),
-  PROXY_FRP_TOKEN: str({ default: "dummy" }),
+  PROXY_DOMAIN: str({ default: "localhost", desc: "" }),
+  PROXY_FRP_TOKEN: str({ default: "dummy", desc: "" }),
   // network
   NETWORK_TYPE: str({
     choices: ["ethereum", "scroll"],
     default: "ethereum",
+    desc: "The type of blockchain network to connect to",
   }),
   NETWORK_ENVIRONMENT: str({
     choices: ["mainnet", "sepolia"],
     default: "sepolia",
+    desc: "The environment of the blockchain network to connect to",
   }),
   // blockchain
   ALCHEMY_API_KEY: str({ devDefault: "dummy" }),
