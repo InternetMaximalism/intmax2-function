@@ -178,20 +178,13 @@ The INTMAX2 Function Services architecture is organized into three main layers:
 #### API Service Flow
 
 ```txt
-Client Request → API Service → Shared Components → Database/Cache → Response
+Client Request → API Service → Database/Cache → Response
 ```
 
 #### Background Service Flow
 
 ```txt
-Blockchain Events → Event Watcher → Data Processing → Database Update → Notifications
-```
-
-#### Cross-Service Communication
-
-```txt
-Service A → Shared Database/Cache → Service B
-Service A → Direct API Call → Service B (where needed)
+Start Background Service → Process Data → (Submit Transaction / Send Notification / Update Database)
 ```
 
 ## 3. Service Components
@@ -211,12 +204,16 @@ Service A → Direct API Call → Service B (where needed)
 
 #### Token Service
 
-- **Purpose**: Manages token prices and token mappings
+- **Purpose**: Provides comprehensive token information including prices and mappings for INTMAX2 network
 - **Endpoints**:
   - `/v1/token-prices/list` - Fetch token prices with filtering capabilities
   - `/v1/token-maps/list` - Fetch token mappings with filtering capabilities
-- **Features**: Supports filtering by contract addresses, token indexes, and pagination
-- **Dependencies**: External price feeds, database storage
+- **Features**:
+  - Supports filtering by contract addresses, token indexes, and pagination
+  - Returns token metadata including prices, symbols, decimals, and INTMAX2 tokenIndex mappings
+  - Provides real-time token information for bridged assets
+- **Data Sources**: FireStore database containing token mappings and metadata synchronized by background services
+- **Dependencies**: FireStore database, token-metadata-sync service, token-map-register service
 
 #### Predicate Service
 
@@ -239,23 +236,39 @@ Service A → Direct API Call → Service B (where needed)
 
 #### Deposit Analyzer
 
-- **Purpose**: Analyzes and processes deposit transactions on blockchain networks
+- **Purpose**: Analyzes and processes deposit transactions on blockchain networks with gas optimization through intelligent batching
 - **Functions**:
-  - Monitors deposit events from smart contracts
-  - Batches deposits for efficient processing
-  - Calculates gas optimization strategies
-  - Manages deposit state transitions
-- **Dependencies**: Blockchain RPC, PostgreSQL database
+  - Monitors deposit events from Liquidity smart contracts
+  - Collects and analyzes deposit transaction data from blockchain events
+  - Implements intelligent batching mechanism to optimize gas costs for relay operations
+  - Groups multiple deposits together for efficient batch processing and relay to reduce per-transaction gas fees
+  - Calculates optimal batch sizes based on gas limits and transaction costs
+  - Manages deposit state transitions and relay scheduling
+  - Ensures reliable delivery of batched deposit data to target networks
+- **Gas Optimization Strategy**:
+  - Batches multiple deposit events into single relay transactions
+  - Reduces overall gas consumption compared to individual deposit relays
+  - Implements configurable thresholds for batch size and timing optimization
+- **Dependencies**: Blockchain RPC, Liquidity contract events, FireStore database
 
 #### Messenger Relayer
 
-- **Purpose**: Relays messages using Scroll API for cross-layer communication
+- **Purpose**: Facilitates cross-layer communication by relaying messages from L2 to L1 using Scroll API and Messenger contracts
 - **Functions**:
-  - Handles L1 to L2 and L2 to L1 message relaying
-  - Manages message queue and retry logic
-  - Processes withdrawal and claimable transactions
-  - Integrates with Scroll Messenger contracts
-- **Dependencies**: Scroll API, Ethereum/Scroll RPC providers
+  - Monitors withdrawal and claim contract events for `submitWithdrawalProof` transactions
+  - Retrieves L2-to-L1 message data from Scroll Messenger API when proof submissions are detected
+  - Processes and formats message data for L1 submission
+  - Submits `relayMessageWithProof` transactions to L1 Scroll Messenger contract
+  - Triggers Liquidity contract state changes on L1 based on relayed message data
+  - Implements retry logic with gas optimization for failed transactions
+  - Handles message verification and proof validation
+- **Message Flow**:
+  1. **Event Detection**: Monitors L2 withdrawal/claim contracts for `submitWithdrawalProof` events
+  2. **Data Retrieval**: Fetches corresponding message data from L2 Scroll Messenger API
+  3. **Message Relay**: Submits `relayMessageWithProof` to L1 Scroll Messenger contract
+  4. **Contract Update**: L1 Scroll Messenger triggers Liquidity contract state changes
+- **Error Handling**: Comprehensive retry mechanism with exponential backoff and gas fee adjustment
+- **Dependencies**: Scroll API, Ethereum/Scroll RPC providers, L1/L2 Scroll Messenger contracts, Liquidity contract
 
 #### Block Sync Monitor
 
@@ -269,13 +282,15 @@ Service A → Direct API Call → Service B (where needed)
 
 #### Indexer Event Watcher
 
-- **Purpose**: Retrieves and processes information from blockchain nodes
+- **Purpose**: Monitors block builder activity and maintains registry information through blockchain event processing
 - **Functions**:
-  - Continuously monitors blockchain events
-  - Filters and processes relevant events
-  - Updates indexer state and metadata
-  - Maintains event logs for audit trails
-- **Dependencies**: Blockchain RPC providers, PostgreSQL
+  - Continuously monitors Block Builder Registry contract for `blockBuilderHeartbeatEvent` events
+  - Processes heartbeat events from active block builders to track their operational status
+  - Updates FireStore database with latest block builder information and activity timestamps
+  - Maintains event logs and audit trails for block builder activities
+  - Implements automatic inactive status assignment for builders without 24-hour heartbeat updates
+- **Activity Monitoring**: Tracks block builder heartbeats and marks inactive builders (>24h without updates) as `active: false`
+- **Dependencies**: Blockchain RPC providers (Scroll), Block Builder Registry contract, FireStore database
 
 #### Wallet Observer
 
@@ -289,13 +304,28 @@ Service A → Direct API Call → Service B (where needed)
 
 #### Token Metadata Sync
 
-- **Purpose**: Synchronizes token metadata across networks
+- **Purpose**: Periodically synchronizes token metadata and pricing information across networks
 - **Functions**:
-  - Fetches token metadata from various sources
-  - Synchronizes metadata across L1/L2
-  - Validates metadata consistency
-  - Updates token registries
-- **Dependencies**: Multiple blockchain networks, IPFS
+  - Fetches up-to-date token metadata from multiple blockchain networks (L1/L2)
+  - Retrieves real-time pricing information from external price feeds and market data providers
+  - Validates and normalizes token metadata (name, symbol, decimals, contract addresses)
+  - Updates FireStore database with the latest token information
+  - Ensures data consistency across different network environments
+- **Schedule**: Runs periodically to maintain current token information
+- **Dependencies**: Multiple blockchain networks (Ethereum, Scroll), external price APIs, FireStore database
+
+#### Token Map Register
+
+- **Purpose**: Monitors blockchain events and registers new token mappings for INTMAX2 network bridged assets
+- **Functions**:
+  - Continuously monitors Liquidity contract events for newly bridged tokens
+  - Detects bridge deposit events when tokens are first introduced to INTMAX2 network
+  - Creates tokenIndex mappings for newly bridged assets in INTMAX2 system
+  - Associates L1/L2 token contract addresses with their corresponding INTMAX2 tokenIndex
+  - Updates FireStore database with new token mapping relationships
+  - Maintains the authoritative registry of all supported tokens in the INTMAX2 ecosystem
+- **Event Sources**: Liquidity contract bridge events, token registration events
+- **Dependencies**: Blockchain RPC providers, Liquidity contract, FireStore database
 
 #### TX-Map Cleaner
 
@@ -315,7 +345,7 @@ Service A → Direct API Call → Service B (where needed)
 - **Scope**: Development environment only
 - **Functions**: Simulates cross-layer message relay for testing
 
-#### Mock L2-to-L1 Relayer  
+#### Mock L2-to-L1 Relayer
 
 - **Purpose**: Development-only service for simulating L2 to L1 message relay
 - **Scope**: Development environment only
@@ -325,21 +355,29 @@ Service A → Direct API Call → Service B (where needed)
 
 #### Indexer Monitor
 
-- **Purpose**: Monitors indexer service health and performance
+- **Purpose**: Validates and monitors active block builders to ensure service quality and availability
 - **Functions**:
-  - Health checks for indexer services
-  - Performance metrics collection
-  - Alert generation for service issues
-  - Service availability tracking
+  - Periodically performs health checks on block builders with recent data updates
+  - Validates ETH balance sufficiency for continued block builder operations
+  - Verifies block builder service availability and response times
+  - Updates block builder status to `active: true` for validated builders
+  - Monitors service degradation and performance issues
+  - Maintains operational metrics for block builder performance analysis
+- **Validation Criteria**: Health check success, sufficient ETH balance, service responsiveness
+- **Dependencies**: Block builder endpoints, blockchain RPC providers, FireStore database
 
 #### Indexer Cache Validator
 
-- **Purpose**: Validates and maintains indexer cache integrity
+- **Purpose**: Continuously validates cached block builder information to ensure service reliability
 - **Functions**:
-  - Cache consistency validation
-  - Cache refresh operations
-  - Performance optimization
-  - Cache health monitoring
+  - Monitors health status of cached block builders during their cache lifetime
+  - Performs real-time validation of ETH balance for cached builders
+  - Conducts ongoing health checks to verify service availability
+  - Removes invalidated builders from cache when issues are detected
+  - Maintains cache integrity and prevents serving of unreliable block builders
+  - Implements automated cache refresh for validated builders
+- **Monitoring Scope**: Cached block builders only, real-time validation during cache period
+- **Dependencies**: Block builder endpoints, blockchain RPC providers, Redis cache, FireStore database
 
 ### 3.5 Shared Infrastructure
 
@@ -368,7 +406,7 @@ Service A → Direct API Call → Service B (where needed)
 2. API Service (Indexer/Token/Predicate/TX-Map)
 3. Input Validation & Authentication
 4. Business Logic Processing
-5. Data Layer Access (PostgreSQL/Redis/External APIs)
+5. Data Layer Access (FireStore/Redis/External APIs)
 6. Response Formatting & Caching
 7. Client Response
 ```
@@ -376,196 +414,255 @@ Service A → Direct API Call → Service B (where needed)
 ### 4.2 Background Service Data Flow
 
 ```txt
-1. Event Detection (Blockchain/Timer/Queue)
-2. Event Processing & Validation
-3. Business Logic Execution
-4. Database Operations (CRUD)
-5. Inter-Service Communication (if needed)
-6. Status Updates & Logging
-7. Notification/Alert Generation (if needed)
+Start Background Service
+    ↓
+Process Data
+    └─→ Event Detection
+    └─→ Processing & Validation
+    └─→ Business Logic Execution
+    └─→ Status Updates & Logging
+    ↓
+Trigger Action
+    └─→ Submit Transaction
+    └─→ Send Notification / Alert
+    └─→ Database Operations (CRUD)
 ```
 
-### 4.3 Cross-Service Communication
+### 4.3 Deposit Processing System Data Flow
+
+The deposit processing system optimizes gas costs through intelligent batching and relay operations:
+
+```txt
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Deposit Processing System Flow                      │
+└─────────────────────────────────────────────────────────────────────────┘
+
+1. Event Monitoring (Deposit Analyzer)
+   Liquidity Contract Events → Deposit Analyzer → Event Collection
+
+2. Batch Optimization (Deposit Analyzer)
+   Individual Deposits → Batching Algorithm → Optimized Batches
+
+3. Relay Execution (Deposit Analyzer)
+   Batched Deposits → Gas-Optimized Relay → Target Network
+```
+
+#### Detailed Process Flow:
+
+1. **Event Detection and Collection**:
+   - Continuously monitors Liquidity contract for deposit events
+   - Captures deposit transaction details (amount, token, recipient, etc.)
+   - Validates and stores deposit event data in FireStore
+
+2. **Intelligent Batching Algorithm**:
+   - Analyzes accumulated deposit events for batching opportunities
+   - Calculates optimal batch sizes based on gas limits and cost efficiency
+   - Groups compatible deposits together (same target network, token type, etc.)
+   - Implements configurable thresholds for batch timing and size
+
+3. **Gas-Optimized Relay Execution**:
+   - Executes batched deposits as single relay transactions
+   - Significantly reduces gas costs compared to individual deposit processing
+   - Ensures reliable delivery and proper state management
+   - Updates deposit status and maintains audit trails
+
+### 4.4 Cross-Layer Message Relay System Data Flow
+
+The cross-layer message relay system enables secure communication between L2 and L1 networks:
+
+```txt
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   Cross-Layer Message Relay System Flow                   │
+└────────────────────────────────────────────────────────────────────────────┘
+
+1. Proof Submission Detection (Withdrawal / Claim Aggregator)
+  withdrawal aggregator / claim aggregator → submitWithdrawalProof / submitClaimProof → L2 Withdrawal / Claim Contracts
+
+2. Message Data Retrieval (Messenger Relayer)
+  L2 Scroll Messenger API → Message & Proof Data
+
+3. L1 Message Relay (Messenger Relayer)
+   Message & Proof Data → relayMessageWithProof → L1 Scroll Messenger Contract
+
+4. State Update Execution (L1 Scroll Messenger)
+  L1 Scroll Messenger Contract → Liquidity Contract → State Changes
+```
+
+#### Detailed Process Flow:
+
+1. **Event Monitoring and Detection**:
+   - Continuously monitors L2 withdrawal and claim contracts
+   - Detects `submitWithdrawalProof` transaction events
+   - Extracts transaction details and proof submission information
+   - Validates event authenticity and completeness
+
+2. **Message Data Retrieval from L2**:
+   - Queries L2 Scroll Messenger API with detected event data
+   - Retrieves complete message payload including:
+     - Source and destination addresses (from, to)
+     - Transaction value and nonce
+     - Message data and proof information
+     - Merkle proof and batch index for verification
+   - Validates retrieved data integrity and format
+
+3. **L1 Message Relay Execution**:
+   - Formats retrieved data for L1 Scroll Messenger contract
+   - Submits `relayMessageWithProof` transaction to L1 network
+   - Implements retry logic with exponential gas fee increases
+   - Handles transaction failures and replacement scenarios
+   - Monitors transaction confirmation and finality
+
+4. **Liquidity Contract State Updates**:
+   - L1 Scroll Messenger contract validates message proof
+   - Executes state changes on Liquidity contract based on message data
+   - Updates withdrawal/claim statuses and balances
+   - Maintains audit trail of cross-layer operations
+
+### 4.5 Token Mapping System Data Flow
+
+The token mapping system is a comprehensive pipeline that maintains accurate token information for the INTMAX2 network:
+
+```txt
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Token Mapping System Flow                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+1. Token Metadata Collection (Token Metadata Sync)
+   External Price APIs → Token Metadata Sync → FireStore Database
+
+2. Bridge Event Monitoring (Token Map Register)
+   Liquidity Contract Events → Token Map Register → FireStore Database
+
+3. API Data Retrieval (Token Service)
+   Client Request → Token API → FireStore Database → Formatted Response
+```
+
+#### Detailed Process Flow:
+
+1. **Token Metadata Sync Service**:
+   - Periodically fetches token pricing data from external APIs
+   - Retrieves token metadata (name, symbol, decimals) from blockchain networks
+   - Validates and normalizes token information
+   - Updates FireStore with the latest token data
+
+2. **Token Map Register Service**:
+   - Monitors Liquidity contract for new bridge deposit events
+   - Detects when tokens are first bridged to INTMAX2 network
+   - Creates tokenIndex mappings for newly bridged assets
+   - Associates L1/L2 contract addresses with INTMAX2 tokenIndex
+   - Stores complete token mapping relationships in FireStore
+
+3. **Token API Service**:
+   - Receives client requests for token information
+   - Queries FireStore database for token mappings and metadata
+   - Returns comprehensive token data including prices, metadata, and tokenIndex mappings
+   - Supports filtering by contract addresses, token indexes, and pagination
+
+### 4.6 Cross-Service Communication
 
 #### Database-Mediated Communication
-- Services share data through PostgreSQL databases
+
+- Services share data through FireStore databases
 - Event-driven updates through database triggers
 - Shared caching layer using Redis
 
 #### Direct API Communication
+
 - Service-to-service HTTP calls for real-time data
 - Health check propagation between dependent services
 - Configuration synchronization
 
-#### Message Queue Pattern
-- Redis-based job queues for async processing
-- Event broadcasting for status updates
-- Background job scheduling and execution
+### 4.8 Block Builder Indexer System Data Flow
 
-### 4.4 Monitoring and Observability Flow
+The block builder indexer system ensures reliable and validated block builder service discovery:
+
+```txt
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Block Builder Indexer System Flow                   │
+└─────────────────────────────────────────────────────────────────────────┘
+
+1. Heartbeat Monitoring (Indexer Event Watcher)
+   Block Builder Registry Contract → blockBuilderHeartbeatEvent → FireStore Update
+
+2. Activity Validation (Indexer Event Watcher)
+   24-Hour Activity Check → Inactive Builder Detection → Status Update (active: false)
+
+3. Health Validation (Indexer Monitor)
+   Updated Builders → Health Check + ETH Balance → Validation → Status Update (active: true)
+
+4. Client Response (Indexer Service)
+   Client Request → Active Builders Query → Random Selection → Cached Response
+
+5. Cache Validation (Indexer Cache Validator)
+   Cached Builders → Real-time Health Check → Cache Update/Invalidation
+```
+
+#### Detailed Process Flow:
+
+1. **Heartbeat Event Monitoring (Indexer Event Watcher)**:
+   - Continuously monitors Block Builder Registry contract on Scroll network
+   - Detects `blockBuilderHeartbeatEvent` events from active block builders
+   - Extracts builder information and timestamp data from events
+   - Updates FireStore database with latest builder activity information
+   - Implements automatic marking of builders as inactive if no heartbeat received within 24 hours
+
+2. **Health and Resource Validation (Indexer Monitor)**:
+   - Periodically scans FireStore for block builders with recent data updates
+   - Performs comprehensive health checks on each builder endpoint
+   - Validates ETH balance sufficiency for continued operations
+   - Verifies service availability and response time metrics
+   - Updates builder status to `active: true` for successfully validated builders
+   - Maintains performance metrics and operational analytics
+
+3. **Client Service and Response (Indexer Service)**:
+   - Receives client requests for block builder information
+   - Queries FireStore for block builders with `active: true` status
+   - Implements random selection algorithm for load distribution
+   - Returns selected block builder information to clients
+   - Caches responses for configurable time periods to reduce database load
+
+4. **Cache Integrity Monitoring (Indexer Cache Validator)**:
+   - Monitors cached block builders during their cache lifetime
+   - Performs real-time health checks and ETH balance validation
+   - Detects service degradation or resource insufficiency
+   - Automatically removes invalidated builders from cache
+   - Ensures clients receive only reliable and operational builder information
+
+#### System Benefits:
+- **High Availability**: Multiple validation layers ensure service reliability
+- **Load Distribution**: Random selection provides balanced load across builders
+- **Real-time Monitoring**: Continuous validation prevents serving of failed builders
+- **Resource Efficiency**: Caching reduces database queries while maintaining data integrity
+
+### 4.9 Monitoring and Observability Flow
 
 ```txt
 1. Service Metrics Collection → Structured Logging
 2. Health Status Aggregation → Centralized Monitoring
 3. Alert Generation → Notification Systems
-4. Performance Analytics → Dashboard Updates
 ```
 
-## 5. Data Storage and Persistence
+## 5. Scalability & Reliability
 
-### 5.1 Database Architecture
+- **Stateless Services**: All services can scale horizontally behind a load balancer.
+- **Eventual Consistency**: The jobs can be retried, idempotent.
+- **Redis Caching**: Reduces read load on Firestore for popular queries.
+- **Rate Limiting & API Keys**: Protects against abuse.
+- **Health Checks & Monitoring**: `/health` endpoint and telemetry via structured logs.
 
-#### PostgreSQL Databases
-- **Primary Database**: Core application data, user accounts, service configurations
-- **Events Database**: Blockchain event logs, transaction histories, audit trails
-- **Analytics Database**: Performance metrics, usage statistics, operational data
+## 6. Security
 
-#### Redis Cache & Queues
-- **Application Cache**: API response caching, session data, temporary computations
-- **Job Queues**: Background task queues, message relay queues, cleanup jobs
-- **Rate Limiting**: API rate limiting counters, abuse prevention
+- **CORS**: Configurable whitelist of origins.
+- **Input Validation**: Strict schema for query parameters; prevents injection.
 
-### 5.2 Data Models
+## 7. CI/CD & Testing
 
-#### Core Entities
-- **Tokens**: Token metadata, pricing data, contract addresses
-- **Transactions**: Deposit/withdrawal records, cross-layer messages
-- **Users/Wallets**: Wallet addresses, balance histories, notification preferences
-- **Indexer Data**: Block builder information, node metadata, registration status
+- **Vitest** unit and integration tests coverage for services and middleware.
+- **Tasks**: `yarn test`, `yarn check`, `yarn build` in CI pipeline.
+- **Docker**: Containerized deployment using provided Dockerfile.
 
-#### Event Logs
-- **Blockchain Events**: Contract events, transaction logs, block data
-- **Service Events**: Internal service events, error logs, performance metrics
-- **Audit Trails**: User actions, administrative operations, system changes
+## 8. Observability
 
-### 5.3 Data Synchronization
-
-#### Cross-Layer Synchronization
-- L1 ↔ L2 state synchronization via message relayers
-- Token metadata consistency across networks
-- Balance reconciliation and validation
-
-#### Cache Invalidation
-- TTL-based cache expiration
-- Event-driven cache invalidation
-- Manual cache refresh for critical data
-
-## 6. Scalability & Reliability
-
-### 6.1 Horizontal Scaling
-
-- **Stateless API Services**: All API services (indexer, token, predicate, tx-map) can scale horizontally
-- **Load Balancing**: Services support multiple instances behind load balancers
-- **Database Sharding**: PostgreSQL databases can be sharded by service domain
-- **Cache Distribution**: Redis clustering for distributed caching across instances
-
-### 6.2 Reliability Patterns
-
-- **Idempotent Operations**: All background services support safe operation retries
-- **Circuit Breakers**: API services implement circuit breakers for external dependencies
-- **Graceful Degradation**: Services continue operating with reduced functionality during outages
-- **Database Replication**: Master-slave PostgreSQL setup for read scaling and failover
-
-### 6.3 Performance Optimization
-
-- **Intelligent Caching**: Multi-level caching with different TTL strategies per service
-- **Connection Pooling**: Efficient database connection management
-- **Background Processing**: Async processing for non-critical operations
-- **Rate Limiting**: API rate limiting to prevent abuse and ensure fair usage
-
-### 6.4 Health Monitoring
-
-- **Health Endpoints**: All services expose standardized health check endpoints
-- **Dependency Checks**: Health checks validate external service connectivity
-- **Metrics Collection**: Structured logging and metrics for monitoring and alerting
-- **Alert Systems**: Automated alerts for service failures and performance degradation
-
-## 7. Security
-
-### 7.1 API Security
-
-- **Input Validation**: Strict validation for all API inputs and parameters
-- **Rate Limiting**: Protection against DDoS and abuse attacks
-- **CORS Configuration**: Proper cross-origin resource sharing controls
-- **Security Headers**: Implementation of security headers (HSTS, CSP, etc.)
-
-### 7.2 Blockchain Security
-
-- **Contract Validation**: Smart contract interaction validation and verification
-- **Transaction Security**: Secure transaction signing and submission processes
-- **Event Verification**: Blockchain event authenticity verification
-- **Private Key Management**: Secure storage and handling of cryptographic keys
-
-### 7.3 Infrastructure Security
-
-- **Database Access Control**: Role-based PostgreSQL access with minimal privileges
-- **Environment Isolation**: Secure separation between development, staging, and production
-- **Configuration Management**: Secure handling of sensitive configuration via environment variables
-- **Network Security**: VPC isolation and secure inter-service communication
-
-### 7.4 Data Protection
-
-- **Data Encryption**: Encryption at rest for sensitive data
-- **Audit Logging**: Comprehensive audit trails for all operations
-- **Data Retention**: Policies for data lifecycle management and cleanup
-- **Privacy Compliance**: GDPR and privacy regulation compliance measures
-
-## 8. Development & Operations
-
-### 8.1 Development Environment
-
-- **Monorepo Structure**: Yarn workspaces for unified dependency management
-- **Package Management**: Individual package configurations with shared dependencies
-- **Development Servers**: Hot-reload development servers for each service
-- **Mock Services**: L1/L2 relayer mocks for local development and testing
-
-### 8.2 Testing Strategy
-
-- **Unit Testing**: Vitest-based unit tests for individual service components
-- **Integration Testing**: Service-to-service integration test suites
-- **API Testing**: REST API endpoint testing with various scenarios
-- **E2E Testing**: End-to-end workflow testing across multiple services
-
-### 8.3 Build & Deployment
-
-- **Build System**: TypeScript compilation with optimized production builds
-- **Containerization**: Docker containers for consistent deployment environments
-- **CI/CD Pipeline**: Automated testing, building, and deployment workflows
-- **Environment Management**: Environment-specific configuration and secrets management
-
-### 8.4 Database Management
-
-- **Schema Migrations**: Version-controlled database schema migrations
-- **Data Seeding**: Automated data seeding for development and testing
-- **Backup & Recovery**: Automated database backup and recovery procedures
-- **Performance Monitoring**: Database performance monitoring and optimization
-
-## 9. Observability & Monitoring
-
-### 9.1 Logging
-
-- **Structured Logging**: JSON-formatted logs with consistent schema across all services
-- **Log Aggregation**: Centralized log collection and analysis
-- **Log Retention**: Configurable log retention policies by service and environment
-- **Error Tracking**: Automatic error detection and alerting
-
-### 9.2 Metrics & Analytics
-
-- **Performance Metrics**: Service response times, throughput, and error rates
-- **Business Metrics**: Transaction volumes, user activity, and service usage
-- **Infrastructure Metrics**: System resource usage, database performance
-- **Custom Dashboards**: Service-specific monitoring dashboards
-
-### 9.3 Alerting
-
-- **Health Monitoring**: Automated health checks with configurable thresholds
-- **Performance Alerts**: Alerts for response time degradation and error spikes
-- **Business Logic Alerts**: Domain-specific alerts for unusual patterns
-- **Escalation Procedures**: Automated escalation for critical system failures
-
-### 9.4 Debugging & Troubleshooting
-
-- **Distributed Tracing**: Request tracing across multiple services
-- **Debug Endpoints**: Development-only endpoints for service introspection
-- **Log Correlation**: Request ID tracking across service boundaries
-- **Performance Profiling**: Application performance profiling and optimization tools
+- **Structured Logging**: Centralized logs via `logger` utility.
+- **Error Notifications**: Critical failures automatically trigger alerts through cloud-based monitoring services.
+- **Metrics**: Tracks block processing latency and API performance. Statistics are regularly analyzed to identify trends, and slow queries or underperforming API endpoints are investigated for optimization.
