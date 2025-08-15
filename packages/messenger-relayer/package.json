@@ -5,7 +5,7 @@
     "@intmax2-function/shared": "workspace:*",
     "axios": "^1.11.0",
     "ethers": "^6.15.0",
-    "viem": "^2.33.2"
+    "viem": "^2.33.3"
   },
   "scripts": {
     "start:withdrawal": "node dist/index.js withdrawal",
@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2"
   }
 }

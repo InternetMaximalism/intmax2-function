@@ -9,10 +9,11 @@ async function executeJob() {
     logger.info(`Starting ${name} job`);
     const { durationInSeconds } = await timeOperation(performJob);
     logger.info(`Completed ${name} job executed successfully in ${durationInSeconds}s`);
-    console.log("durationInSeconds:", durationInSeconds);
     return Number(durationInSeconds) * 1000;
   } catch (error) {
-    logger.error(`Job execution failed:`, error);
+    logger.error(
+      `Job execution failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     return 0;
   }
 }
@@ -34,7 +35,9 @@ async function main() {
     await startHealthCheckServer();
     logger.info("Health check server started successfully");
   } catch (error) {
-    logger.error("Failed to start health check server:", error);
+    logger.error(
+      `Failed to start health check server: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     throw error;
   }
 

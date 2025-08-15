@@ -47,7 +47,9 @@ export const shutdownOperation = async (callback?: Function) => {
     logger.info("Shutdown completed successfully.");
     process.exit(0);
   } catch (error) {
-    logger.error("Error during shutdown:", error);
+    logger.error(
+      `Error during shutdown: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     process.exit(1);
   }
 };
