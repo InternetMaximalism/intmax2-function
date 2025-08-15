@@ -3,6 +3,7 @@ import {
   fetchEvents,
   l1SentMessageEvent,
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS,
+  MOCK_L1_SENDER_CONTRACT_ADDRESS,
   type SentMessageEvent,
 } from "@intmax2-function/shared";
 import type { PublicClient } from "viem";
@@ -18,6 +19,9 @@ export const fetchSentMessages = async (
     blockRange: BLOCK_RANGE_MINIMUM,
     contractAddress: MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS,
     eventInterface: l1SentMessageEvent,
+    args: {
+      sender: MOCK_L1_SENDER_CONTRACT_ADDRESS,
+    },
   });
 
   return l1SentMessageEvents;

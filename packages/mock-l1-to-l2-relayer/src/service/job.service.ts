@@ -2,12 +2,12 @@ import {
   createNetworkClient,
   Event,
   type EventData,
-  FIRESTORE_DOCUMENT_EVENTS,
   getStartBlockNumber,
   logger,
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK,
   validateBlockRange,
 } from "@intmax2-function/shared";
+import { relayerDBName } from "../constants";
 import { generateDepositsCalldata } from "./decode.service";
 import { fetchSentMessages } from "./event.service";
 import { submitRelayMessagesToL2MockMessenger } from "./submit.service";
@@ -15,7 +15,7 @@ import { submitRelayMessagesToL2MockMessenger } from "./submit.service";
 export const performJob = async (): Promise<void> => {
   const ethereumClient = createNetworkClient("ethereum");
   const scrollClient = createNetworkClient("scroll");
-  const event = new Event(FIRESTORE_DOCUMENT_EVENTS.MOCK_MESSENGER_RELAYER);
+  const event = new Event(relayerDBName);
 
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
     ethereumClient.getBlockNumber(),
