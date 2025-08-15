@@ -86,6 +86,11 @@ export const submitRelayMessagesToL2MockMessenger = async (
         continue;
       }
 
+      // if non decode event, we will skip this revert
+      if (!config.MOCK_L1_SENDER_EVENT_DECODE_ENABLED) {
+        return;
+      }
+
       throw error;
     }
   }
