@@ -5,22 +5,22 @@
   "dependencies": {
     "@google-cloud/firestore": "^7.11.3",
     "@google-cloud/storage": "^7.16.0",
-    "@hono/node-server": "^1.18.1",
+    "@hono/node-server": "^1.18.2",
     "abitype": "^1.0.8",
     "alchemy-sdk": "^3.6.2",
     "axios": "^1.11.0",
     "discord.js": "^14.21.0",
     "envalid": "^8.1.0",
     "ethers": "^6.15.0",
-    "hono": "^4.8.12",
+    "hono": "^4.9.2",
     "hono-rate-limiter": "^0.4.2",
     "http-status": "2.1.0",
     "ioredis": "^5.7.0",
     "node-cache": "^5.1.2",
-    "pino": "^9.7.0",
+    "pino": "^9.9.0",
     "pino-pretty": "^13.1.1",
-    "viem": "^2.33.2",
-    "zod": "4.0.15"
+    "viem": "^2.33.3",
+    "zod": "4.0.17"
   },
   "scripts": {
     "start": "node dist/index.js",
@@ -29,7 +29,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2"
   }
 }
