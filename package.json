@@ -15,7 +15,8 @@
     "intmax2",
     "blockchain",
     "function",
-    "api"
+    "api",
+    "token"
   ],
   "engines": {
     "node": ">=20.0.0",
