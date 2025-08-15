@@ -70,7 +70,7 @@ const saveNewEvents = async (
   const savePromises = [];
 
   if (isNewEvent(newEvents.mint, lastEvents.mint)) {
-    logger.warn("New minted event detected:", newEvents.mint);
+    logger.warn("New minted event detected");
     savePromises.push(
       mintEvent.addEvent({
         type: "mint",
@@ -82,7 +82,7 @@ const saveNewEvents = async (
   }
 
   if (isNewEvent(newEvents.transferToLiquidity, lastEvents.transferToLiquidity)) {
-    logger.warn("New transferred event detected:", newEvents.transferToLiquidity);
+    logger.warn("New transferred event detected");
     savePromises.push(
       mintEvent.addEvent({
         type: "transferToLiquidity",

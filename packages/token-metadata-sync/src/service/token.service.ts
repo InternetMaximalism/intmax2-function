@@ -23,7 +23,9 @@ export const getInitialTokenList = async (): Promise<{
       isUploadImage: tokenList.length === 0,
     };
   } catch (error) {
-    logger.error("Error fetching token list", error);
+    logger.error(
+      `Error fetching token list: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     return {
       tokenList: [],
       isUploadImage: true,
