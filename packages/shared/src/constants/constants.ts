@@ -30,6 +30,7 @@ export const FIRESTORE_DOCUMENT_EVENTS = {
   DEPOSITED: "deposited",
   DEPOSITS_RELAYED_TOKEN_MAPS: "depositsRelayedTokenMaps",
   MOCK_MESSENGER_RELAYER: "mockMessengerRelayer",
+  MOCK_MESSENGER_RELAYER_UNDECODED: "mockMessengerRelayerUndecoded",
   MOCK_L2_SENT_MESSAGE: "mockL2SentMessage",
   BLOCK_BUILDER_HEART_BEAT: "blockBuilderHeartBeat",
   MINTER: "minter",
@@ -76,6 +77,8 @@ export const MOCK_L2_SCROLL_MESSENGER_CONTRACT_ADDRESS =
   config.MOCK_L2_SCROLL_MESSENGER_CONTRACT_ADDRESS as `0x${string}`;
 export const MOCK_L2_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK =
   config.MOCK_L2_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK;
+export const MOCK_L1_SENDER_CONTRACT_ADDRESS =
+  config.MOCK_L1_SENDER_CONTRACT_ADDRESS as `0x${string}`;
 
 // token
 export const ETH_SYMBOL = "ETH";

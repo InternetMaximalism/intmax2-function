@@ -21,6 +21,12 @@ export const generateDepositsCalldata = async (
   ethereumClient: PublicClient,
   l1SentMessageEvent: SentMessageEvent,
 ) => {
+  if (!config.MOCK_L1_SENDER_EVENT_DECODE_ENABLED) {
+    return [
+      { ...l1SentMessageEvent.args, encodedCalldata: l1SentMessageEvent.args.message },
+    ] as BatchedCalldata[];
+  }
+
   const { lastProcessedDepositId, depositHashes } = decodeL1SentMessage(l1SentMessageEvent);
 
   const rejectedIds = await fetchLatestRejectedIds(

@@ -82,6 +82,8 @@ export const config = cleanEnv(process.env, {
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK: num({ default: 0 }),
   MOCK_L2_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ default: "0x" }),
   MOCK_L2_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK: num({ default: 0 }),
+  MOCK_L1_SENDER_CONTRACT_ADDRESS: str({ default: "0x" }),
+  MOCK_L1_SENDER_EVENT_DECODE_ENABLED: bool({ default: true }),
   // private key
   INTMAX2_OWNER_MNEMONIC: str({ devDefault: "", desc: "Owner mnemonic for Intmax2" }),
   MOCK_MESSENGER_PRIVATE_KEY: str({
