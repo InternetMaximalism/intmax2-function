@@ -1,8 +1,10 @@
 import {
   DEFAULT_IMAGE_PATH,
+  type Token,
   TokenMap,
   type TokenMapData,
   type TokenPaginationValidationType,
+  TokenType,
 } from "@intmax2-function/shared";
 import { DEFAULT_PAGE_SIZE } from "../constants";
 import { TokenPrice } from "../lib/tokenPrice";
@@ -14,9 +16,12 @@ export const list = async (
 ) => {
   const tokenMaps = await fetchTokenMaps(tokenIndexes);
 
+  const tokenPrice = TokenPrice.getInstance();
+  const priceMap = await tokenPrice.getTokenPriceMap();
+
   if (Object.keys(paginationOptions).length === 0) {
     return {
-      items: await formatTokenMaps(tokenMaps),
+      items: formatTokenMaps(tokenMaps, priceMap),
       nextCursor: null,
       total: tokenMaps.length,
     };
@@ -32,7 +37,7 @@ export const list = async (
   const nextCursor = getNextCursor(items, tokenMaps.length, startIndex, perPage);
 
   return {
-    items: await formatTokenMaps(items),
+    items: formatTokenMaps(items, priceMap),
     nextCursor,
     total: tokenMaps.length,
   };
@@ -47,14 +52,14 @@ const fetchTokenMaps = async (tokenIndexes: string[]) => {
   return tokenMaps;
 };
 
-const formatTokenMaps = async (tokenMaps: TokenMapData[]) => {
-  const tokenPrice = TokenPrice.getInstance();
-  const tokenPriceList = await tokenPrice.getTokenPriceList();
-
-  return tokenMaps.map((map) => {
-    const priceData = tokenPriceList.find((item) => item.contractAddress === map.contractAddress);
+const formatTokenMaps = (tokenMaps: TokenMapData[], priceMap: Map<string, Token>) => {
+  return tokenMaps.map(({ createdAt, tokenId, ...map }) => {
+    const priceData = priceMap.get(map.contractAddress);
     return {
       ...map,
+      ...(map.tokenType === TokenType.ERC721 || map.tokenType === TokenType.ERC1155
+        ? { tokenId }
+        : {}),
       price: priceData?.price ?? 0,
       image: priceData?.image ?? DEFAULT_IMAGE_PATH,
     };

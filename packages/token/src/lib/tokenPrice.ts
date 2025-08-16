@@ -7,6 +7,7 @@ export class TokenPrice {
   private readonly FETCH_INTERVAL = 1000 * 60 * 5; // 5 minutes
   private readonly RETRY_INTERVAL = 1000 * 5; // 5 seconds
   private tokenPriceList: Token[] = [];
+  private tokenPriceMap: Map<string, Token> = new Map();
   private initialized: boolean = false;
 
   public static getInstance() {
@@ -36,6 +37,7 @@ export class TokenPrice {
       }
 
       this.tokenPriceList = tokenList;
+      this.tokenPriceMap = new Map(tokenList.map((token) => [token.id, token]));
       logger.info(`Successfully fetched ${tokenList.length} tokens`);
 
       this.clearRetryTimeout();
@@ -77,9 +79,27 @@ export class TokenPrice {
     return this.tokenPriceList;
   }
 
+  async getTokenPriceMap() {
+    while (!this.initialized) {
+      logger.info("TokenPrice not initialized, waiting...");
+      await sleep(100);
+    }
+    if (!this.tokenPriceMap.size) {
+      logger.info("Token price map is empty, fetching data...");
+      await this.fetchAndCacheTokenList();
+    }
+    return this.tokenPriceMap;
+  }
+
+  async getTokenByAddress(contractAddress: string) {
+    const tokenMap = await this.getTokenPriceMap();
+    return tokenMap.get(contractAddress);
+  }
+
   cleanup() {
     this.stopScheduler();
     this.tokenPriceList = [];
+    this.tokenPriceMap.clear();
   }
 
   private startScheduler() {

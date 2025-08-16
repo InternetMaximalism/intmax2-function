@@ -1,7 +1,7 @@
 import type { CollectionReference, Query } from "@google-cloud/firestore";
 import { FIRESTORE_COLLECTIONS, FIRESTORE_MAX_BATCH_SIZE } from "../constants";
 import { AppError, ErrorCode, logger } from "../lib";
-import type { TokenMapData, TokenMapFilter } from "../types";
+import type { TokenMapData, TokenMapFilter, TokenMapInput } from "../types";
 import { db } from "./firestore";
 
 export class TokenMap {
@@ -22,7 +22,7 @@ export class TokenMap {
     return TokenMap.instance;
   }
 
-  async saveTokenMapsBatch(inputs: TokenMapData[]) {
+  async saveTokenMapsBatch(inputs: TokenMapInput[]) {
     const batches = [];
     const now = new Date();
 
