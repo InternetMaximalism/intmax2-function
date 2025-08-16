@@ -1,4 +1,4 @@
-import { TokenMap, TokenMapData, TokenType } from "@intmax2-function/shared";
+import { TokenMap, TokenMapInput, TokenType } from "@intmax2-function/shared";
 import { erc20Abi, type PublicClient } from "viem";
 import { MULTICALL_SIZE } from "../constants";
 import type { TokenInfo } from "../types";
@@ -104,7 +104,7 @@ const enrichTokensWithMetadata = (
   });
 };
 
-const saveTokenMaps = async (enrichedTokens: TokenMapData[]) => {
+const saveTokenMaps = async (enrichedTokens: TokenMapInput[]) => {
   const tokenMap = TokenMap.getInstance();
   await tokenMap.saveTokenMapsBatch(enrichedTokens);
 };

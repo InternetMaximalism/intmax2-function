@@ -8,8 +8,7 @@ export const list = async (
   paginationOptions: TokenPaginationValidationType = {},
 ) => {
   const tokenPrice = TokenPrice.getInstance();
-  const tokenPriceList = await tokenPrice.getTokenPriceList();
-  const filteredList = filterTokensByAddresses(tokenPriceList, contractAddresses);
+  const filteredList = await getFilteredTokens(tokenPrice, contractAddresses);
 
   if (Object.keys(paginationOptions).length === 0) {
     return {
@@ -36,9 +35,20 @@ export const list = async (
   };
 };
 
-const filterTokensByAddresses = (tokenList: Token[], contractAddresses: string[]) => {
+const getFilteredTokens = async (tokenPrice: TokenPrice, contractAddresses: string[]) => {
   if (contractAddresses.length === 0) {
-    return tokenList;
+    return await tokenPrice.getTokenPriceList();
   }
-  return tokenList.filter((token) => contractAddresses.includes(token.contractAddress));
+
+  const tokenPriceMap = await tokenPrice.getTokenPriceMap();
+  const filteredTokens: Token[] = [];
+
+  for (const address of contractAddresses) {
+    const token = tokenPriceMap.get(address);
+    if (token) {
+      filteredTokens.push(token);
+    }
+  }
+
+  return filteredTokens;
 };
