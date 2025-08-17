@@ -131,3 +131,4 @@ This document explains the overall system design of intmax2-function. It covers 
 
 - [SYSTEM Design](./docs/SYSTEM_DESIGN.md)
 - [API Usage](./docs/API.md)
+- [ENV](./packages/shared/src/config/index.ts)
