@@ -1,11 +1,13 @@
-import { logger, TokenMap, type TokenMapData } from "@intmax2-function/shared";
+import { logger, TokenMap, type TokenMapInput, TokenType } from "@intmax2-function/shared";
 
-const data: TokenMapData[] = [
+const data: TokenMapInput[] = [
   {
     tokenIndex: 0,
+    tokenId: 0n,
+    tokenType: TokenType.NATIVE,
+    contractAddress: "0x0000000000000000000000000000000000000000",
     symbol: "ETH",
     decimals: 18,
-    contractAddress: "0x0000000000000000000000000000000000000000",
   },
 ];
 
