@@ -37,7 +37,7 @@ export class TokenPrice {
       }
 
       this.tokenPriceList = tokenList;
-      this.tokenPriceMap = new Map(tokenList.map((token) => [token.id, token]));
+      this.tokenPriceMap = new Map(tokenList.map((token) => [token.contractAddress, token]));
       logger.info(`Successfully fetched ${tokenList.length} tokens`);
 
       this.clearRetryTimeout();
