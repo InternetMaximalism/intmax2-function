@@ -1,7 +1,7 @@
 import type { DocumentReference, Query } from "@google-cloud/firestore";
 import { FIRESTORE_COLLECTIONS, FIRESTORE_MAX_BATCH_SIZE } from "../constants";
 import { AppError, ErrorCode, logger } from "../lib";
-import type { FirestoreDocumentKey, IndexerFilter, IndexerInfo } from "../types";
+import type { FirestoreDocumentKey, IndexerFilter, IndexerInfo, IndexerStatus } from "../types";
 import { db } from "./firestore";
 
 export class BaseIndexer {
@@ -85,6 +85,53 @@ export class BaseIndexer {
         ErrorCode.INTERNAL_SERVER_ERROR,
         "Failed to update indexer active status",
       );
+    }
+  }
+
+  async updateIndexerStates(indexerStates: IndexerStatus[]) {
+    const indexerCollection = this.indexerDocRef.collection("addresses");
+
+    try {
+      await this.db.runTransaction(async (transaction) => {
+        const addressesToUpdate = indexerStates.map((state) => state.address);
+
+        if (addressesToUpdate.length === 0) {
+          logger.info("No indexers to update");
+          return;
+        }
+
+        const updatePromises = indexerStates.map(async (state) => {
+          const docRef = indexerCollection.doc(state.address);
+          const docSnapshot = await transaction.get(docRef);
+
+          if (docSnapshot.exists) {
+            transaction.update(docRef, {
+              active: state.active,
+              updatedAt: new Date(),
+            });
+          } else {
+            transaction.set(docRef, {
+              active: state.active,
+              address: state.address,
+              updatedAt: new Date(),
+            });
+          }
+        });
+
+        await Promise.all(updatePromises);
+
+        const activeCount = indexerStates.filter((state) => state.active).length;
+        logger.info(
+          `Updated ${indexerStates.length} indexers' status. Set ${activeCount} to active.`,
+        );
+      });
+
+      // this.invalidateCache();
+    } catch (error) {
+      logger.error(
+        `Failed to update indexer states: ${error instanceof Error ? error.message : error}`,
+      );
+      throw new AppError(500, ErrorCode.INTERNAL_SERVER_ERROR, "Failed to update indexer states");
     }
   }
 

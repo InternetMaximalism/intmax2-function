@@ -29,3 +29,8 @@ export interface BuilderFeeInfoResponse {
   registrationCollateralFee: TokenFee[] | null;
   nonRegistrationCollateralFee: TokenFee[] | null;
 }
+
+export interface IndexerStatus {
+  active: boolean;
+  address: string;
+}

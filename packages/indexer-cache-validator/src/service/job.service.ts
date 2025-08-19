@@ -23,7 +23,12 @@ export const performJob = async (): Promise<void> => {
     addresses: indexerInfo.map(({ address }) => address),
   });
   const activeIndexers = await processMonitor(indexers);
-  await indexerInstance.syncIndexerActiveStates(activeIndexers.map((indexer) => indexer.address));
+
+  const indexerStates = indexerInfo.map((indexer) => ({
+    address: indexer.address,
+    active: activeIndexers.some((activeIndexer) => activeIndexer.address === indexer.address),
+  }));
+  await indexerInstance.updateIndexerStates(indexerStates);
 
   if (activeIndexers.length === 0) {
     await cache.del(CACHE_KEYS.BLOCK_BUILDER_INDEXER_LIST);
