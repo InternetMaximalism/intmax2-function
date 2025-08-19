@@ -56,13 +56,12 @@ curl "$ENDPOINT/v1/map/sampledigest123" | jq
 
 List endpoints support **cursor-based pagination**
 
-#### Request Parameters
+#### Request Common Parameters
 
 | Parameter | Type   | Required | Description                                                           |
 | --------- | ------ | -------- | --------------------------------------------------------------------- |
-| `perPage` | number | No       | Number of items per page (1–250). Defaults to **50** if not provided. |
+| `pageSize` | number | No       | Number of items per page (1–250). Defaults to **100** if not provided. |
 | `cursor`  | string | No       | Cursor for pagination (for cursor-based endpoints).                   |
-| `page`    | number | No       | Page number for standard pagination (for some endpoints).             |
 
 #### Success Response
 
@@ -159,13 +158,11 @@ List all active block builder nodes.
 
 **Response Fields**
 
-| Field           | Type   | Description                                    |
-| --------------- | ------ | ---------------------------------------------- |
-| `address`       | string | Block builder address (hex string)            |
-| `url`           | string | Block builder endpoint URL                     |
-| `status`        | string | Builder status (`active`, `inactive`)         |
-| `lastHeartbeat` | string | ISO 8601 timestamp of last heartbeat          |
-| `version`       | string | Block builder version                          |
+| Field     | Type   | Description                        |
+| --------- | ------ | ---------------------------------- |
+| `address` | string | Block builder address (hex string) |
+| `url`     | string | Block builder endpoint URL         |
+
 
 ### GET /v1/indexer/builders/meta
 
@@ -181,14 +178,9 @@ Get block builder metadata and configuration.
 
 **Response Fields**
 
-| Field             | Type   | Description                                    |
-| ----------------- | ------ | ---------------------------------------------- |
-| `totalBuilders`   | number | Total number of registered builders            |
-| `activeBuilders`  | number | Number of currently active builders            |
-| `networkInfo`     | object | Network configuration information              |
-| `chainId`         | number | Blockchain network chain ID                    |
-| `network`         | string | Network name                                   |
-| `registryContract`| string | Block builder registry contract address       |
+| Field   | Type   | Description                               |
+| ------- | ------ | ----------------------------------------- |
+| `total` | number | Total number of registered block builders |
 
 ### GET /v1/indexer/builders/registration/{address}
 
@@ -208,12 +200,10 @@ Check registration status for a specific block builder address.
 
 **Response Fields**
 
-| Field                    | Type    | Description                                  |
-| ------------------------ | ------- | -------------------------------------------- |
-| `address`                | string  | Block builder address                        |
-| `isRegistered`           | boolean | Whether the builder is registered            |
-| `registrationTimestamp`  | string  | ISO 8601 timestamp of registration          |
-| `status`                 | string  | Current registration status                  |
+| Field        | Type    | Description                       |
+| ------------ | ------- | --------------------------------- |
+| `ready`      | boolean | Whether the builder is ready      |
+| `registered` | boolean | Whether the builder is registered |
 
 ### GET /v1/proxy/meta
 
@@ -223,6 +213,7 @@ Get proxy metadata and configuration.
 
 ```json
 {
+    "targetNetwork": "mainnet",
     "domain": "proxy.builder.intmax.io",
     "maxFee": "2500000000000",
     "minVersion": "0.1.34",
@@ -233,12 +224,14 @@ Get proxy metadata and configuration.
 
 **Response Fields**
 
-| Field               | Type   | Description                           |
-| ------------------- | ------ | ------------------------------------- |
-| `version`           | string | Proxy service version                 |
-| `domain`            | string | Proxy domain configuration            |
-| `supportedNetworks` | array  | List of supported blockchain networks |
-| `endpoints`         | object | Available proxy endpoints             |
+| Field           | Type   | Description                               |
+| --------------- | ------ | ----------------------------------------- |
+| `targetNetwork` | string | Target blockchain network (e.g., mainnet) |
+| `domain`        | string | Proxy domain configuration                |
+| `maxFee`        | string | Maximum fee amount allowed (wei)          |
+| `minVersion`    | string | Minimum supported client version          |
+| `token`         | string | Authentication token for proxy access     |
+| `version`       | string | Proxy service version                     |
 
 ## Token Service
 
@@ -248,7 +241,7 @@ List token prices with optional filtering.
 
 **Query Parameters:**
 - `contractAddresses` (optional): Filter by contract addresses (can be multiple)
-- `perPage` (optional): Items per page (1-250, default: 50)
+- `pageSize` (optional): Items per page (1-250, default: 100)
 - `cursor` (optional): Pagination cursor
 
 **Examples:**
@@ -269,9 +262,17 @@ curl "$ENDPOINT/v1/token-prices/list?contractAddresses=0x92d6c1e31e14520e676a687
       "contractAddress": "0x92d6c1e31e14520e676a687f0a93788b716beff5",
       "decimals": 6,
       "id": "USDC",
-      "image": "https://...",
-      "price": ,
-      "symbol": "USDC",
+      "image": "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png",
+      "price": "1.000000",
+      "symbol": "USDC"
+    },
+    {
+      "contractAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "decimals": 6,
+      "id": "USDT",
+      "image": "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png",
+      "price": "0.999800",
+      "symbol": "USDT"
     }
   ],
   "totalCount": 100,
@@ -282,17 +283,14 @@ curl "$ENDPOINT/v1/token-prices/list?contractAddresses=0x92d6c1e31e14520e676a687
 
 **Response Fields**
 
-| Field             | Type   | Description                                    |
-| ----------------- | ------ | ---------------------------------------------- |
-| `contractAddress` | string | Token contract address (hex string)           |
-| `tokenSymbol`     | string | Token symbol (e.g., USDC, ETH)                |
-| `tokenName`       | string | Token full name                                |
-| `decimals`        | number | Number of decimal places                       |
-| `priceUsd`        | string | Token price in USD (string for precision)     |
-| `priceEth`        | string | Token price in ETH (string for precision)     |
-| `lastUpdated`     | string | ISO 8601 timestamp of last price update       |
-| `volume24h`       | string | 24-hour trading volume in USD                 |
-| `marketCap`       | string | Market capitalization in USD                  |
+| Field             | Type    | Description                                   |
+| ----------------- | ------- | --------------------------------------------- |
+| `contractAddress` | string  | Token contract address (hex string)           |
+| `decimals`        | number  | Number of decimal places                      |
+| `id`              | string  | Token identifier (e.g., USDC, USDT)           |
+| `image`           | string  | URL of the token logo image                   |
+| `price`           | string  | Token price in USD (string for precision)     |
+| `symbol`          | string  | Token symbol (short ticker, e.g., USDC, USDT) |
 
 ### GET /v1/token-maps/list
 
@@ -300,7 +298,7 @@ List token mappings with INTMAX2 tokenIndex associations.
 
 **Query Parameters:**
 - `tokenIndexes` (optional): Filter by token indexes (can be multiple)
-- `perPage` (optional): Items per page (1-250, default: 50)
+- `perPage` (optional): Items per page (1-250, default: 100)
 - `cursor` (optional): Pagination cursor
 
 **Examples:**
@@ -320,11 +318,20 @@ curl "$ENDPOINT/v1/token-maps/list?tokenIndexes=1&tokenIndexes=2&perPage=2" | jq
     {
       "contractAddress": "0x92d6c1e31e14520e676a687f0a93788b716beff5",
       "decimals": 6,
-      "image": "https://...",
-      "price": ,
+      "image": "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png",
+      "price": "1.000000",
       "symbol": "USDC",
       "tokenIndex": 10,
-      "tokenType": 2,
+      "tokenType": 2
+    },
+    {
+      "contractAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "decimals": 6,
+      "image": "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png",
+      "price": "0.999800",
+      "symbol": "USDT",
+      "tokenIndex": 11,
+      "tokenType": 2
     }
   ],
   "totalCount": 50,
@@ -335,17 +342,15 @@ curl "$ENDPOINT/v1/token-maps/list?tokenIndexes=1&tokenIndexes=2&perPage=2" | jq
 
 **Response Fields**
 
-| Field             | Type    | Description                                    |
-| ----------------- | ------- | ---------------------------------------------- |
-| `tokenIndex`      | number  | INTMAX2 token index identifier                 |
-| `contractAddress` | string  | Token contract address on origin network       |
-| `tokenSymbol`     | string  | Token symbol                                   |
-| `tokenName`       | string  | Token full name                                |
-| `decimals`        | number  | Number of decimal places                       |
-| `network`         | string  | Origin network (ethereum, scroll, etc.)       |
-| `bridgedAt`       | string  | ISO 8601 timestamp when first bridged         |
-| `totalBridged`    | string  | Total amount bridged to INTMAX2 network       |
-| `isActive`        | boolean | Whether the token is currently active          |
+| Field             | Type    | Description                                         |
+| ----------------- | ------- | --------------------------------------------------- |
+| `contractAddress` | string  | Token contract address (hex string)                 |
+| `decimals`        | number  | Number of decimal places                            |
+| `image`           | string  | URL of the token logo image                         |
+| `price`           | string  | Token price in USD (string for precision)           |
+| `symbol`          | string  | Token symbol (e.g., USDC, USDT)                     |
+| `tokenIndex`      | number  | INTMAX2 token index identifier                      |
+| `tokenType`       | number  | Token type identifier (e.g., 1 = native, 2 = ERC20) |
 
 ## Predicate Service
 
@@ -357,51 +362,49 @@ Evaluate anti-money laundering (AML) policies for transaction validation.
 
 ```json
 {
-  "policy": "sample_policy_data",
-  "transactionData": {
-    "from": "0x1234567890123456789012345678901234567890",
-    "to": "0x9876543210987654321098765432109876543210",
-    "amount": "1000000000000000000",
-    "tokenAddress": "0x92d6c1e31e14520e676a687f0a93788b716beff5"
-  }
+  "from": "0x1234567890123456789012345678901234567890",
+  "to": "0x9876543210987654321098765432109876543210",
+  "data": "0xa9059cbb00000000000000000000000092d6c1e31e14520e676a687f0a93788b716beff50000000000000000000000000000000000000000000000000de0b6b3a7640000",
+  "msg_value": "0"
 }
 ```
 
 **Request Fields**
 
-| Field             | Type   | Description                          |
-| ----------------- | ------ | ------------------------------------ |
-| `policy`          | string | AML policy identifier or data        |
-| `transactionData` | object | Transaction data to evaluate         |
-| `from`            | string | Sender address                       |
-| `to`              | string | Recipient address                    |
-| `amount`          | string | Transaction amount in wei            |
-| `tokenAddress`    | string | Token contract address (optional)    |
+| Field       | Type   | Description                                                             |
+| ----------- | ------ | ----------------------------------------------------------------------- |
+| `from`      | string | Sender address (hex string)                                             |
+| `to`        | string | Recipient address (hex string)                                          |
+| `data`      | string | Encoded transaction calldata (e.g., ERC20 transfer function call)       |
+| `msg_value` | string | Transaction value in wei (for native currency transfers, usually `"0"`) |
 
 **Response:**
 
 ```json
 {
-  "policyResult": "approved",
-  "riskScore": 0.15,
-  "reasons": [
-    "Low transaction amount",
-    "Addresses not on watchlist"
+  "is_compliant": true,
+  "task_id": "task_1234567890abcdef",
+  "expiry_block": 19500000,
+  "signers": [
+    "0x1234567890abcdef1234567890abcdef12345678",
+    "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd"
   ],
-  "requiresManualReview": false,
-  "evaluatedAt": "2025-08-19T10:00:00.000Z"
+  "signature": [
+    "0xa1b2c3d4e5f600112233445566778899aabbccddeeff00112233445566778899",
+    "0xb1c2d3e4f5a600112233445566778899aabbccddeeff001122334455667788aa"
+  ]
 }
 ```
 
 **Response Fields**
 
-| Field                  | Type     | Description                                         |
-| ---------------------- | -------- | --------------------------------------------------- |
-| `policyResult`         | string   | Evaluation result (`approved`, `rejected`, `review`) |
-| `riskScore`            | number   | Risk score (0.0 - 1.0, lower is safer)             |
-| `reasons`              | string[] | Array of evaluation reasons                         |
-| `requiresManualReview` | boolean  | Whether manual review is required                   |
-| `evaluatedAt`          | string   | ISO 8601 timestamp of evaluation                   |
+| Field          | Type      | Description                                                   |
+| -------------- | --------- | ------------------------------------------------------------- |
+| `is_compliant` | boolean   | Whether the transaction complies with the policy              |
+| `task_id`      | string    | Unique identifier of the evaluation/signing task              |
+| `expiry_block` | number    | Block height until which the result/signature remains valid   |
+| `signers`      | string[] | Addresses of signers who approved/signed the predicate        |
+| `signature`    | string[] | Signatures (hex strings) corresponding to the `signers` array |
 
 ## TX-Map Service
 
@@ -431,9 +434,7 @@ Store a temporary key-value mapping with expiration.
 
 ```json
 {
-  "digest": "sampledigest123",
-  "stored": true,
-  "expiresAt": "2025-08-19T10:05:00.000Z"
+  "digest": "sampledigest123"
 }
 ```
 
@@ -442,8 +443,6 @@ Store a temporary key-value mapping with expiration.
 | Field       | Type    | Description                                  |
 | ----------- | ------- | -------------------------------------------- |
 | `digest`    | string  | The stored key/digest                        |
-| `stored`    | boolean | Whether the data was successfully stored     |
-| `expiresAt` | string  | ISO 8601 timestamp when the data expires    |
 
 ### GET /v1/map/{digest}
 
@@ -459,7 +458,6 @@ Retrieve a stored mapping by its digest.
   "digest": "sampledigest123",
   "data": "sampledata456",
   "expiresAt": "2025-08-19T10:05:00.000Z",
-  "createdAt": "2025-08-19T10:00:00.000Z"
 }
 ```
 
@@ -470,18 +468,13 @@ Retrieve a stored mapping by its digest.
 | `digest`    | string | The key/digest                            |
 | `data`      | string | The stored data                           |
 | `expiresAt` | string | ISO 8601 timestamp when data expires     |
-| `createdAt` | string | ISO 8601 timestamp when data was created |
 
 ## Data Types
 
-### Builder Status
-- `active`: Builder is operational and responding to heartbeats
-- `inactive`: Builder has not sent heartbeat within 24 hours or failed health checks
+### Builder Flags
 
-### Policy Results
-- `approved`: Transaction passes all AML checks
-- `rejected`: Transaction fails AML policy evaluation
-- `review`: Transaction requires manual review
+- ready: Builder is active as an indexer and fully prepared to operate
+- registered: Builder is registered on-chain in the registry contract
 
 ### Network Types
 - `ethereum`: Ethereum mainnet
@@ -489,28 +482,34 @@ Retrieve a stored mapping by its digest.
 
 ## Rate Limiting
 
-The API enforces rate limiting to ensure fair usage. Rate limits may vary by:
+The API enforces rate limiting to ensure fair usage.
+Rate limits may vary depending on:
+
 - Endpoint type
-- Service tier
 - Authentication status
+- API key tier
 
-### Rate Limit Headers
+### Rate Limit Header
 
-Rate limit information is provided in response headers:
+Rate limit information is provided in a **single `ratelimit` header** with three key-value pairs:
 
-| Header              | Description                                      |
-| ------------------- | ------------------------------------------------ |
-| `X-RateLimit-Limit` | Maximum requests allowed in the time window     |
-| `X-RateLimit-Remaining` | Remaining requests in the current window     |
-| `X-RateLimit-Reset` | Time when the current window resets (Unix timestamp) |
+| Field       | Type   | Description                                                                 |
+| ----------- | ------ | --------------------------------------------------------------------------- |
+| `limit`     | number | Maximum number of requests allowed in the current time window.              |
+| `remaining` | number | Number of requests still available in the current window.                   |
+| `reset`     | number | Time (in seconds) until the current rate limit window resets.               |
 
 ## Error Codes
 
-Common HTTP status codes:
+**Common HTTP status codes:**
 - `200`: Success
 - `400`: Bad Request (invalid parameters)
-- `401`: Unauthorized (missing or invalid API key)
 - `404`: Not Found (resource doesn't exist)
 - `429`: Too Many Requests (rate limit exceeded)
 - `500`: Internal Server Error
-- `503`: Service Unavailable
+
+**ErrorCode values:**
+* `BAD_REQUEST`: Bad Request (invalid parameters) — HTTP 400
+* `NOT_FOUND`: Not Found (resource doesn't exist) — HTTP 404
+* `INTERNAL_SERVER_ERROR`: Internal Server Error — HTTP 500
+* `VALIDATION_ERROR`: Validation Error (schema/business rule failed) — HTTP 400
