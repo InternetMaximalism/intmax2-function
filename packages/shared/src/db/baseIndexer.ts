@@ -1,4 +1,4 @@
-import type { DocumentReference, Query } from "@google-cloud/firestore";
+import type { DocumentReference, Query, QueryDocumentSnapshot } from "@google-cloud/firestore";
 import { FIRESTORE_COLLECTIONS, FIRESTORE_MAX_BATCH_SIZE } from "../constants";
 import { AppError, ErrorCode, logger } from "../lib";
 import type { FirestoreDocumentKey, IndexerFilter, IndexerInfo } from "../types";
@@ -60,10 +60,19 @@ export class BaseIndexer {
           return;
         }
 
+        const updates: {
+          doc: QueryDocumentSnapshot;
+          address: string;
+          isActive: boolean;
+        }[] = [];
         snapshot.forEach((doc) => {
           const address = doc.id;
           const isActive = activeIndexers.includes(address);
+          updates.push({ doc, address, isActive });
+        });
 
+        updates.forEach(({ doc, address, isActive }: any) => {
+          console.log("Updating:", address, "to", isActive);
           transaction.update(doc.ref, {
             active: isActive,
             updatedAt: new Date(),
