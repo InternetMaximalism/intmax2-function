@@ -42,7 +42,9 @@ export class BaseIndexer {
       await batch.commit();
       // this.invalidateCache();
     } catch (error) {
-      logger.error(error);
+      logger.error(
+        `Failed to add or update indexers: ${error instanceof Error ? error.message : error}`,
+      );
       throw new AppError(500, ErrorCode.INTERNAL_SERVER_ERROR, "Failed to add or update indexers");
     }
   }
@@ -75,7 +77,9 @@ export class BaseIndexer {
 
       // this.invalidateCache();
     } catch (error) {
-      logger.error(`Failed to update indexer active status: ${error}`);
+      logger.error(
+        `Failed to update indexer active status: ${error instanceof Error ? error.message : error}`,
+      );
       throw new AppError(
         500,
         ErrorCode.INTERNAL_SERVER_ERROR,
@@ -102,7 +106,7 @@ export class BaseIndexer {
 
       return indexers;
     } catch (error) {
-      logger.error(error);
+      logger.error(`Failed to list indexers: ${error instanceof Error ? error.message : error}`);
       throw new AppError(500, ErrorCode.INTERNAL_SERVER_ERROR, "Failed to list indexers");
     }
   }
@@ -139,7 +143,7 @@ export class BaseIndexer {
 
       return allItems;
     } catch (error) {
-      logger.error(error);
+      logger.error(`Failed to list indexers: ${error instanceof Error ? error.message : error}`);
       throw new AppError(
         500,
         ErrorCode.INTERNAL_SERVER_ERROR,

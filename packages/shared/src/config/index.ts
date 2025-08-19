@@ -37,6 +37,11 @@ export const config = cleanEnv(process.env, {
   // block builder
   BLOCK_BUILDER_URL: url({ devDefault: "http://localhost:3001" }),
   // proxy
+  BUILDER_TARGET_NETWORK: str({
+    choices: ["devnet", "testnet", "mainnet"],
+    default: "testnet",
+    desc: "Target network environment for the builder",
+  }),
   BLOCK_BUILDER_VERSION: str({ default: "0.0.0" }),
   PROXY_DOMAIN: str({ default: "localhost", desc: "" }),
   PROXY_FRP_TOKEN: str({ default: "dummy", desc: "" }),
