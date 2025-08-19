@@ -23,6 +23,7 @@ export const list = async (
     return {
       items: formatTokenMaps(tokenMaps, priceMap),
       nextCursor: null,
+      hasMore: false,
       total: tokenMaps.length,
     };
   }
@@ -35,10 +36,12 @@ export const list = async (
   );
   const items = tokenMaps.slice(startIndex, endIndex);
   const nextCursor = getNextCursor(items, tokenMaps.length, startIndex, perPage);
+  const hasMore = endIndex < tokenMaps.length;
 
   return {
     items: formatTokenMaps(items, priceMap),
     nextCursor,
+    hasMore,
     total: tokenMaps.length,
   };
 };
