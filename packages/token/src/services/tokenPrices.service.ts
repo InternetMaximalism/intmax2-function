@@ -14,6 +14,7 @@ export const list = async (
     return {
       items: filteredList,
       nextCursor: null,
+      hasMore: false,
       total: filteredList.length,
     };
   }
@@ -27,10 +28,12 @@ export const list = async (
 
   const items = filteredList.slice(startIndex, endIndex);
   const nextCursor = getNextCursor(items, filteredList.length, startIndex, perPage);
+  const hasMore = endIndex < filteredList.length;
 
   return {
     items,
     nextCursor,
+    hasMore,
     total: filteredList.length,
   };
 };
