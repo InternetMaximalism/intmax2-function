@@ -1,45 +1,33 @@
 import { Alchemy as AlchemyInstance, Network } from "alchemy-sdk";
 import { config } from "../config";
 import { logger } from "../lib";
+import type { NetworkLayer } from "../types";
 
 export class Alchemy {
-  private static instance: Alchemy | null = null;
+  private static instance: Alchemy | undefined;
   private alchemy: AlchemyInstance;
-  private networkKey = `${config.NETWORK_TYPE}-${config.NETWORK_ENVIRONMENT}`;
 
-  private constructor(apiKey = config.ALCHEMY_API_KEY) {
-    logger.debug(`Attempting to get alchemy network for: "${this.networkKey}"`);
+  public static getInstance(networkLayer: NetworkLayer) {
+    if (!this.instance) {
+      this.instance = new Alchemy(networkLayer);
+    }
+    return this.instance;
+  }
 
-    const network = this.getNetwork();
+  constructor(networkLayer: NetworkLayer) {
+    logger.debug(`Attempting to get alchemy network for: "${networkLayer}"`);
+    const network =
+      networkLayer === "l1"
+        ? Network[config.ALCHEMY_L1_NETWORK as keyof typeof Network]
+        : Network[config.ALCHEMY_L2_NETWORK as keyof typeof Network];
+
     const settings = {
-      apiKey: apiKey,
+      apiKey: config.ALCHEMY_API_KEY,
       network,
       maxRetries: 5,
     };
     this.alchemy = new AlchemyInstance({ ...settings });
   }
-
-  static getInstance(apiKey?: string): Alchemy {
-    if (!Alchemy.instance) {
-      Alchemy.instance = new Alchemy(apiKey);
-    }
-    return Alchemy.instance;
-  }
-
-  private getNetwork = () => {
-    switch (this.networkKey) {
-      case "ethereum-mainnet":
-        return Network.ETH_MAINNET;
-      case "ethereum-sepolia":
-        return Network.ETH_SEPOLIA;
-      case "scroll-mainnet":
-        return Network.SCROLL_MAINNET;
-      case "scroll-sepolia":
-        return Network.SCROLL_SEPOLIA;
-      default:
-        throw new Error(`Unsupported network: ${this.networkKey}. Please check the configuration.`);
-    }
-  };
 
   async getBlock(blockNumber: bigint) {
     const blockHashOrBlockTag = `0x${Number(blockNumber).toString(16)}`;

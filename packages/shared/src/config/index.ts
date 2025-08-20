@@ -1,5 +1,6 @@
 import { bool, cleanEnv, json, num, str, url } from "envalid";
 import { version } from "../../../../package.json";
+import { rpcUrls } from "./validator";
 
 export const config = cleanEnv(process.env, {
   // app
@@ -45,19 +46,14 @@ export const config = cleanEnv(process.env, {
   BLOCK_BUILDER_VERSION: str({ default: "0.0.0" }),
   PROXY_DOMAIN: str({ default: "localhost", desc: "" }),
   PROXY_FRP_TOKEN: str({ default: "dummy", desc: "" }),
-  // network
-  NETWORK_TYPE: str({
-    choices: ["ethereum", "scroll"],
-    default: "ethereum",
-    desc: "The type of blockchain network to connect to",
-  }),
-  NETWORK_ENVIRONMENT: str({
-    choices: ["mainnet", "sepolia"],
-    default: "sepolia",
-    desc: "The environment of the blockchain network to connect to",
-  }),
   // blockchain
-  ALCHEMY_API_KEY: str({ devDefault: "dummy" }),
+  L1_CHAIN: str({ default: "sepolia" }),
+  L2_CHAIN: str({ default: "scrollSepolia" }),
+  L1_RPC_URLS: rpcUrls(),
+  L2_RPC_URLS: rpcUrls(),
+  ALCHEMY_API_KEY: str(),
+  ALCHEMY_L1_NETWORK: str({ default: "eth-sepolia" }),
+  ALCHEMY_L2_NETWORK: str({ default: "scroll-sepolia" }),
   TRANSACTION_WAIT_TRANSACTION_TIMEOUT: num({ default: 30_000 }),
   TRANSACTION_INCREMENT_RATE: num({
     default: 0.3,

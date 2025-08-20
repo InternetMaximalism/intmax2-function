@@ -1,7 +1,8 @@
-import { createWalletClient, http } from "viem";
+import { createWalletClient, fallback } from "viem";
 import { mnemonicToAccount, privateKeyToAccount } from "viem/accounts";
 import { config } from "../config";
-import { networkConfig } from "./network";
+import type { NetworkLayer } from "./../types/blockchain";
+import { getClientConfig } from "./client";
 
 type MockWalletType = "mockMessenger";
 
@@ -26,7 +27,7 @@ const walletConfigs: Record<WalletType, number> = {
 
 export const getMockWalletClient = (
   type: MockWalletType,
-  network: "ethereum" | "scroll",
+  networkLayer: NetworkLayer,
 ): {
   account: ReturnType<typeof privateKeyToAccount>;
   walletClient: ReturnType<typeof createWalletClient>;
@@ -34,12 +35,14 @@ export const getMockWalletClient = (
   const privateKey = mockWalletConfigs[type];
   const account = privateKeyToAccount(privateKey);
 
-  const { chain, rpcUrl } = networkConfig[network][config.NETWORK_ENVIRONMENT];
+  const { chain, rpcUrls } = getClientConfig(networkLayer);
 
   const client = createWalletClient({
     account,
     chain,
-    transport: http(rpcUrl),
+    transport: fallback(rpcUrls, {
+      retryCount: 3,
+    }),
   });
 
   return {
@@ -50,7 +53,7 @@ export const getMockWalletClient = (
 
 export const getWalletClient = (
   type: WalletType,
-  network: "ethereum" | "scroll",
+  networkLayer: NetworkLayer,
 ): {
   account: ReturnType<typeof mnemonicToAccount>;
   walletClient: ReturnType<typeof createWalletClient>;
@@ -64,12 +67,14 @@ export const getWalletClient = (
     addressIndex,
   });
 
-  const { chain, rpcUrl } = networkConfig[network][config.NETWORK_ENVIRONMENT];
+  const { chain, rpcUrls } = getClientConfig(networkLayer);
 
   const client = createWalletClient({
     account,
     chain,
-    transport: http(rpcUrl),
+    transport: fallback(rpcUrls, {
+      retryCount: 3,
+    }),
   });
 
   return {
