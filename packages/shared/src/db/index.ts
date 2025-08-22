@@ -4,3 +4,4 @@ export * from "./indexer";
 export * from "./mintEvent";
 export * from "./tokenMap";
 export * from "./txMap";
+export * from "./bridgeTransaction";
