@@ -18,6 +18,7 @@ export const FIRESTORE_COLLECTIONS = {
   TX_MAPS: "txMaps",
   TOKEN_MAPS: "tokenMaps",
   MINTER_EVENTS: "minterEvents",
+  BRIDGE_TRANSACTIONS: "bridgeTransactions",
 } as const;
 
 export const FIRESTORE_DOCUMENTS = {

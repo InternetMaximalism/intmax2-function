@@ -2,9 +2,10 @@ import {
   BASE_BRIDGE_O_APP_CONTRACT_ADDRESS,
   BASE_BRIDGE_O_APP_CONTRACT_DEPLOYED_BLOCK,
   BLOCK_RANGE_TINY,
+  type BridgeRequestedEvent,
+  BridgeTransaction,
   bridgeRequestedEvent,
   createNetworkClient,
-  type DepositEvent,
   Event,
   type EventData,
   FIRESTORE_DOCUMENT_EVENTS,
@@ -42,7 +43,7 @@ const processBridgeMonitor = async (
     return;
   }
 
-  const bridgeRequestedEvents = await fetchEvents<DepositEvent>(l2Client, {
+  const bridgeRequestedEvents = await fetchEvents<BridgeRequestedEvent>(l2Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_TINY,
@@ -50,7 +51,12 @@ const processBridgeMonitor = async (
     eventInterface: bridgeRequestedEvent,
   });
 
-  console.log("bridgeRequestedEvents:", bridgeRequestedEvents);
+  const bridgeRequestedInputs = bridgeRequestedEvents.map((event) => ({
+    guid: event.args.receipt.guid,
+    nonce: Number(event.args.receipt.nonce),
+  }));
+
+  await BridgeTransaction.getInstance().saveBridgeTransactionsBatch(bridgeRequestedInputs);
 
   await updateEventState(event, currentBlockNumber);
 };

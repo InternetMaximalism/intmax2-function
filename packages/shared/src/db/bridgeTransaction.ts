@@ -1,7 +1,12 @@
 import type { CollectionReference, Query } from "@google-cloud/firestore";
 import { FIRESTORE_COLLECTIONS, FIRESTORE_MAX_BATCH_SIZE } from "../constants";
 import { AppError, ErrorCode, logger } from "../lib";
-import type { TokenMapData, TokenMapFilter, TokenMapInput } from "../types";
+import {
+  type BridgeTransactionData,
+  type BridgeTransactionFilter,
+  type BridgeTransactionInput,
+  BridgeTransactionStatus,
+} from "../types";
 import { db } from "./firestore";
 
 export class BridgeTransaction {
@@ -12,7 +17,7 @@ export class BridgeTransaction {
   protected readonly defaultOrderDirection = "asc";
 
   constructor() {
-    this.collection = db.collection(FIRESTORE_COLLECTIONS.TOKEN_MAPS);
+    this.collection = db.collection(FIRESTORE_COLLECTIONS.BRIDGE_TRANSACTIONS);
   }
 
   public static getInstance() {
@@ -22,7 +27,7 @@ export class BridgeTransaction {
     return BridgeTransaction.instance;
   }
 
-  async saveTokenMapsBatch(inputs: TokenMapInput[]) {
+  async saveBridgeTransactionsBatch(inputs: BridgeTransactionInput[]) {
     const batches = [];
     const now = new Date();
 
@@ -32,12 +37,13 @@ export class BridgeTransaction {
         const batchInputs = inputs.slice(i, i + FIRESTORE_MAX_BATCH_SIZE);
 
         for (const input of batchInputs) {
-          const ref = this.collection.doc(input.tokenIndex.toString());
+          const ref = this.collection.doc();
 
           batch.set(
             ref,
             {
               ...input,
+              status: BridgeTransactionStatus.QUEUED,
               createdAt: now,
             },
             { merge: false },
@@ -84,7 +90,7 @@ export class BridgeTransaction {
 
         const snapshot = await batchQuery.get();
         const batchItems = snapshot.docs.map((doc) => {
-          return { ...doc.data() } as TokenMapData;
+          return { ...doc.data() } as BridgeTransactionData;
         });
 
         allItems.push(...batchItems);
@@ -106,7 +112,7 @@ export class BridgeTransaction {
     }
   }
 
-  async fetchTokenMaps(filter?: TokenMapFilter) {
+  async fetchBridgeTransactions(filter?: BridgeTransactionFilter) {
     return this.list((query) => {
       let modified = query;
       if (filter?.tokenIndexes) {
@@ -116,7 +122,7 @@ export class BridgeTransaction {
     });
   }
 
-  async fetchAllTokenMaps() {
+  async fetchAllBridgeTransactions() {
     return this.list();
   }
 }

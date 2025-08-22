@@ -1988,7 +1988,6 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft

@@ -1,4 +1,5 @@
 export * from "./blockchain";
+export * from "./bridgeTransaction";
 export * from "./event";
 export * from "./indexer";
 export * from "./mintEvent";
