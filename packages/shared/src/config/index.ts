@@ -77,6 +77,8 @@ export const config = cleanEnv(process.env, {
   ROLLUP_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
   MINTER_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
   MINTER_CONTRACT_DEPLOYED_BLOCK: num({ devDefault: 0 }),
+  BASE_BRIDGE_O_APP_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
+  BASE_BRIDGE_O_APP_CONTRACT_DEPLOYED_BLOCK: num({ devDefault: 0 }),
   // messenger contract
   L1_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ default: "0x" }),

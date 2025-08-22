@@ -32,7 +32,7 @@ export const transferredToLiquidityEvent = parseAbiItem(
 );
 
 export const bridgeRequestedEvent = parseAbiItem(
-  "event BridgeRequested(address indexed recipient, uint256 amount, address indexed user, tuple(bytes32 guid, uint64 nonce, tuple(uint256 nativeFee, uint256 lzTokenFee) fee) receipt)",
+  "event BridgeRequested(address indexed recipient, uint256 amount, address indexed user, (bytes32 guid, uint64 nonce, (uint256 nativeFee, uint256 lzTokenFee) fee) receipt)",
 );
 
 export const getEventLogs = async (

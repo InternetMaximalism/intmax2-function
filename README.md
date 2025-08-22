@@ -74,7 +74,6 @@ gcloud emulators firestore start
 
 # Set the FIRESTORE_EMULATOR_HOST variable in the same terminal where you will run your application.
 export FIRESTORE_EMULATOR_HOST="HOST:PORT"
-export FIRESTORE_EMULATOR_HOST="HOST:PORT" # We will use what is displayed in the console.
 ```
 
 ## Docker
