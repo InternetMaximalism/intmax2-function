@@ -16,13 +16,13 @@ import { relayMessageWithProof } from "./submit.service";
 
 /*
 // NOTE: invoke this function in the main function
-// await filterWithdrawalClaimableEvents(ethereumClient, sentMessages);
+// await filterWithdrawalClaimableEvents(l1Client, sentMessages);
 */
 export const filterWithdrawalClaimableEvents = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   sentMessages: SentMessageEventLog[],
 ) => {
-  const currentBlockNumber = await ethereumClient.getBlockNumber();
+  const currentBlockNumber = await l1Client.getBlockNumber();
   const sentMessagesWithClaimables = [];
   const withdrawalHashes = [];
   for (const sentMessage of sentMessages) {
@@ -41,7 +41,7 @@ export const filterWithdrawalClaimableEvents = async (
   }
 
   const pendingWithdrawalHashes = await fetchPendingWithdrawalHashes(
-    ethereumClient,
+    l1Client,
     startBlockNumber,
     currentBlockNumber,
     withdrawalHashes,
@@ -52,7 +52,7 @@ export const filterWithdrawalClaimableEvents = async (
     if (pendingWithdrawals.length > 0) {
       const calldataBatch = processBatchedCalldata(pendingWithdrawals);
       for (const calldata of calldataBatch) {
-        await relayMessageWithProof(ethereumClient, {
+        await relayMessageWithProof(l1Client, {
           ...sentMessage,
           message: calldata.encodedCalldata,
         });

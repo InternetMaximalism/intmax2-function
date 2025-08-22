@@ -7,7 +7,7 @@ import {
 import { BATCH_SIZE } from "../constants";
 
 export const processIndexer = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l2Client: ReturnType<typeof createNetworkClient>,
   events: BlockBuilderHeartbeatEvent[],
 ) => {
   const lastIndexerEvents = events.reduce((acc, event) => {
@@ -24,7 +24,7 @@ export const processIndexer = async (
   for (let i = 0; i < indexerEvents.length; i += BATCH_SIZE) {
     const batch = indexerEvents.slice(i, i + BATCH_SIZE);
     const indexerPromises = batch.map(async (event) => {
-      const block = await ethereumClient.getBlock({
+      const block = await l2Client.getBlock({
         blockHash: event.blockHash as `0x${string}`,
       })!;
       if (!block) {

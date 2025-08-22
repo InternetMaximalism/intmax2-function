@@ -13,11 +13,11 @@ import { getL2SentMessage } from "./event.service";
 import { relayMessageWithProof } from "./submit.service";
 
 export const performJob = async (): Promise<void> => {
-  const scrollClient = createNetworkClient("scroll");
+  const l2Client = createNetworkClient("l2");
   const event = new Event(FIRESTORE_DOCUMENT_EVENTS.MOCK_L2_SENT_MESSAGE);
 
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
-    await scrollClient.getBlockNumber(),
+    await l2Client.getBlockNumber(),
     await event.getEvent<EventData>(),
   ]);
 
@@ -31,15 +31,16 @@ export const performJob = async (): Promise<void> => {
     return;
   }
 
-  const sentMessages = await getL2SentMessage(scrollClient, startBlockNumber, currentBlockNumber);
+  const sentMessages = await getL2SentMessage(l2Client, startBlockNumber, currentBlockNumber);
   logger.info(`New sentMessages events: ${sentMessages.length}`);
-  const ethereumClient = createNetworkClient("ethereum");
+
+  const l1Client = createNetworkClient("l1");
 
   for (const sendMessage of sentMessages) {
     const calldataBatch = await generateCalldata(sendMessage);
 
     for (const calldata of calldataBatch) {
-      await relayMessageWithProof(ethereumClient, {
+      await relayMessageWithProof(l1Client, {
         ...sendMessage,
         message: calldata.encodedCalldata,
       });

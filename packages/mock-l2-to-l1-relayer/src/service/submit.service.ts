@@ -30,10 +30,10 @@ import { ethers } from "ethers";
 import { type Abi, type PublicClient, toHex } from "viem";
 
 export const relayMessageWithProof = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   sendMessage: SentMessageEventLog,
 ) => {
-  const walletClientData = getMockWalletClient("mockMessenger", "ethereum");
+  const walletClientData = getMockWalletClient("mockMessenger", "l1");
 
   const retryOptions: RetryOptions = {
     maxFeePerGas: null,
@@ -47,7 +47,7 @@ export const relayMessageWithProof = async (
       const multiplier = calculateGasMultiplier(attempt);
 
       const { transactionHash } = await submitMessageToScroll(
-        ethereumClient,
+        l1Client,
         walletClientData,
         MockL1ScrollMessengerAbi as Abi,
         input,
@@ -56,7 +56,7 @@ export const relayMessageWithProof = async (
       );
 
       const receipt = await ethersWaitForTransactionConfirmation(
-        ethereumClient,
+        l1Client,
         transactionHash,
         "withdraw",
         {
@@ -97,7 +97,7 @@ export const relayMessageWithProof = async (
 };
 
 export const submitMessageToScroll = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   walletClientData: ReturnType<typeof getMockWalletClient>,
   abi: Abi,
   input: ReturnType<typeof formatInput>,
@@ -113,8 +113,8 @@ export const submitMessageToScroll = async (
   };
 
   const [{ pendingNonce, currentNonce }, gasPriceData] = await Promise.all([
-    getNonce(ethereumClient, walletClientData.account.address),
-    getEthersMaxGasMultiplier(ethereumClient, multiplier),
+    getNonce(l1Client, walletClientData.account.address),
+    getEthersMaxGasMultiplier(l1Client, multiplier),
   ]);
 
   let { maxFeePerGas, maxPriorityFeePerGas } = gasPriceData;
@@ -144,7 +144,7 @@ export const submitMessageToScroll = async (
     maxPriorityFeePerGas,
   };
 
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
   const signer = new ethers.Wallet(config.MOCK_MESSENGER_PRIVATE_KEY, provider);
   toHex;
   const contract = MockL1ScrollMessenger__factory.connect(

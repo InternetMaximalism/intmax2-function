@@ -108,14 +108,14 @@ const DEFAULT_OPTIONS: Required<WaitForTransactionOptions> = {
 };
 
 export const ethersWaitForTransactionConfirmation = async (
-  ethereumClient: PublicClient,
+  publicClient: PublicClient,
   transactionHash: string,
   functionName: string,
   options?: WaitForTransactionOptions,
 ) => {
   try {
     const { confirms, timeout } = options ?? DEFAULT_OPTIONS;
-    const provider = new JsonRpcProvider(ethereumClient.transport.url);
+    const provider = new JsonRpcProvider(publicClient.transport.url);
     const receipt = await provider.waitForTransaction(transactionHash, confirms, timeout);
 
     if (!receipt) {

@@ -12,19 +12,19 @@ import {
 import { executeAutomaticOperations, processEvents } from "./process.service";
 
 export const performJob = async (): Promise<void> => {
-  const ethereumClient = createNetworkClient("ethereum");
+  const l1Client = createNetworkClient("l1");
   const event = new Event(FIRESTORE_DOCUMENT_EVENTS.MINTER);
 
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
-    await ethereumClient.getBlockNumber(),
+    await l1Client.getBlockNumber(),
     await event.getEvent<EventData>(),
   ]);
 
-  await processMinter(ethereumClient, currentBlockNumber, event, lastProcessedEvent);
+  await processMinter(l1Client, currentBlockNumber, event, lastProcessedEvent);
 };
 
 const processMinter = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   currentBlockNumber: bigint,
   event: Event,
   lastProcessedEvent: EventData | null,
@@ -36,9 +36,9 @@ const processMinter = async (
   }
 
   const mintEvent = MintEvent.getInstance();
-  await processEvents(ethereumClient, mintEvent, startBlockNumber, currentBlockNumber);
+  await processEvents(l1Client, mintEvent, startBlockNumber, currentBlockNumber);
 
-  await executeAutomaticOperations(ethereumClient, mintEvent);
+  await executeAutomaticOperations(l1Client, mintEvent);
 
   await updateEventState(event, currentBlockNumber);
 };

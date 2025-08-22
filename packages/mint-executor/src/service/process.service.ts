@@ -21,14 +21,14 @@ interface ProcessedEvents {
 }
 
 export const processEvents = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   mintEvent: MintEvent,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
   const [lastEvents, newEvents] = await Promise.all([
     getLastProcessedEvents(mintEvent),
-    getNewEvents(ethereumClient, startBlockNumber, currentBlockNumber),
+    getNewEvents(l1Client, startBlockNumber, currentBlockNumber),
   ]);
 
   await saveNewEvents(mintEvent, lastEvents, newEvents);
@@ -47,13 +47,13 @@ const getLastProcessedEvents = async (mintEvent: MintEvent) => {
 };
 
 const getNewEvents = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
   const [mintedEvents, transferredEvents] = await Promise.all([
-    getMintedEvent(ethereumClient, startBlockNumber, currentBlockNumber),
-    getTransferredToLiquidityEvent(ethereumClient, startBlockNumber, currentBlockNumber),
+    getMintedEvent(l1Client, startBlockNumber, currentBlockNumber),
+    getTransferredToLiquidityEvent(l1Client, startBlockNumber, currentBlockNumber),
   ]);
 
   return {
@@ -104,7 +104,7 @@ const isNewEvent = (newEvent: any, lastEvent: any): boolean => {
 };
 
 export const executeAutomaticOperations = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   mintEvent: MintEvent,
 ) => {
   const [lastMintedEvent, lastTransferredEvent] = await Promise.all([
@@ -124,7 +124,7 @@ export const executeAutomaticOperations = async (
     `Should mint: ${shouldMint} - Last Minted Event: ${lastMintedEvent?.createdAt?.toDate()}`,
   );
   if (shouldMint) {
-    await executeMintOperation(ethereumClient, mintEvent);
+    await executeMintOperation(l1Client, mintEvent);
   }
 
   const shouldTransfer = shouldExecuteAction({
@@ -137,18 +137,18 @@ export const executeAutomaticOperations = async (
     `Should transfer: ${shouldTransfer} - Last Transferred Event: ${lastTransferredEvent?.createdAt?.toDate()}`,
   );
   if (shouldTransfer) {
-    await executeTransferOperation(ethereumClient, mintEvent);
+    await executeTransferOperation(l1Client, mintEvent);
   }
 };
 
 const executeMintOperation = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   mintEvent: MintEvent,
 ) => {
   logger.info("Executing mint operation");
 
-  const receipt = await mint(ethereumClient);
-  const block = await Alchemy.getInstance().getBlock(BigInt(receipt.blockNumber));
+  const receipt = await mint(l1Client);
+  const block = await Alchemy.getInstance("l1").getBlock(BigInt(receipt.blockNumber));
   await mintEvent.addEvent({
     type: "mint",
     blockNumber: Number(receipt.blockNumber),
@@ -158,13 +158,13 @@ const executeMintOperation = async (
 };
 
 const executeTransferOperation = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   mintEvent: MintEvent,
 ) => {
   logger.info("Executing transfer to liquidity operation");
 
-  const receipt = await transferToLiquidity(ethereumClient, BigInt(ITX_AMOUNT_TO_LIQUIDITY));
-  const block = await Alchemy.getInstance().getBlock(BigInt(receipt.blockNumber));
+  const receipt = await transferToLiquidity(l1Client, BigInt(ITX_AMOUNT_TO_LIQUIDITY));
+  const block = await Alchemy.getInstance("l1").getBlock(BigInt(receipt.blockNumber));
   await mintEvent.addEvent({
     type: "transferToLiquidity",
     blockNumber: Number(receipt.blockNumber),

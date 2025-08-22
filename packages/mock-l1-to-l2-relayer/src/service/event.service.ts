@@ -9,11 +9,11 @@ import {
 import type { PublicClient } from "viem";
 
 export const fetchSentMessages = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
-  const l1SentMessageEvents = await fetchEvents<SentMessageEvent>(ethereumClient, {
+  const l1SentMessageEvents = await fetchEvents<SentMessageEvent>(l1Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,

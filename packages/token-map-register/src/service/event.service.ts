@@ -18,12 +18,12 @@ import { DEPOSIT_EVENT_MAX_ATTEMPTS, MULTICALL_SIZE } from "../constants";
 import type { TokenInfo } from "../types";
 
 export const fetchUnprocessedDepositTokenEntries = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   currentBlockNumber: bigint,
   lastProcessedEvent: DepositsRelayedEventData | null,
 ) => {
   const { depositIds, startBlockNumber } = await getDepositIds(
-    ethereumClient,
+    l1Client,
     currentBlockNumber,
     lastProcessedEvent,
   );
@@ -35,19 +35,19 @@ export const fetchUnprocessedDepositTokenEntries = async (
   }
 
   const fromBlockNumber = await calculateDepositStartNumber(
-    ethereumClient,
+    l1Client,
     currentBlockNumber,
     startBlockNumber,
     depositIds,
   );
 
   const depositEventLogs = await getDepositLogs(
-    ethereumClient,
+    l1Client,
     fromBlockNumber,
     currentBlockNumber,
     depositIds,
   );
-  const tokenInfoMap = await mapDepositsToTokenInfo(ethereumClient, depositEventLogs);
+  const tokenInfoMap = await mapDepositsToTokenInfo(l1Client, depositEventLogs);
 
   return {
     depositIds,
@@ -56,7 +56,7 @@ export const fetchUnprocessedDepositTokenEntries = async (
 };
 
 const getDepositIds = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   currentBlockNumber: bigint,
   lastProcessedEvent: DepositsRelayedEventData | null,
 ) => {
@@ -72,7 +72,7 @@ const getDepositIds = async (
     };
   }
 
-  const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(ethereumClient, {
+  const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(l1Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,
@@ -130,7 +130,7 @@ const generateDepositIds = (
 };
 
 const calculateDepositStartNumber = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   currentBlockNumber: bigint,
   startBlockNumber: bigint,
   depositIds: number[],
@@ -143,7 +143,7 @@ const calculateDepositStartNumber = async (
   const minDepositId = Math.min(...depositIds);
 
   while (attempts < DEPOSIT_EVENT_MAX_ATTEMPTS) {
-    const events = await fetchEvents<DepositEvent>(ethereumClient, {
+    const events = await fetchEvents<DepositEvent>(l1Client, {
       startBlockNumber: startBlockNumber,
       endBlockNumber: currentBlockNumber,
       blockRange: BLOCK_RANGE_MINIMUM,
@@ -174,12 +174,12 @@ const calculateDepositStartNumber = async (
 };
 
 const getDepositLogs = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   fromBlockNumber: bigint,
   currentBlockNumber: bigint,
   depositIds: number[],
 ) => {
-  const depositEvents = await fetchEvents<DepositEvent>(ethereumClient, {
+  const depositEvents = await fetchEvents<DepositEvent>(l1Client, {
     startBlockNumber: fromBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,
@@ -193,14 +193,11 @@ const getDepositLogs = async (
   return depositEvents.map(({ args }) => args);
 };
 
-const mapDepositsToTokenInfo = async (
-  ethereumClient: PublicClient,
-  depositLogs: DepositEventLog[],
-) => {
+const mapDepositsToTokenInfo = async (l1Client: PublicClient, depositLogs: DepositEventLog[]) => {
   const tokenIndexSet = new Set(depositLogs.map(({ tokenIndex }) => tokenIndex));
   const tokenIndexes = Array.from(tokenIndexSet);
 
-  const results = await ethereumClient.multicall({
+  const results = await l1Client.multicall({
     contracts: tokenIndexes.map((tokenIndex) => {
       return {
         address: LIQUIDITY_CONTRACT_ADDRESS,

@@ -8,11 +8,11 @@ import {
 import type { PublicClient } from "viem";
 
 export const getHeartBeatEvents = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
-  const heartBeatEvents = await fetchEvents<BlockBuilderHeartbeatEvent>(ethereumClient, {
+  const heartBeatEvents = await fetchEvents<BlockBuilderHeartbeatEvent>(l2Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,

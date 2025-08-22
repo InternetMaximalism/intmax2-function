@@ -18,7 +18,7 @@ import { MAX_RELAYER_BATCH_SIZE } from "../constants";
 import type { ValidDeposits } from "../types";
 
 export const generateDepositsCalldata = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   l1SentMessageEvent: SentMessageEvent,
 ) => {
   if (!config.MOCK_L1_SENDER_EVENT_DECODE_ENABLED) {
@@ -30,7 +30,7 @@ export const generateDepositsCalldata = async (
   const { lastProcessedDepositId, depositHashes } = decodeL1SentMessage(l1SentMessageEvent);
 
   const rejectedIds = await fetchLatestRejectedIds(
-    ethereumClient,
+    l1Client,
     l1SentMessageEvent.blockNumber,
     lastProcessedDepositId,
   );
@@ -70,11 +70,11 @@ export const generateBatchedCalldata = (validDeposits: ValidDeposits, maxBatchSi
 };
 
 const fetchLatestRejectedIds = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   eventBlockNumber: bigint,
   lastProcessedDepositId: bigint,
 ) => {
-  const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(ethereumClient, {
+  const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(l1Client, {
     startBlockNumber: eventBlockNumber,
     endBlockNumber: eventBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,
