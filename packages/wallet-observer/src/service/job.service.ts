@@ -13,7 +13,7 @@ export const performJob = async () => {
     .map((type) => {
       return type.types.map((networkType) => ({
         type: type.name,
-        ethereumClient: createNetworkClient(networkType),
+        publicClient: createNetworkClient(networkType),
         walletClientData: getWalletClient(type.name, networkType),
         min: type.min,
       }));
@@ -25,7 +25,7 @@ export const performJob = async () => {
         .map((type) => {
           return type.types.map((networkType) => ({
             type: type.name,
-            ethereumClient: createNetworkClient(networkType),
+            publicClient: createNetworkClient(networkType),
             walletClientData: getMockWalletClient(type.name, networkType),
             min: type.min,
           }));

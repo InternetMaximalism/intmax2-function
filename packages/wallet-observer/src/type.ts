@@ -4,27 +4,27 @@ import type { PublicClient } from "viem";
 export const walletTypes: WalletType[] = [
   {
     name: "builder",
-    types: ["scroll"],
+    types: ["l2"],
     min: false,
   },
   {
     name: "depositAnalyzer",
-    types: ["ethereum"],
+    types: ["l2"],
     min: false,
   },
   {
     name: "withdrawal",
-    types: ["scroll"],
+    types: ["l2"],
     min: false,
   },
   {
     name: "blockBuilderReward",
-    types: ["scroll"],
+    types: ["l2"],
     min: true,
   },
   {
     name: "tokenManager",
-    types: ["ethereum"],
+    types: ["l1"],
     min: true,
   },
 ];
@@ -32,19 +32,19 @@ export const walletTypes: WalletType[] = [
 export const mockWalletTypes = [
   {
     name: "mockMessenger" as const,
-    types: ["ethereum", "scroll"] as const,
+    types: ["l1", "l2"] as const,
     min: false,
   },
 ];
 
 export type WalletType = {
   name: "builder" | "depositAnalyzer" | "withdrawal" | "blockBuilderReward" | "tokenManager";
-  types: ("ethereum" | "scroll")[];
+  types: ("l1" | "l2")[];
   min: boolean;
 };
 
 export type WalletClient = {
-  ethereumClient: PublicClient;
+  publicClient: PublicClient;
   type: string;
   walletClientData: ReturnType<typeof getWalletClient> | ReturnType<typeof getMockWalletClient>;
   min: boolean;

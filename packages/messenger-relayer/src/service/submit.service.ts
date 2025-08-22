@@ -31,10 +31,10 @@ import { RELAYER_FIXED_GAS_LIMIT } from "../constants";
 import type { ScrollMessengerResult } from "../types";
 
 export const relayMessageWithProof = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   claimableRequest: ScrollMessengerResult,
 ) => {
-  const walletClientData = getWalletClient("withdrawal", "ethereum");
+  const walletClientData = getWalletClient("withdrawal", "l1");
 
   const retryOptions: RetryOptions = {
     nonce: null,
@@ -47,7 +47,7 @@ export const relayMessageWithProof = async (
   for (let attempt = 0; attempt < TRANSACTION_MAX_RETRIES; attempt++) {
     try {
       const { transactionHash } = await submitMessageToScroll(
-        ethereumClient,
+        l1Client,
         walletClientData,
         L1ScrollMessengerAbi as Abi,
         input,
@@ -56,7 +56,7 @@ export const relayMessageWithProof = async (
       );
 
       const receipt = await ethersWaitForTransactionConfirmation(
-        ethereumClient,
+        l1Client,
         transactionHash,
         "relayMessageWithProof",
         {
@@ -97,7 +97,7 @@ export const relayMessageWithProof = async (
 };
 
 export const submitMessageToScroll = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   walletClientData: ReturnType<typeof getWalletClient>,
   abi: Abi,
   input: ReturnType<typeof formatInput>,
@@ -115,8 +115,8 @@ export const submitMessageToScroll = async (
   const multiplier = calculateGasMultiplier(attempt, TRANSACTION_INCREMENT_RATE);
 
   const [{ pendingNonce, currentNonce }, gasPriceData] = await Promise.all([
-    getNonce(ethereumClient, walletClientData.account.address),
-    getMaxGasMultiplier(ethereumClient, multiplier),
+    getNonce(l1Client, walletClientData.account.address),
+    getMaxGasMultiplier(l1Client, multiplier),
   ]);
 
   let { maxFeePerGas, maxPriorityFeePerGas } = gasPriceData;
@@ -147,7 +147,7 @@ export const submitMessageToScroll = async (
     gasLimit: RELAYER_FIXED_GAS_LIMIT,
   };
 
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
   const signer = new ethers.Wallet(
     toHex(walletClientData.account.getHdKey().privateKey!),
     provider,

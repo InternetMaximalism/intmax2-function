@@ -12,11 +12,11 @@ import { getHeartBeatEvents } from "./event.service";
 import { processIndexer } from "./indexer.service";
 
 export const performJob = async (): Promise<void> => {
-  const ethereumClient = createNetworkClient("scroll");
+  const l2Client = createNetworkClient("l2");
   const event = new Event(FIRESTORE_DOCUMENT_EVENTS.BLOCK_BUILDER_HEART_BEAT);
 
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
-    ethereumClient.getBlockNumber(),
+    l2Client.getBlockNumber(),
     event.getEvent<EventData>(),
   ]);
 
@@ -34,22 +34,22 @@ export const performJob = async (): Promise<void> => {
     return;
   }
 
-  await processHeartBeatEvents(ethereumClient, startBlockNumber, currentBlockNumber);
+  await processHeartBeatEvents(l2Client, startBlockNumber, currentBlockNumber);
   await updateEventState(event, currentBlockNumber);
 };
 
 const processHeartBeatEvents = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l2Client: ReturnType<typeof createNetworkClient>,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
-  const events = await getHeartBeatEvents(ethereumClient, startBlockNumber, currentBlockNumber);
+  const events = await getHeartBeatEvents(l2Client, startBlockNumber, currentBlockNumber);
   if (events.length === 0) {
     logger.info("No new heart beat events found.");
     return;
   }
 
-  const indexerInfos = await processIndexer(ethereumClient, events);
+  const indexerInfos = await processIndexer(l2Client, events);
   logger.info(`Processed ${indexerInfos.length} events.`);
 };
 

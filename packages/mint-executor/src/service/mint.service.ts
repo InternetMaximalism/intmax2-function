@@ -27,7 +27,7 @@ import {
 import { ethers } from "ethers";
 import { type Abi, type PublicClient, toHex } from "viem";
 
-export const mint = async (ethereumClient: PublicClient) => {
+export const mint = async (l1Client: PublicClient) => {
   const retryOptions: RetryOptions = {
     maxFeePerGas: null,
     maxPriorityFeePerGas: null,
@@ -37,14 +37,10 @@ export const mint = async (ethereumClient: PublicClient) => {
     try {
       const multiplier = calculateGasMultiplier(attempt, TRANSACTION_INCREMENT_RATE);
 
-      const { transactionHash } = await submitMintWithRetry(
-        ethereumClient,
-        multiplier,
-        retryOptions,
-      );
+      const { transactionHash } = await submitMintWithRetry(l1Client, multiplier, retryOptions);
 
       const receipt = await ethersWaitForTransactionConfirmation(
-        ethereumClient,
+        l1Client,
         transactionHash,
         "mint",
         {
@@ -80,11 +76,11 @@ export const mint = async (ethereumClient: PublicClient) => {
 };
 
 export const submitMintWithRetry = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   multiplier: number,
   retryOptions: RetryOptions,
 ) => {
-  const walletClientData = getWalletClient("tokenManager", "ethereum");
+  const walletClientData = getWalletClient("tokenManager", "l1");
 
   const contractCallParams: ContractCallParameters = {
     contractAddress: MINTER_CONTRACT_ADDRESS,
@@ -95,8 +91,8 @@ export const submitMintWithRetry = async (
   };
 
   const [{ pendingNonce, currentNonce }, gasPriceData] = await Promise.all([
-    getNonce(ethereumClient, walletClientData.account.address),
-    getEthersMaxGasMultiplier(ethereumClient, multiplier),
+    getNonce(l1Client, walletClientData.account.address),
+    getEthersMaxGasMultiplier(l1Client, multiplier),
   ]);
   let { maxFeePerGas, maxPriorityFeePerGas } = gasPriceData;
 
@@ -125,7 +121,7 @@ export const submitMintWithRetry = async (
     maxPriorityFeePerGas,
   };
 
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
   const signer = new ethers.Wallet(
     toHex(walletClientData.account.getHdKey().privateKey!),
     provider,

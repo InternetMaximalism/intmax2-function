@@ -22,7 +22,7 @@ export const fetchAllClaimableScrollMessengerResults = async (messengerType: Mes
 
   while (hasMore) {
     const res = await axios.get<ScrollMessengerResponse>(
-      `${SCROLL_API_BRIDGE_URL_MAPS[config.NETWORK_ENVIRONMENT]}?page_size=${DEFAULT_PAGE_SIZE}&page=${currentPage}&address=${contractAddress}`,
+      `${SCROLL_API_BRIDGE_URL_MAPS[config.L1_CHAIN]}?page_size=${DEFAULT_PAGE_SIZE}&page=${currentPage}&address=${contractAddress}`,
     );
     if (res.data.errcode !== SUCCESS_CODE) {
       const message = res.data.errmsg;

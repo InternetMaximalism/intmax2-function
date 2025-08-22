@@ -86,3 +86,5 @@ export interface TransferredToLiquidityEvent extends BaseEvent {
 export interface TransferredToLiquidityEventLog {
   amount: bigint;
 }
+
+export type NetworkLayer = "l1" | "l2";

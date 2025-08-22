@@ -46,7 +46,7 @@ export const fetchLatestRollupBlockNumber = async () => {
   const rollupContract = getContract({
     address: config.ROLLUP_CONTRACT_ADDRESS as `0x${string}`,
     abi: RollupAbi,
-    client: createNetworkClient("scroll"),
+    client: createNetworkClient("l2"),
   });
   const blockNumber = await rollupContract.read.getLatestBlockNumber();
   return Number(blockNumber);

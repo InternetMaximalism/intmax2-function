@@ -30,7 +30,7 @@ import { ethers } from "ethers";
 import type { Abi, PublicClient } from "viem";
 
 export const submitRelayMessagesToL2MockMessenger = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   l1SentMessageEventLog: SentMessageEventLog,
 ) => {
   if (!validateL1SentMessageEvent(l1SentMessageEventLog)) {
@@ -46,14 +46,14 @@ export const submitRelayMessagesToL2MockMessenger = async (
       const multiplier = calculateGasMultiplier(attempt);
 
       const { transactionHash } = await submitRelayMessagesToL2MockMessengerWithRetry(
-        ethereumClient,
+        l2Client,
         l1SentMessageEventLog,
         multiplier,
         retryOptions,
       );
 
       const receipt = await ethersWaitForTransactionConfirmation(
-        ethereumClient,
+        l2Client,
         transactionHash,
         "withdraw",
         {
@@ -99,12 +99,12 @@ export const submitRelayMessagesToL2MockMessenger = async (
 };
 
 export const submitRelayMessagesToL2MockMessengerWithRetry = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   l1SentMessageEventLog: SentMessageEventLog,
   multiplier: number,
   retryOptions: RetryOptionsEthers,
 ) => {
-  const walletClientData = getMockWalletClient("mockMessenger", "scroll");
+  const walletClientData = getMockWalletClient("mockMessenger", "l2");
 
   const contractCallParams: ContractCallParameters = {
     contractAddress: MOCK_L2_SCROLL_MESSENGER_CONTRACT_ADDRESS,
@@ -121,8 +121,8 @@ export const submitRelayMessagesToL2MockMessengerWithRetry = async (
   };
 
   const [{ pendingNonce, currentNonce }, gasPriceData] = await Promise.all([
-    getNonce(ethereumClient, walletClientData.account.address),
-    getEthersScrollMaxGasMultiplier(ethereumClient, multiplier),
+    getNonce(l2Client, walletClientData.account.address),
+    getEthersScrollMaxGasMultiplier(l2Client, multiplier),
   ]);
   let { gasPrice } = gasPriceData;
 
@@ -141,7 +141,7 @@ export const submitRelayMessagesToL2MockMessengerWithRetry = async (
     gasPrice,
   };
 
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(l2Client.transport.url);
   const signer = new ethers.Wallet(config.MOCK_MESSENGER_PRIVATE_KEY, provider);
   const contract = MockL2ScrollMessenger__factory.connect(
     contractCallParams.contractAddress,
