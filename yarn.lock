@@ -1981,6 +1981,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bridge-monitor@workspace:packages/bridge-monitor":
+  version: 0.0.0-use.local
+  resolution: "bridge-monitor@workspace:packages/bridge-monitor"
+  dependencies:
+    "@intmax2-function/shared": "workspace:*"
+    tsx: "npm:^4.20.4"
+    typescript: "npm:^5.9.2"
+    viem: "npm:^2.33.3"
+    vitest: "npm:^3.2.4"
+  languageName: unknown
+  linkType: soft
+
 "brorand@npm:^1.1.0":
   version: 1.1.0
   resolution: "brorand@npm:1.1.0"
