@@ -2,6 +2,7 @@ import {
   BASE_BRIDGE_O_APP_CONTRACT_ADDRESS,
   BASE_BRIDGE_O_APP_CONTRACT_DEPLOYED_BLOCK,
   BLOCK_RANGE_MINIMUM,
+  BLOCK_RANGE_TINY,
   bridgeRequestedEvent,
   createNetworkClient,
   type DepositEvent,
@@ -12,7 +13,6 @@ import {
   getStartBlockNumber,
   logger,
   validateBlockRange,
-  BLOCK_RANGE_TINY,
 } from "@intmax2-function/shared";
 
 export const performJob = async () => {
