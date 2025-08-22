@@ -13,13 +13,13 @@ import {
 import type { Abi, PublicClient } from "viem";
 
 export const getDepositedEvent = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
   lastProcessedEvent: EventData | null,
 ) => {
   try {
-    const depositEvents = await fetchEvents<DepositEvent>(ethereumClient, {
+    const depositEvents = await fetchEvents<DepositEvent>(l1Client, {
       startBlockNumber,
       endBlockNumber: currentBlockNumber,
       blockRange: BLOCK_RANGE_MINIMUM,
@@ -28,7 +28,7 @@ export const getDepositedEvent = async (
     });
 
     if (depositEvents.length !== 0 && lastProcessedEvent === null) {
-      const lastRelayedDepositId = (await ethereumClient.readContract({
+      const lastRelayedDepositId = (await l1Client.readContract({
         address: LIQUIDITY_CONTRACT_ADDRESS,
         abi: LiquidityAbi as Abi,
         functionName: "getLastRelayedDepositId",
@@ -51,12 +51,12 @@ export const getDepositedEvent = async (
 };
 
 export const getDepositsRelayedEvent = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
   try {
-    const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(ethereumClient, {
+    const depositsRelayedEvents = await fetchEvents<DepositsRelayedEvent>(l1Client, {
       startBlockNumber,
       endBlockNumber: currentBlockNumber,
       blockRange: BLOCK_RANGE_MINIMUM,

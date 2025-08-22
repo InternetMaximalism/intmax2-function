@@ -21,13 +21,13 @@ const getTimeStampFromLast24Hours = () => {
 };
 
 export const processMonitor = async (indexers: IndexerInfo[]) => {
-  const ethereumClient = createNetworkClient("scroll");
+  const l2Client = createNetworkClient("l2");
 
   const activeIndexers = [];
   for (let i = 0; i < indexers.length; i += INDEXER_BATCH_SIZE) {
     const batch = indexers.slice(i, i + INDEXER_BATCH_SIZE);
     try {
-      const availableIndexers = await checkIndexerAvailability(ethereumClient, batch);
+      const availableIndexers = await checkIndexerAvailability(l2Client, batch);
       activeIndexers.push(...availableIndexers);
     } catch (error) {
       logger.error(`Error checking indexer availability: ${error}`);
@@ -37,7 +37,7 @@ export const processMonitor = async (indexers: IndexerInfo[]) => {
   return activeIndexers;
 };
 
-const checkIndexerAvailability = async (ethereumClient: PublicClient, indexers: IndexerInfo[]) => {
+const checkIndexerAvailability = async (l2Client: PublicClient, indexers: IndexerInfo[]) => {
   const healthCheckPromises = await Promise.all(
     indexers.map(async (indexer) => {
       try {
@@ -67,7 +67,7 @@ const checkIndexerAvailability = async (ethereumClient: PublicClient, indexers: 
   );
 
   const addresses = indexers.map((indexer) => indexer.address);
-  const balanceMap = await fetchEthBalances(ethereumClient, addresses);
+  const balanceMap = await fetchEthBalances(l2Client, addresses);
 
   const availableIndexers = healthCheckPromises.filter((indexer) => {
     if (indexer.status === "available") {

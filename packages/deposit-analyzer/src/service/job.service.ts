@@ -13,19 +13,19 @@ import { submitRelayDeposits } from "./submit.service";
 import { splitDepositSummary } from "./summarize.service";
 
 export const performJob = async () => {
-  const ethereumClient = createNetworkClient("ethereum");
+  const l1Client = createNetworkClient("l1");
   const event = new Event(FIRESTORE_DOCUMENT_EVENTS.DEPOSITED);
 
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
-    await ethereumClient.getBlockNumber(),
+    await l1Client.getBlockNumber(),
     await event.getEvent<EventData>(),
   ]);
 
-  await processAnalyzer(ethereumClient, currentBlockNumber, event, lastProcessedEvent);
+  await processAnalyzer(l1Client, currentBlockNumber, event, lastProcessedEvent);
 };
 
 const processAnalyzer = async (
-  ethereumClient: ReturnType<typeof createNetworkClient>,
+  l1Client: ReturnType<typeof createNetworkClient>,
   currentBlockNumber: bigint,
   event: Event,
   lastProcessedEvent: EventData | null,
@@ -41,7 +41,7 @@ const processAnalyzer = async (
   }
 
   const processedDepositEvents = await getDepositedEvent(
-    ethereumClient,
+    l1Client,
     startBlockNumber,
     currentBlockNumber,
     lastProcessedEvent,
@@ -56,7 +56,7 @@ const processAnalyzer = async (
   logger.info(`New deposit events: ${processedDepositEvents.length}`);
 
   const processedState = await getDepositsRelayedEvent(
-    ethereumClient,
+    l1Client,
     startBlockNumber,
     currentBlockNumber,
   );
@@ -68,7 +68,7 @@ const processAnalyzer = async (
 
   if (depositSummary.shouldSubmit) {
     for (const batch of depositSummary.batches) {
-      await submitRelayDeposits(ethereumClient, batch);
+      await submitRelayDeposits(l1Client, batch);
       await updateEventState(event, batch.blockNumber);
     }
   }

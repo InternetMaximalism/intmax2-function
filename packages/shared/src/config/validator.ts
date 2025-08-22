@@ -41,3 +41,17 @@ export const rpcUrls = makeValidator<string[]>((value: string) => {
 
   return urls;
 });
+
+export const l1Chain = makeValidator<"mainnet" | "sepolia">((input) => {
+  if (input !== "mainnet" && input !== "sepolia") {
+    throw new Error("L1_CHAIN must be either 'mainnet' or 'sepolia'");
+  }
+  return input as "mainnet" | "sepolia";
+});
+
+export const l2Chain = makeValidator<"scroll" | "scrollSepolia">((input) => {
+  if (input !== "scroll" && input !== "scrollSepolia") {
+    throw new Error("L2_CHAIN must be either 'scroll' or 'scrollSepolia'");
+  }
+  return input as "scroll" | "scrollSepolia";
+});

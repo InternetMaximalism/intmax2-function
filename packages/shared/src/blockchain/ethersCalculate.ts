@@ -29,10 +29,10 @@ const calculateScrollAdjustedGasPrices = (multiplier: number, baseGasPrice: bigi
 };
 
 export const getEthersScrollMaxGasMultiplier = async (
-  ethereumClient: PublicClient,
+  publicClient: PublicClient,
   multiplier: number,
 ) => {
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(publicClient.transport.url);
 
   const [block, feeData] = await Promise.all([provider.getBlock("latest"), provider.getFeeData()]);
   const baseGasPrice = getGasPrice(block, feeData);
@@ -54,11 +54,8 @@ const getGasPrice = (block: Block | null, feeData: FeeData) => {
   return multiplierGasPrice.gasPrice + (feeData?.maxPriorityFeePerGas ?? 0n);
 };
 
-export const getEthersMaxGasMultiplier = async (
-  ethereumClient: PublicClient,
-  multiplier: number,
-) => {
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+export const getEthersMaxGasMultiplier = async (publicClient: PublicClient, multiplier: number) => {
+  const provider = new ethers.JsonRpcProvider(publicClient.transport.url);
   const feeData = await provider.getFeeData();
   const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = calculateAdjustedGasPrices(
     multiplier,

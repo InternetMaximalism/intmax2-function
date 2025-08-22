@@ -37,8 +37,8 @@ const GAS_CONFIG = {
 
 const FIXED_DEPOSIT_VALUE = "0.1";
 
-const fetchSentMessages = async (ethereumClient: PublicClient) => {
-  const l1SentMessageEvents = await fetchEvents<SentMessageEvent>(ethereumClient, {
+const fetchSentMessages = async (l1Client: PublicClient) => {
+  const l1SentMessageEvents = await fetchEvents<SentMessageEvent>(l1Client, {
     startBlockNumber: RELAY_CONFIG.startBlockNumber,
     endBlockNumber: RELAY_CONFIG.endBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,
@@ -53,18 +53,18 @@ const fetchSentMessages = async (ethereumClient: PublicClient) => {
 };
 
 const submitTx = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   sentMessageEvent: SentMessageEvent,
   newGasLimit: number,
 ) => {
-  const walletClientData = getWalletClient("depositAnalyzer", "ethereum");
-  const refundAddress = walletClientData.account.address;
+  const walletL1ClientData = getWalletClient("depositAnalyzer", "l1");
+  const refundAddress = walletL1ClientData.account.address;
 
   const contractCallParams: ContractCallParameters = {
     contractAddress: RELAY_CONFIG.l1ScrollMessengerContractAddress,
     abi: L1ScrollMessengerAbi as Abi,
     functionName: "replayMessage",
-    account: walletClientData.account,
+    account: walletL1ClientData.account,
     args: [
       sentMessageEvent.args.sender,
       sentMessageEvent.args.target,
@@ -76,11 +76,11 @@ const submitTx = async (
     ],
   };
 
-  const { currentNonce } = await getNonce(ethereumClient, walletClientData.account.address);
+  const { currentNonce } = await getNonce(l1Client, walletL1ClientData.account.address);
 
-  const provider = new ethers.JsonRpcProvider(ethereumClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
   const signer = new ethers.Wallet(
-    toHex(walletClientData.account.getHdKey().privateKey!),
+    toHex(walletL1ClientData.account.getHdKey().privateKey!),
     provider,
   );
 
@@ -111,7 +111,7 @@ const submitTx = async (
   });
 
   const receipt = await ethersWaitForTransactionConfirmation(
-    ethereumClient,
+    l1Client,
     transactionHash,
     "replayMessage",
     {
@@ -131,7 +131,7 @@ const calculateAnalyzeAndRelayGasLimit = (numDepositsToRelay: number) => {
 const main = async () => {
   console.log("debug: RELAY_CONFIG", RELAY_CONFIG);
 
-  const ethereumClient = createNetworkClient("ethereum");
+  const l1Client = createNetworkClient("l1");
   const isValid = validateBlockRange(
     "fetchSentMessages",
     RELAY_CONFIG.startBlockNumber,
@@ -142,7 +142,7 @@ const main = async () => {
     return;
   }
 
-  const events = await fetchSentMessages(ethereumClient);
+  const events = await fetchSentMessages(l1Client);
   console.log("Fetched Sent Messages:", events);
 
   const targetEvent = events.find(
@@ -156,8 +156,9 @@ const main = async () => {
   const newGasLimit = calculateAnalyzeAndRelayGasLimit(RELAY_CONFIG.numDepositsToRelay);
   console.log("New Gas Limit:", newGasLimit.toString());
 
-  await submitTx(ethereumClient, targetEvent, Number(newGasLimit));
+  await submitTx(l1Client, targetEvent, Number(newGasLimit));
 };
+
 main().catch((error) => {
   console.error("Error fetching sent messages:", error);
 });

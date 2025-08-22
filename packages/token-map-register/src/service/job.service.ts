@@ -1,5 +1,4 @@
 import {
-  config,
   createNetworkClient,
   type DepositsRelayedEventData,
   Event,
@@ -11,24 +10,24 @@ import { fetchUnprocessedDepositTokenEntries } from "./event.service";
 import { saveTokenIndexMaps } from "./map.service";
 
 export const performJob = async (): Promise<void> => {
-  const ethereumClient = createNetworkClient(config.NETWORK_TYPE);
+  const l1Client = createNetworkClient("l1");
   const event = new Event(FIRESTORE_DOCUMENT_EVENTS.DEPOSITS_RELAYED_TOKEN_MAPS);
   const [currentBlockNumber, lastProcessedEvent] = await Promise.all([
-    await ethereumClient.getBlockNumber(),
+    await l1Client.getBlockNumber(),
     event.getEvent<DepositsRelayedEventData>(),
   ]);
 
-  const eventData = await processTokenMap(ethereumClient, currentBlockNumber, lastProcessedEvent);
+  const eventData = await processTokenMap(l1Client, currentBlockNumber, lastProcessedEvent);
   await updateEventData(event, eventData);
 };
 
 const processTokenMap = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   currentBlockNumber: bigint,
   lastProcessedEvent: DepositsRelayedEventData | null,
 ) => {
   const { depositIds, tokenInfoMap } = await fetchUnprocessedDepositTokenEntries(
-    ethereumClient,
+    l1Client,
     currentBlockNumber,
     lastProcessedEvent,
   );
@@ -40,7 +39,7 @@ const processTokenMap = async (
     };
   }
 
-  const results = await saveTokenIndexMaps(ethereumClient, tokenInfoMap);
+  const results = await saveTokenIndexMaps(l1Client, tokenInfoMap);
   logger.info(`Added ${results.length} new token maps.`);
 
   return {

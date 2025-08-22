@@ -11,12 +11,12 @@ import {
 import type { PublicClient } from "viem";
 
 export const getMintedEvent = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
   try {
-    const depositEvents = await fetchEvents<MintedEvent>(ethereumClient, {
+    const depositEvents = await fetchEvents<MintedEvent>(l1Client, {
       startBlockNumber,
       endBlockNumber: currentBlockNumber,
       blockRange: BLOCK_RANGE_MINIMUM,
@@ -33,12 +33,12 @@ export const getMintedEvent = async (
 };
 
 export const getTransferredToLiquidityEvent = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
   try {
-    const depositEvents = await fetchEvents<TransferredToLiquidityEvent>(ethereumClient, {
+    const depositEvents = await fetchEvents<TransferredToLiquidityEvent>(l1Client, {
       startBlockNumber,
       endBlockNumber: currentBlockNumber,
       blockRange: BLOCK_RANGE_MINIMUM,

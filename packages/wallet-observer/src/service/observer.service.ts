@@ -3,11 +3,11 @@ import { formatEther, parseEther } from "viem";
 import { REQUIRED_ETH, REQUIRED_ETH_MIN } from "../constants";
 import type { WalletClient } from "../type";
 
-export const getBalance = async ({ type, ethereumClient, walletClientData, min }: WalletClient) => {
+export const getBalance = async ({ type, publicClient, walletClientData, min }: WalletClient) => {
   const address = walletClientData.account.address;
   const chain = walletClientData.walletClient.chain?.name!;
 
-  const balance = await ethereumClient.getBalance({
+  const balance = await publicClient.getBalance({
     address,
   });
   const balanceAsEther = formatEther(balance);
@@ -15,7 +15,7 @@ export const getBalance = async ({ type, ethereumClient, walletClientData, min }
 
   return `
   Name: ${type}
-  NetworkEnvironment: ${config.NETWORK_ENVIRONMENT}
+  NetworkEnvironment: ${config.L1_CHAIN}
   Address:  ${address}
   Chain: ${chain}
   Balance:  ${balanceAsEther} ETH

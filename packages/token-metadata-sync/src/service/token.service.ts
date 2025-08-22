@@ -55,7 +55,7 @@ export const mergeTokenLists = (tokenList: Token[], coinGeckoList: CoinListRespo
 };
 
 export const fetchContractDecimals = async (tokenBatches: TokenData[]) => {
-  const ethereumClient = createNetworkClient("ethereum");
+  const l1Client = createNetworkClient("l1");
 
   const results: {
     id: string;
@@ -74,7 +74,7 @@ export const fetchContractDecimals = async (tokenBatches: TokenData[]) => {
     }));
 
   const [ethereumRes] = await Promise.all([
-    ethereumClient.multicall({
+    l1Client.multicall({
       contracts: ethereumContractsToCall,
       batchSize: MULTICALL_SIZE,
     }),

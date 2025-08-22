@@ -19,7 +19,7 @@ interface EventLogOptions {
 }
 
 export const getEventLogsWithRetry = async <T>(
-  ethereumClient: PublicClient,
+  publicClient: PublicClient,
   contractAddress: `0x${string}`,
   event: any,
   fromBlock: bigint,
@@ -31,7 +31,7 @@ export const getEventLogsWithRetry = async <T>(
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       const logs = await getEventLogs(
-        ethereumClient,
+        publicClient,
         contractAddress,
         event,
         fromBlock,
@@ -82,7 +82,7 @@ export const createBlockRanges = (
 };
 
 export const fetchEvents = async <T>(
-  ethereumClient: PublicClient,
+  publicClient: PublicClient,
   options: EventLogOptions,
 ): Promise<T[]> => {
   const {
@@ -104,7 +104,7 @@ export const fetchEvents = async <T>(
       const batchPromises = batch.map(
         ([fromBlock, toBlock]) =>
           getEventLogs(
-            ethereumClient,
+            publicClient,
             contractAddress,
             eventInterface,
             fromBlock,
@@ -124,7 +124,7 @@ export const fetchEvents = async <T>(
         `Failed to fetch events Retrying: ${error instanceof Error ? error.message : "Unknown error"}.`,
       );
 
-      return fetchEvents(ethereumClient, {
+      return fetchEvents(publicClient, {
         ...options,
         blockRange: blockRange / 2n,
         maxRetries: maxRetries - 1,

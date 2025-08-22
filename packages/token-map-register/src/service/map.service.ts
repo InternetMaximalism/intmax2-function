@@ -10,7 +10,7 @@ type MulticallResult = {
 };
 
 export const saveTokenIndexMaps = async (
-  ethereumClient: PublicClient,
+  l1Client: PublicClient,
   tokenInfoMap: Map<number, TokenInfo>,
 ) => {
   const erc20TokenMap = filterERC20Tokens(tokenInfoMap);
@@ -24,7 +24,7 @@ export const saveTokenIndexMaps = async (
   }
 
   const tokenValues = Array.from(newERC20TokenMap.values());
-  const metadata = await fetchTokenMetadata(ethereumClient, tokenValues);
+  const metadata = await fetchTokenMetadata(l1Client, tokenValues);
   const enrichedTokens = enrichTokensWithMetadata(newERC20TokenMap, metadata);
   await saveTokenMaps(enrichedTokens);
 
@@ -55,7 +55,7 @@ const filterNewERC20Tokens = async (erc20TokenMap: Map<number, TokenInfo>) => {
   );
 };
 
-const fetchTokenMetadata = async (ethereumClient: PublicClient, tokens: TokenInfo[]) => {
+const fetchTokenMetadata = async (l1Client: PublicClient, tokens: TokenInfo[]) => {
   const createConfig = (functionName: "decimals" | "symbol") => ({
     contracts: tokens.map(({ tokenAddress }) => ({
       address: tokenAddress as `0x${string}`,
@@ -67,8 +67,8 @@ const fetchTokenMetadata = async (ethereumClient: PublicClient, tokens: TokenInf
   });
 
   const [decimalsResults, symbolsResults] = await Promise.all([
-    ethereumClient.multicall(createConfig("decimals")),
-    ethereumClient.multicall(createConfig("symbol")),
+    l1Client.multicall(createConfig("decimals")),
+    l1Client.multicall(createConfig("symbol")),
   ]);
 
   return { decimals: decimalsResults, symbols: symbolsResults };

@@ -4,7 +4,7 @@ import { MULTICALL_ADDRESS } from "../constants";
 import { logger } from "../lib";
 
 export const fetchEthBalances = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   addresses: string[],
   maxRetries = 3,
   retryDelay = 1000,
@@ -30,7 +30,7 @@ export const fetchEthBalances = async (
   while (attempts < maxRetries) {
     attempts++;
     try {
-      results = await multicall(ethereumClient, {
+      results = await multicall(l2Client, {
         contracts: contracts,
       });
 

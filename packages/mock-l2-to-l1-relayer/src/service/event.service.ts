@@ -11,11 +11,11 @@ import {
 import type { PublicClient } from "viem";
 
 export const getL2SentMessage = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
 ) => {
-  const sentMessageEvents = await fetchEvents<SentMessageEvent>(ethereumClient, {
+  const sentMessageEvents = await fetchEvents<SentMessageEvent>(l2Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,
@@ -28,12 +28,12 @@ export const getL2SentMessage = async (
 };
 
 export const fetchPendingWithdrawalHashes = async (
-  ethereumClient: PublicClient,
+  l2Client: PublicClient,
   startBlockNumber: bigint,
   currentBlockNumber: bigint,
   withdrawalHashes: string[],
 ) => {
-  const events = await fetchEvents<WithdrawalClaimableEvent>(ethereumClient, {
+  const events = await fetchEvents<WithdrawalClaimableEvent>(l2Client, {
     startBlockNumber,
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_MINIMUM,

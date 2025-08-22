@@ -15,12 +15,12 @@ export const performJob = async (): Promise<void> => {
 
   logger.info(`Found ${claimableRequests.length} claimable requests`);
 
-  const ethereumClient = createNetworkClient("ethereum");
+  const l1Client = createNetworkClient("l1");
 
   for (const claimableRequest of claimableRequests) {
     const calldataBatch = await generateCalldata(claimableRequest);
     for (const calldata of calldataBatch) {
-      await relayMessageWithProof(ethereumClient, {
+      await relayMessageWithProof(l1Client, {
         ...claimableRequest,
         claim_info: {
           ...claimableRequest.claim_info,
