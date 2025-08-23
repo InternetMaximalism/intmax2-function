@@ -9,7 +9,7 @@ export const walletTypes: WalletType[] = [
   },
   {
     name: "depositAnalyzer",
-    types: ["l2"],
+    types: ["l1"],
     min: false,
   },
   {
