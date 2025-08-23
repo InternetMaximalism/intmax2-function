@@ -2,20 +2,20 @@ import {
   API_TIMEOUT,
   BridgeTransactionData,
   config,
-  createNetworkClient,
   Discord,
   logger,
-  MainnetBridgeOAppAbi,
   MAINNET_BRIDGE_O_APP_CONTRACT_ADDRESS,
+  MainnetBridgeOAppAbi,
 } from "@intmax2-function/shared";
 import axios, { AxiosError } from "axios";
+import type { Abi } from "viem";
 import { LAYER_ZERO_SCAN_API } from "../constants";
+import { l1Client } from "../lib/blockchain";
 import type { BridgeGuidTransaction, BridgeGuidTransactionResponse } from "../types";
 import { submitTransaction } from "./submit.service";
-import type { Abi } from "viem";
 
 export const fetchBridgeGuidTransaction = async (guid: string) => {
-  const layerZeroMessagesUrl = `${LAYER_ZERO_SCAN_API[config.LAYER_ZERO_NETWORK]}/messages/${guid}`;
+  const layerZeroMessagesUrl = `${LAYER_ZERO_SCAN_API[config.LAYER_ZERO_NETWORK]}/messages/guid/${guid}`;
   try {
     const response = await axios.get<BridgeGuidTransactionResponse>(layerZeroMessagesUrl, {
       timeout: API_TIMEOUT,
@@ -37,6 +37,7 @@ export const fetchBridgeGuidTransaction = async (guid: string) => {
     logger.error(
       `Failed to fetch bridge transaction status url: ${layerZeroMessagesUrl} ${error instanceof Error ? error.message : error}`,
     );
+    // 404
 
     if (error instanceof AxiosError) {
       throw new Error(`Failed to fetch status: ${error.response?.status}`);
@@ -50,7 +51,7 @@ export const fetchBridgeGuidTransaction = async (guid: string) => {
   }
 };
 
-export const handleFailedStatus = async (bridgeGuidTransaction: BridgeGuidTransaction) => {
+export const handleFailedStatus = async (_: BridgeGuidTransaction) => {
   await submitTransaction("clear");
 };
 
@@ -92,7 +93,6 @@ export const handlePayloadStored = async (bridgeGuidTransaction: BridgeGuidTrans
 };
 
 const hasStoredPayload = async () => {
-  const l1Client = createNetworkClient("l1");
   const currentBlockNumber = await l1Client.getBlockNumber();
 
   const args = [

@@ -87,7 +87,7 @@ export interface TransferredToLiquidityEventLog {
   amount: bigint;
 }
 
-export interface BridgeRequestedEvent {
+export interface BridgeRequestedEvent extends BaseEvent {
   args: BridgeRequestedEventLog;
 }
 

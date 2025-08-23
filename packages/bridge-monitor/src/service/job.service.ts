@@ -25,14 +25,12 @@ export const performJob = async () => {
   const sortedTransactions = bridgeTransactions.sort((a, b) => a.nonce - b.nonce);
 
   for (const bridgeTransaction of sortedTransactions) {
-    await processBridgeTransaction(bridgeTransaction, sortedTransactions);
+    await processBridgeTransaction(bridgeTransaction);
   }
 };
 
-const processBridgeTransaction = async (
-  bridgeTransaction: BridgeTransactionData,
-  allTransactions: BridgeTransactionData[],
-) => {
+const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData) => {
+  // TODO: sleep and retry
   const bridgeGuidTransaction = await fetchBridgeGuidTransaction(bridgeTransaction.guid);
   const statusName = bridgeGuidTransaction.status.name;
 
@@ -55,8 +53,7 @@ const processBridgeTransaction = async (
       break;
   }
 
-  // updateStatus
-
-  // if (statusName === BridgeTransactionStatus.DELIVERED) {
-  // }
+  await BridgeTransaction.getInstance().updateBridgeTransaction(bridgeTransaction.guid, {
+    status: statusName as BridgeTransactionStatus,
+  });
 };

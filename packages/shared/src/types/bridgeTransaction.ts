@@ -9,6 +9,13 @@ export interface BridgeTransactionData {
 
 export interface BridgeTransactionInput {
   guid: string;
+  amount: string;
+  recipient: string;
+  transactionHash: string;
+}
+
+export interface BridgeTransactionUpdateInput {
+  status: BridgeTransactionStatus;
 }
 
 export interface BridgeTransactionFilter {

@@ -6,6 +6,7 @@ import {
   type BridgeTransactionFilter,
   type BridgeTransactionInput,
   BridgeTransactionStatus,
+  type BridgeTransactionUpdateInput,
 } from "../types";
 import { db } from "./firestore";
 
@@ -36,13 +37,13 @@ export class BridgeTransaction {
         const batch = this.db.batch();
         const batchInputs = inputs.slice(i, i + FIRESTORE_MAX_BATCH_SIZE);
 
-        for (const input of batchInputs) {
-          const ref = this.collection.doc();
+        for (const { guid, ...rest } of batchInputs) {
+          const ref = this.collection.doc(guid);
 
           batch.set(
             ref,
             {
-              ...input,
+              ...rest,
               status: BridgeTransactionStatus.QUEUED,
               updatedAt: now,
               createdAt: now,
@@ -69,6 +70,31 @@ export class BridgeTransaction {
     }
   }
 
+  async updateBridgeTransaction(guid: string, updateData: Partial<BridgeTransactionUpdateInput>) {
+    const now = new Date();
+    try {
+      const { guid: _, ...dataToUpdate } = updateData as any;
+      const ref = this.collection.doc(guid);
+
+      await ref.update({
+        ...dataToUpdate,
+        updatedAt: now,
+      });
+
+      return {
+        guid,
+        success: true,
+      };
+    } catch (error) {
+      logger.error(error);
+      throw new AppError(
+        500,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        `Failed to update bridge transaction ${guid}: ${(error as Error).message}`,
+      );
+    }
+  }
+
   private async list(buildQuery?: (query: Query) => Query) {
     try {
       let query = this.collection.orderBy(
@@ -91,7 +117,7 @@ export class BridgeTransaction {
 
         const snapshot = await batchQuery.get();
         const batchItems = snapshot.docs.map((doc) => {
-          return { ...doc.data() } as BridgeTransactionData;
+          return { ...doc.data(), guid: doc.id } as BridgeTransactionData;
         });
 
         allItems.push(...batchItems);

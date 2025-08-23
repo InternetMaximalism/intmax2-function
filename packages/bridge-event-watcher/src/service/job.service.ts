@@ -44,7 +44,7 @@ const processBridgeMonitor = async (
   }
 
   const bridgeRequestedEvents = await fetchEvents<BridgeRequestedEvent>(l2Client, {
-    startBlockNumber,
+    startBlockNumber: BigInt(BASE_BRIDGE_O_APP_CONTRACT_DEPLOYED_BLOCK),
     endBlockNumber: currentBlockNumber,
     blockRange: BLOCK_RANGE_TINY,
     contractAddress: BASE_BRIDGE_O_APP_CONTRACT_ADDRESS,
@@ -54,6 +54,9 @@ const processBridgeMonitor = async (
   const bridgeRequestedInputs = bridgeRequestedEvents.map((event) => ({
     guid: event.args.receipt.guid,
     nonce: Number(event.args.receipt.nonce),
+    recipient: event.args.recipient,
+    amount: event.args.amount.toString(),
+    transactionHash: event.transactionHash,
   }));
 
   await BridgeTransaction.getInstance().saveBridgeTransactionsBatch(bridgeRequestedInputs);
