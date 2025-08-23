@@ -3,7 +3,7 @@ export interface PredicateRequest {
   to: string;
   data: string;
   msg_value: string;
-  chain_id: number;
+  chain_id?: number;
 }
 
 export interface PredicateResponse {
