@@ -46,6 +46,8 @@ The project is divided into the following workspaces:
 ```sh
 packages
 ├── block-sync-monitor
+├── bridge-event-watcher
+├── bridge-monitor
 ├── deposit-analyzer
 ├── indexer
 ├── indexer-cache-validator
