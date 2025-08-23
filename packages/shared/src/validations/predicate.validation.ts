@@ -6,6 +6,7 @@ export const fetchPredicateSignaturesValidation = z.strictObject({
   to: addressSchema,
   data: z.string(),
   msg_value: z.string(),
+  chain_id: z.number().min(1).optional(),
 });
 
 export type FetchPredicateSignatureValidationType = z.infer<
