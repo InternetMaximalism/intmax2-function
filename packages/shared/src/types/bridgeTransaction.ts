@@ -3,6 +3,8 @@ export interface BridgeTransactionData {
   status: BridgeTransactionStatus;
   nonce: number;
   verifiedAt?: FirebaseFirestore.Timestamp;
+  alertSent?: boolean;
+  lastAlertAt?: FirebaseFirestore.Timestamp;
   updatedAt: FirebaseFirestore.Timestamp;
   createdAt: FirebaseFirestore.Timestamp;
 }
@@ -16,10 +18,13 @@ export interface BridgeTransactionInput {
 
 export interface BridgeTransactionUpdateInput {
   status: BridgeTransactionStatus;
+  alertSent?: boolean;
+  lastAlertAt?: FirebaseFirestore.Timestamp;
 }
 
 export interface BridgeTransactionFilter {
-  statuses: BridgeTransactionStatus[];
+  statuses?: BridgeTransactionStatus[];
+  alertSent?: boolean;
 }
 
 export enum BridgeTransactionStatus {
