@@ -46,6 +46,8 @@ The project is divided into the following workspaces:
 ```sh
 packages
 ├── block-sync-monitor
+├── bridge-event-watcher
+├── bridge-monitor
 ├── deposit-analyzer
 ├── indexer
 ├── indexer-cache-validator
@@ -74,7 +76,6 @@ gcloud emulators firestore start
 
 # Set the FIRESTORE_EMULATOR_HOST variable in the same terminal where you will run your application.
 export FIRESTORE_EMULATOR_HOST="HOST:PORT"
-export FIRESTORE_EMULATOR_HOST="HOST:PORT" # We will use what is displayed in the console.
 ```
 
 ## Docker

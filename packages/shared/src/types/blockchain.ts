@@ -87,4 +87,22 @@ export interface TransferredToLiquidityEventLog {
   amount: bigint;
 }
 
+export interface BridgeRequestedEvent extends BaseEvent {
+  args: BridgeRequestedEventLog;
+}
+
+export interface BridgeRequestedEventLog {
+  recipient: string;
+  amount: bigint;
+  user: string;
+  receipt: {
+    guid: string;
+    nonce: bigint;
+    fee: {
+      nativeFee: bigint;
+      lzTokenFee: bigint;
+    };
+  };
+}
+
 export type NetworkLayer = "l1" | "l2";
