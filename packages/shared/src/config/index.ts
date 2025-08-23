@@ -1,6 +1,6 @@
 import { bool, cleanEnv, json, num, str, url } from "envalid";
 import { version } from "../../../../package.json";
-import { l1Chain, l2Chain, rpcUrls } from "./validator";
+import { l1Chain, l2Chain, layerZeroNetwork, rpcUrls } from "./validator";
 
 export const config = cleanEnv(process.env, {
   // app
@@ -59,6 +59,7 @@ export const config = cleanEnv(process.env, {
     default: 0.3,
     desc: "Rate at which the transaction wait time increases on each retry",
   }),
+  LAYER_ZERO_NETWORK: layerZeroNetwork({ default: "testnet" }),
   // mint
   MINT_AVAILABLE_FROM: str({
     devDefault: "2025-06-23T00:00:00Z",

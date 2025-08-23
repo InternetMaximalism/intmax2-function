@@ -2,6 +2,8 @@ export interface BridgeTransactionData {
   guid: string;
   status: BridgeTransactionStatus;
   nonce: number;
+  verifiedAt?: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
   createdAt: FirebaseFirestore.Timestamp;
 }
 
@@ -10,7 +12,7 @@ export interface BridgeTransactionInput {
 }
 
 export interface BridgeTransactionFilter {
-  tokenIndexes?: string[];
+  statuses: BridgeTransactionStatus[];
 }
 
 export enum BridgeTransactionStatus {

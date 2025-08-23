@@ -49,6 +49,13 @@ export const l1Chain = makeValidator<"mainnet" | "sepolia">((input) => {
   return input as "mainnet" | "sepolia";
 });
 
+export const layerZeroNetwork = makeValidator<"mainnet" | "testnet">((input) => {
+  if (input !== "mainnet" && input !== "testnet") {
+    throw new Error("LAYER_ZERO_NETWORK must be either 'mainnet' or 'testnet'");
+  }
+  return input as "mainnet" | "testnet";
+});
+
 export const l2Chain = makeValidator<"scroll" | "scrollSepolia">((input) => {
   if (input !== "scroll" && input !== "scrollSepolia") {
     throw new Error("L2_CHAIN must be either 'scroll' or 'scrollSepolia'");

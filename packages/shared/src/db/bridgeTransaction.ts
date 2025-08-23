@@ -44,6 +44,7 @@ export class BridgeTransaction {
             {
               ...input,
               status: BridgeTransactionStatus.QUEUED,
+              updatedAt: now,
               createdAt: now,
             },
             { merge: false },
@@ -115,8 +116,8 @@ export class BridgeTransaction {
   async fetchBridgeTransactions(filter?: BridgeTransactionFilter) {
     return this.list((query) => {
       let modified = query;
-      if (filter?.tokenIndexes) {
-        modified = modified.where("__name__", "in", filter.tokenIndexes);
+      if (filter?.statuses && filter.statuses.length > 0) {
+        modified = modified.where("status", "in", filter.statuses);
       }
       return modified;
     });
