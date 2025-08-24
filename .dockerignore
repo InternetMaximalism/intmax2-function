@@ -33,6 +33,8 @@ __tests__
 *.test.ts
 *.spec.ts
 vitest.config.*
+!typechainTypes/**
+!**/typechainTypes/**
 
 # Documentation
 docs
