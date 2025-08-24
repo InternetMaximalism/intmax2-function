@@ -224,6 +224,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@discordjs/rest@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "@discordjs/rest@npm:2.6.0"
+  dependencies:
+    "@discordjs/collection": "npm:^2.1.1"
+    "@discordjs/util": "npm:^1.1.1"
+    "@sapphire/async-queue": "npm:^1.5.3"
+    "@sapphire/snowflake": "npm:^3.5.3"
+    "@vladfrangu/async_event_emitter": "npm:^2.4.6"
+    discord-api-types: "npm:^0.38.16"
+    magic-bytes.js: "npm:^1.10.0"
+    tslib: "npm:^2.6.3"
+    undici: "npm:6.21.3"
+  checksum: 10c0/67e12f54b8aa11208441d07dd2a30d3b125142a5bc76f34f5b7de3e676334f36b6cce63a0afd78d380eea25d8c56ade8ae3fd8770c88ec31c318a20d412ff31f
+  languageName: node
+  linkType: hard
+
 "@discordjs/util@npm:^1.1.0, @discordjs/util@npm:^1.1.1":
   version: 1.1.1
   resolution: "@discordjs/util@npm:1.1.1"
@@ -848,9 +865,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/storage@npm:^7.16.0":
-  version: 7.16.0
-  resolution: "@google-cloud/storage@npm:7.16.0"
+"@google-cloud/storage@npm:^7.17.0":
+  version: 7.17.0
+  resolution: "@google-cloud/storage@npm:7.17.0"
   dependencies:
     "@google-cloud/paginator": "npm:^5.0.0"
     "@google-cloud/projectify": "npm:^4.0.0"
@@ -867,7 +884,7 @@ __metadata:
     retry-request: "npm:^7.0.0"
     teeny-request: "npm:^9.0.0"
     uuid: "npm:^8.0.0"
-  checksum: 10c0/a2a3f341232415d702c8fb054ec2eecbb6908a613848d7279f0b36db9b556ad93444a77a2f2a4c4c6b3f8901b3e7b2350120408c89b17c0ee17b31867a261462
+  checksum: 10c0/6246c278bddfb4b20532cadd100cbeb85ee076b3c89c6cd347ca21f4b82c8985b9221e5e2bacdccb80b7726236027a437da7e553ea4b2c171371f8be50aa4f09
   languageName: node
   linkType: hard
 
@@ -909,15 +926,15 @@ __metadata:
   resolution: "@intmax2-function/shared@workspace:packages/shared"
   dependencies:
     "@google-cloud/firestore": "npm:^7.11.3"
-    "@google-cloud/storage": "npm:^7.16.0"
+    "@google-cloud/storage": "npm:^7.17.0"
     "@hono/node-server": "npm:^1.19.0"
-    abitype: "npm:^1.0.8"
+    abitype: "npm:^1.0.9"
     alchemy-sdk: "npm:^3.6.3"
     axios: "npm:^1.11.0"
-    discord.js: "npm:^14.21.0"
+    discord.js: "npm:^14.22.1"
     envalid: "npm:^8.1.0"
     ethers: "npm:^6.15.0"
-    hono: "npm:^4.9.2"
+    hono: "npm:^4.9.4"
     hono-rate-limiter: "npm:^0.4.2"
     http-status: "npm:2.1.0"
     ioredis: "npm:^5.7.0"
@@ -926,8 +943,8 @@ __metadata:
     pino-pretty: "npm:^13.1.1"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
-    zod: "npm:4.0.17"
+    viem: "npm:^2.34.0"
+    zod: "npm:4.1.0"
   languageName: unknown
   linkType: soft
 
@@ -1033,15 +1050,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:1.9.2, @noble/curves@npm:^1.9.1":
-  version: 1.9.2
-  resolution: "@noble/curves@npm:1.9.2"
-  dependencies:
-    "@noble/hashes": "npm:1.8.0"
-  checksum: 10c0/21d049ae4558beedbf5da0004407b72db84360fa29d64822d82dc9e80251e1ecb46023590cc4b20e70eed697d1b87279b4911dc39f8694c51c874289cfc8e9a7
-  languageName: node
-  linkType: hard
-
 "@noble/curves@npm:1.9.6":
   version: 1.9.6
   resolution: "@noble/curves@npm:1.9.6"
@@ -1057,6 +1065,15 @@ __metadata:
   dependencies:
     "@noble/hashes": "npm:1.8.0"
   checksum: 10c0/39c84dbfecdca80cfde2ecea4b06ef2ec1255a4df40158d22491d1400057a283f57b2b26c8b1331006e6e061db791f31d47764961c239437032e2f45e8888c1e
+  languageName: node
+  linkType: hard
+
+"@noble/curves@npm:^1.9.1":
+  version: 1.9.2
+  resolution: "@noble/curves@npm:1.9.2"
+  dependencies:
+    "@noble/hashes": "npm:1.8.0"
+  checksum: 10c0/21d049ae4558beedbf5da0004407b72db84360fa29d64822d82dc9e80251e1ecb46023590cc4b20e70eed697d1b87279b4911dc39f8694c51c874289cfc8e9a7
   languageName: node
   linkType: hard
 
@@ -1728,6 +1745,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"abitype@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "abitype@npm:1.0.9"
+  peerDependencies:
+    typescript: ">=5.0.4"
+    zod: ^3 >=3.22.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+    zod:
+      optional: true
+  checksum: 10c0/8707fcc80d3edaea14717b0c9ebe15cef1f11825a9c5ffcdbd3ac8e53ae34aaa4c5eb9fb4c352d598d0013fcf71370eeda8eac2fc575f04fa0699a43477ae52b
+  languageName: node
+  linkType: hard
+
 "abort-controller@npm:^3.0.0":
   version: 3.0.0
   resolution: "abort-controller@npm:3.0.0"
@@ -2317,24 +2349,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.21.0":
-  version: 14.21.0
-  resolution: "discord.js@npm:14.21.0"
+"discord-api-types@npm:^0.38.16":
+  version: 0.38.21
+  resolution: "discord-api-types@npm:0.38.21"
+  checksum: 10c0/e20e5a4ad6db6dc9b436d32af25ef85f7562348ce695a5c8f1097dd29850b5918fe42a6754c97b53a532c5225ea51a8f396cf17aded86babce02977a68380fbe
+  languageName: node
+  linkType: hard
+
+"discord.js@npm:^14.22.1":
+  version: 14.22.1
+  resolution: "discord.js@npm:14.22.1"
   dependencies:
     "@discordjs/builders": "npm:^1.11.2"
     "@discordjs/collection": "npm:1.5.3"
     "@discordjs/formatters": "npm:^0.6.1"
-    "@discordjs/rest": "npm:^2.5.1"
+    "@discordjs/rest": "npm:^2.6.0"
     "@discordjs/util": "npm:^1.1.1"
     "@discordjs/ws": "npm:^1.2.3"
     "@sapphire/snowflake": "npm:3.5.3"
-    discord-api-types: "npm:^0.38.1"
+    discord-api-types: "npm:^0.38.16"
     fast-deep-equal: "npm:3.1.3"
     lodash.snakecase: "npm:4.1.1"
     magic-bytes.js: "npm:^1.10.0"
     tslib: "npm:^2.6.3"
     undici: "npm:6.21.3"
-  checksum: 10c0/35d89b66ec427ecc972f9141540774af6c6a5bf177bdbb5c948efbf838ec074204fb4610227f0f8405336d66706ba17f7280aedf00cccd858ef5c1048d861b34
+  checksum: 10c0/d67dc90537270b4941aee896f70aafdba440dcd0f5d1d1f2762888b2edb804c1a384ccff48b6159211225091c3b5d8669799846d46147b907569a3591d8064b9
   languageName: node
   linkType: hard
 
@@ -3117,13 +3156,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.9.2":
-  version: 4.9.2
-  resolution: "hono@npm:4.9.2"
-  checksum: 10c0/0f1a25ea729e90ce9ace8f8dc4e05a180a1a41e3fdd68e5564a4348c260b784b7dccfc4e4c9e004eb0f42acbd9360bda0856639088ba11639c6851929c1d77f7
-  languageName: node
-  linkType: hard
-
 "hono@npm:^4.9.4":
   version: 4.9.4
   resolution: "hono@npm:4.9.4"
@@ -3837,7 +3869,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3963,27 +3995,6 @@ __metadata:
   dependencies:
     wrappy: "npm:1"
   checksum: 10c0/5d48aca287dfefabd756621c5dfce5c91a549a93e9fdb7b8246bc4c4790aa2ec17b34a260530474635147aeb631a2dcc8b32c613df0675f96041cbb8244517d0
-  languageName: node
-  linkType: hard
-
-"ox@npm:0.8.6":
-  version: 0.8.6
-  resolution: "ox@npm:0.8.6"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:^1.11.0"
-    "@noble/ciphers": "npm:^1.3.0"
-    "@noble/curves": "npm:^1.9.1"
-    "@noble/hashes": "npm:^1.8.0"
-    "@scure/bip32": "npm:^1.7.0"
-    "@scure/bip39": "npm:^1.6.0"
-    abitype: "npm:^1.0.8"
-    eventemitter3: "npm:5.0.1"
-  peerDependencies:
-    typescript: ">=5.4.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/025c638966c6e569bb38a78a6f9f84bbeb9f5b0a594ef011ab3f81414edcaf5b20d9ea7d8f90471ddafdcb3f21c61f7a2255d35d2032e8daafbc8b20d98d27cf
   languageName: node
   linkType: hard
 
@@ -4154,7 +4165,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
-    hono: "npm:^4.9.2"
+    hono: "npm:^4.9.4"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
   languageName: unknown
@@ -4828,7 +4839,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -4841,7 +4852,7 @@ __metadata:
     coingecko-api-v3: "npm:^0.0.31"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -4851,7 +4862,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.9.2"
+    hono: "npm:^4.9.4"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
   languageName: unknown
@@ -4917,7 +4928,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.9.2"
+    hono: "npm:^4.9.4"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
   languageName: unknown
@@ -5030,27 +5041,6 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 10c0/1607dd32ac7fc22f2d8f77051e6a64845c9bce5cd3dd8aa0070c074ec73e666a1f63c7b4e0f4bf2bc8b9d59dc85a15e17807446d9d2b17c8485fbc2147b27f9b
-  languageName: node
-  linkType: hard
-
-"viem@npm:^2.33.3":
-  version: 2.33.3
-  resolution: "viem@npm:2.33.3"
-  dependencies:
-    "@noble/curves": "npm:1.9.2"
-    "@noble/hashes": "npm:1.8.0"
-    "@scure/bip32": "npm:1.7.0"
-    "@scure/bip39": "npm:1.6.0"
-    abitype: "npm:1.0.8"
-    isows: "npm:1.0.7"
-    ox: "npm:0.8.6"
-    ws: "npm:8.18.2"
-  peerDependencies:
-    typescript: ">=5.0.4"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/3e1e1849f88529d37e5a52336003209d2b054364738bdd2b89ef3e684cdefe7894a541886bfbfe35ef6c5441849cd7fa6f393ecfa1008c09a5cacc2c978fd42d
   languageName: node
   linkType: hard
 
@@ -5208,7 +5198,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -5336,21 +5326,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.2, ws@npm:^8.5.0":
-  version: 8.18.2
-  resolution: "ws@npm:8.18.2"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10c0/4b50f67931b8c6943c893f59c524f0e4905bbd183016cfb0f2b8653aa7f28dad4e456b9d99d285bbb67cca4fedd9ce90dfdfaa82b898a11414ebd66ee99141e4
-  languageName: node
-  linkType: hard
-
 "ws@npm:8.18.3":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
@@ -5393,6 +5368,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10c0/e498965d6938c63058c4310ffb6967f07d4fa06789d3364829028af380d299fe05762961742971c764973dce3d1f6a2633fe8b2d9410c9b52e534b4b882a99fa
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.5.0":
+  version: 8.18.2
+  resolution: "ws@npm:8.18.2"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10c0/4b50f67931b8c6943c893f59c524f0e4905bbd183016cfb0f2b8653aa7f28dad4e456b9d99d285bbb67cca4fedd9ce90dfdfaa82b898a11414ebd66ee99141e4
   languageName: node
   linkType: hard
 
@@ -5453,9 +5443,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.0.17":
-  version: 4.0.17
-  resolution: "zod@npm:4.0.17"
-  checksum: 10c0/c56ef4cc02f8f52be8724c5a8b338266202d68477c7606bee9b7299818b75c9adc27f16f4b6704a372f3e7578bd016f389de19bfec766564b7c39d0d327c540a
+"zod@npm:4.1.0":
+  version: 4.1.0
+  resolution: "zod@npm:4.1.0"
+  checksum: 10c0/b39bce830cf9864e33b00da2e3fee008e1abb96fff169936ba779648276b6a031d35ed5438d7659ac5d5e09b932d40dce6c255344184794d56f8bd22e501561b
   languageName: node
   linkType: hard
