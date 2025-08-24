@@ -141,7 +141,7 @@ export const submitRelayMessagesToL2MockMessengerWithRetry = async (
     gasPrice,
   };
 
-  const provider = new ethers.JsonRpcProvider(l2Client.transport.url);
+  const provider = new ethers.JsonRpcProvider(l2Client.transport.transports[0].value.url);
   const signer = new ethers.Wallet(config.MOCK_MESSENGER_PRIVATE_KEY, provider);
   const contract = MockL2ScrollMessenger__factory.connect(
     contractCallParams.contractAddress,

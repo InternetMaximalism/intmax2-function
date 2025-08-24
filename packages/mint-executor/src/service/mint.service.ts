@@ -121,7 +121,7 @@ export const submitMintWithRetry = async (
     maxPriorityFeePerGas,
   };
 
-  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.transports[0].value.url);
   const signer = new ethers.Wallet(
     toHex(walletClientData.account.getHdKey().privateKey!),
     provider,

@@ -25,6 +25,12 @@ export const handleFailedStatus = async (bridgeParams: BridgeParams) => {
     ],
   });
 
+  Discord.getInstance().initialize();
+  await Discord.getInstance().sendMessageWitForReady(
+    "FATAL",
+    `FAILED status ${bridgeParams.bridgeGuidTransaction.guid} cleared: ${receipt.hash}`,
+  );
+
   return {
     clearedAt: new Date(),
     clearMessageTxHash: receipt.hash,
