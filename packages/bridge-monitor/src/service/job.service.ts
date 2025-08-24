@@ -73,6 +73,10 @@ const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData
       }
     }
 
+    logger.info(
+      `Updated bridge transaction ${bridgeTransaction.guid} with status: ${updateParams.status}`,
+    );
+
     await BridgeTransaction.getInstance().updateBridgeTransaction(
       bridgeTransaction.guid,
       updateParams,
@@ -82,6 +86,9 @@ const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData
     logger.error(`Failed to process bridge transaction ${bridgeTransaction.guid}: ${errorMessage}`);
 
     if (errorMessage.includes("404")) {
+      logger.warn(
+        `Updated bridge transaction ${bridgeTransaction.guid} with status: ${BridgeTransactionStatus.NOT_FOUND}`,
+      );
       await BridgeTransaction.getInstance().updateBridgeTransaction(bridgeTransaction.guid, {
         status: BridgeTransactionStatus.NOT_FOUND,
       });

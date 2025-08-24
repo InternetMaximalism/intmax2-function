@@ -14,10 +14,6 @@ export const fetchBridgeGuidTransaction = async (
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      logger.info(
-        `Fetching bridge transaction (attempt ${attempt}/${maxRetries}): ${layerZeroMessagesUrl}`,
-      );
-
       const response = await axios.get<BridgeGuidTransactionResponse>(layerZeroMessagesUrl, {
         timeout: API_TIMEOUT,
         headers: {
