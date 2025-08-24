@@ -2,9 +2,11 @@ import {
   BridgeTransaction,
   type BridgeTransactionData,
   BridgeTransactionStatus,
+  logger,
 } from "@intmax2-function/shared";
+import { fetchBridgeGuidTransaction } from "../lib/layerzero";
+import type { UpdateParams } from "../types";
 import {
-  fetchBridgeGuidTransaction,
   handleFailedStatus,
   handleInflightOrConfirmingStatus,
   handlePayloadStored,
@@ -20,7 +22,7 @@ export const performJob = async () => {
       BridgeTransactionStatus.VERIFIED,
       BridgeTransactionStatus.BLOCKED,
     ],
-    alertSent: false,
+    // alertSent: not true(include undefined)
   });
 
   const sortedTransactions = bridgeTransactions.sort((a, b) => a.nonce - b.nonce);
@@ -31,29 +33,61 @@ export const performJob = async () => {
 };
 
 const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData) => {
-  const bridgeGuidTransaction = await fetchBridgeGuidTransaction(bridgeTransaction.guid);
-  const statusName = bridgeGuidTransaction.status.name;
+  try {
+    const bridgeGuidTransaction = await fetchBridgeGuidTransaction(bridgeTransaction.guid);
+    const statusName = bridgeGuidTransaction.status.name as BridgeTransactionStatus;
 
-  switch (statusName) {
-    case BridgeTransactionStatus.FAILED:
-      await handleFailedStatus(bridgeGuidTransaction);
-      break;
+    let updateParams: UpdateParams = {
+      status: statusName,
+    };
 
-    case BridgeTransactionStatus.INFLIGHT:
-    case BridgeTransactionStatus.CONFIRMING:
-      await handleInflightOrConfirmingStatus(bridgeTransaction);
-      break;
+    switch (statusName) {
+      case BridgeTransactionStatus.FAILED: {
+        const result = await handleFailedStatus({ bridgeTransaction, bridgeGuidTransaction });
+        updateParams = { ...updateParams, ...result };
+        break;
+      }
+      case BridgeTransactionStatus.INFLIGHT:
+      case BridgeTransactionStatus.CONFIRMING: {
+        const result = await handleInflightOrConfirmingStatus(bridgeTransaction);
+        if (result) {
+          updateParams = { ...updateParams, ...result };
+        }
+        break;
+      }
+      case BridgeTransactionStatus.VERIFIED: {
+        const result = await handleVerifiedStatus({
+          bridgeTransaction,
+          bridgeGuidTransaction,
+        });
+        updateParams = { ...updateParams, ...result };
+        break;
+      }
+      case BridgeTransactionStatus.PAYLOAD_STORED: {
+        const result = await handlePayloadStored({
+          bridgeTransaction,
+          bridgeGuidTransaction,
+        });
+        updateParams = { ...updateParams, ...result };
+        break;
+      }
+    }
 
-    case BridgeTransactionStatus.VERIFIED:
-      await handleVerifiedStatus(bridgeTransaction);
-      break;
+    await BridgeTransaction.getInstance().updateBridgeTransaction(
+      bridgeTransaction.guid,
+      updateParams,
+    );
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error(`Failed to process bridge transaction ${bridgeTransaction.guid}: ${errorMessage}`);
 
-    case BridgeTransactionStatus.PAYLOAD_STORED:
-      await handlePayloadStored(bridgeGuidTransaction);
-      break;
+    if (errorMessage.includes("404")) {
+      await BridgeTransaction.getInstance().updateBridgeTransaction(bridgeTransaction.guid, {
+        status: BridgeTransactionStatus.NOT_FOUND,
+      });
+      return;
+    }
+
+    throw error;
   }
-
-  await BridgeTransaction.getInstance().updateBridgeTransaction(bridgeTransaction.guid, {
-    status: statusName as BridgeTransactionStatus,
-  });
 };

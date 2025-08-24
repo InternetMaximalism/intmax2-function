@@ -13,4 +13,4 @@ export { MockL1ScrollMessenger__factory } from "./factories/contracts/test/MockL
 export { MockL2ScrollMessenger__factory } from "./factories/contracts/test/MockL2ScrollMessanger.sol/MockL2ScrollMessenger__factory";
 export { Minter__factory } from "./factories/contracts/minter/Minter__factory";
 export type { contracts };
-
+export { MainnetBridgeOApp__factory } from './factories/contracts/mainnetBridgeOApp/MainnetBridgeOApp__factory';

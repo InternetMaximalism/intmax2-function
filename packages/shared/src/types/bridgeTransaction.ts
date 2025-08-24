@@ -2,6 +2,7 @@ export interface BridgeTransactionData {
   guid: string;
   status: BridgeTransactionStatus;
   nonce: number;
+  amount: string;
   verifiedAt?: FirebaseFirestore.Timestamp;
   alertSent?: boolean;
   lastAlertAt?: FirebaseFirestore.Timestamp;
@@ -18,8 +19,13 @@ export interface BridgeTransactionInput {
 
 export interface BridgeTransactionUpdateInput {
   status: BridgeTransactionStatus;
+  clearedAt?: Date;
+  clearMessageTxHash?: string;
   alertSent?: boolean;
-  lastAlertAt?: FirebaseFirestore.Timestamp;
+  lastAlertAt?: Date;
+  manualRetryAt?: Date;
+  manualRetryTxHash?: string;
+  verifiedAt?: Date;
 }
 
 export interface BridgeTransactionFilter {
@@ -28,7 +34,9 @@ export interface BridgeTransactionFilter {
 }
 
 export enum BridgeTransactionStatus {
+  // original
   QUEUED = "QUEUED",
+  // definition
   INFLIGHT = "INFLIGHT",
   CONFIRMING = "CONFIRMING",
   VERIFIED = "VERIFIED",
@@ -36,4 +44,6 @@ export enum BridgeTransactionStatus {
   FAILED = "FAILED",
   PAYLOAD_STORED = "PAYLOAD_STORED",
   BLOCKED = "BLOCKED",
+  // original
+  NOT_FOUND = "NOT_FOUND",
 }
