@@ -31,7 +31,6 @@ export const performJob = async () => {
 };
 
 const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData) => {
-  // TODO: sleep and retry
   const bridgeGuidTransaction = await fetchBridgeGuidTransaction(bridgeTransaction.guid);
   const statusName = bridgeGuidTransaction.status.name;
 

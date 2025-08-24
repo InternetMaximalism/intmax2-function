@@ -6,49 +6,76 @@ import {
   logger,
   MAINNET_BRIDGE_O_APP_CONTRACT_ADDRESS,
   MainnetBridgeOAppAbi,
+  sleep,
 } from "@intmax2-function/shared";
 import axios, { AxiosError } from "axios";
 import type { Abi } from "viem";
-import { LAYER_ZERO_SCAN_API } from "../constants";
+import { LAYER_ZERO_SCAN_API, MAX_RETRIES, RETRY_DELAY_MS } from "../constants";
 import { l1Client } from "../lib/blockchain";
 import type { BridgeGuidTransaction, BridgeGuidTransactionResponse } from "../types";
 import { submitTransaction } from "./submit.service";
 
-export const fetchBridgeGuidTransaction = async (guid: string) => {
+export const fetchBridgeGuidTransaction = async (
+  guid: string,
+  maxRetries: number = MAX_RETRIES,
+  retryDelayMs: number = RETRY_DELAY_MS,
+) => {
   const layerZeroMessagesUrl = `${LAYER_ZERO_SCAN_API[config.LAYER_ZERO_NETWORK]}/messages/guid/${guid}`;
-  try {
-    const response = await axios.get<BridgeGuidTransactionResponse>(layerZeroMessagesUrl, {
-      timeout: API_TIMEOUT,
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (response.data?.data === undefined) {
-      throw new Error("Data is missing in the response");
+
+  let lastError: Error | null = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      logger.info(
+        `Fetching bridge transaction (attempt ${attempt}/${maxRetries}): ${layerZeroMessagesUrl}`,
+      );
+
+      const response = await axios.get<BridgeGuidTransactionResponse>(layerZeroMessagesUrl, {
+        timeout: API_TIMEOUT,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.data?.data === undefined) {
+        throw new Error("Data is missing in the response");
+      }
+
+      const transactions = response.data.data as BridgeGuidTransaction[];
+      if (transactions.length === 0) {
+        throw new Error("No transactions found");
+      }
+
+      return transactions[0];
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      logger.warn(
+        `Failed to fetch bridge transaction (attempt ${attempt}/${maxRetries}): ${lastError.message}`,
+      );
+
+      if (attempt === maxRetries) {
+        break;
+      }
+
+      logger.info(`Waiting ${retryDelayMs}ms before retry...`);
+      await sleep(retryDelayMs);
     }
-    const transactions = response.data.data as BridgeGuidTransaction[];
+  }
 
-    if (transactions.length === 0) {
-      throw new Error("No transactions found");
-    }
+  logger.error(
+    `Failed to fetch bridge transaction after ${maxRetries} attempts: ${layerZeroMessagesUrl}`,
+  );
 
-    return transactions[0];
-  } catch (error) {
-    logger.error(
-      `Failed to fetch bridge transaction status url: ${layerZeroMessagesUrl} ${error instanceof Error ? error.message : error}`,
-    );
-    // 404
-
-    if (error instanceof AxiosError) {
-      throw new Error(`Failed to fetch status: ${error.response?.status}`);
-    }
-
+  if (lastError instanceof AxiosError) {
     throw new Error(
-      `Unexpected error while fetching bridge transaction status: ${
-        error instanceof Error ? error.message : error
-      }`,
+      `Failed to fetch status after ${maxRetries} attempts: ${lastError.response?.status}`,
     );
   }
+
+  throw new Error(
+    `Unexpected error while fetching bridge transaction status after ${maxRetries} attempts: ${lastError?.message}`,
+  );
 };
 
 export const handleFailedStatus = async (_: BridgeGuidTransaction) => {
