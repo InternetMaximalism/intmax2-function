@@ -144,7 +144,7 @@ export const submitMessageToScroll = async (
     maxPriorityFeePerGas,
   };
 
-  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.transports[0].value.url);
   const signer = new ethers.Wallet(config.MOCK_MESSENGER_PRIVATE_KEY, provider);
   toHex;
   const contract = MockL1ScrollMessenger__factory.connect(

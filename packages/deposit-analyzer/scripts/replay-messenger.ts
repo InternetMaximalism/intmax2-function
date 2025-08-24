@@ -78,7 +78,7 @@ const submitTx = async (
 
   const { currentNonce } = await getNonce(l1Client, walletL1ClientData.account.address);
 
-  const provider = new ethers.JsonRpcProvider(l1Client.transport.url);
+  const provider = new ethers.JsonRpcProvider(l1Client.transport.transports[0].value.url);
   const signer = new ethers.Wallet(
     toHex(walletL1ClientData.account.getHdKey().privateKey!),
     provider,

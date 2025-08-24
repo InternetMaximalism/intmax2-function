@@ -32,7 +32,7 @@ export const getEthersScrollMaxGasMultiplier = async (
   publicClient: PublicClient,
   multiplier: number,
 ) => {
-  const provider = new ethers.JsonRpcProvider(publicClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(publicClient.transport.transports[0].value.url);
 
   const [block, feeData] = await Promise.all([provider.getBlock("latest"), provider.getFeeData()]);
   const baseGasPrice = getGasPrice(block, feeData);
@@ -55,7 +55,7 @@ const getGasPrice = (block: Block | null, feeData: FeeData) => {
 };
 
 export const getEthersMaxGasMultiplier = async (publicClient: PublicClient, multiplier: number) => {
-  const provider = new ethers.JsonRpcProvider(publicClient.transport.url);
+  const provider = new ethers.JsonRpcProvider(publicClient.transport.transports[0].value.url);
   const feeData = await provider.getFeeData();
   const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = calculateAdjustedGasPrices(
     multiplier,
