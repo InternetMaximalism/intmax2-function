@@ -15,7 +15,8 @@ type WalletType =
   | "depositAnalyzer"
   | "withdrawal"
   | "blockBuilderReward"
-  | "tokenManager";
+  | "tokenManager"
+  | "bridgeManager";
 
 const walletConfigs: Record<WalletType, number> = {
   builder: 0,
@@ -23,6 +24,7 @@ const walletConfigs: Record<WalletType, number> = {
   withdrawal: 2,
   blockBuilderReward: 3,
   tokenManager: 4,
+  bridgeManager: 5,
 };
 
 export const getMockWalletClient = (

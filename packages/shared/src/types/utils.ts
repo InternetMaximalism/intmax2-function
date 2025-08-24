@@ -18,3 +18,5 @@ export const FIRESTORE_DOCUMENT_TYPES = {
 
 export type FirestoreDocumentKey =
   (typeof FIRESTORE_DOCUMENT_TYPES)[keyof typeof FIRESTORE_DOCUMENT_TYPES];
+
+export type DiscordMessageType = "INFO" | "WARN" | "FATAL";

@@ -1,3 +1,5 @@
+import { type BridgeTransactionData, BridgeTransactionStatus } from "@intmax2-function/shared";
+
 export interface BridgeGuidTransactionResponse {
   data: BridgeGuidTransaction[];
 }
@@ -143,4 +145,27 @@ interface ChainConfig {
 export interface Status {
   name: string;
   message: string;
+}
+
+export type ArgType = string | number | bigint | boolean | ArgType[] | { [key: string]: ArgType };
+
+export interface CallParams {
+  operation: string;
+  args: ArgType[];
+}
+
+export interface BridgeParams {
+  bridgeTransaction: BridgeTransactionData;
+  bridgeGuidTransaction: BridgeGuidTransaction;
+}
+
+export interface UpdateParams {
+  status: BridgeTransactionStatus;
+  clearedAt?: Date;
+  clearMessageTxHash?: string;
+  alertSent?: boolean;
+  lastAlertAt?: Date;
+  manualRetryAt?: Date;
+  manualRetryTxHash?: string;
+  verifiedAt?: Date;
 }
