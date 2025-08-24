@@ -6,7 +6,7 @@ import {
 import {
   fetchBridgeGuidTransaction,
   handleFailedStatus,
-  handleInflightOrConfirming,
+  handleInflightOrConfirmingStatus,
   handlePayloadStored,
   handleVerifiedStatus,
 } from "./process.service";
@@ -41,7 +41,7 @@ const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData
 
     case BridgeTransactionStatus.INFLIGHT:
     case BridgeTransactionStatus.CONFIRMING:
-      await handleInflightOrConfirming(bridgeTransaction);
+      await handleInflightOrConfirmingStatus(bridgeTransaction);
       break;
 
     case BridgeTransactionStatus.VERIFIED:

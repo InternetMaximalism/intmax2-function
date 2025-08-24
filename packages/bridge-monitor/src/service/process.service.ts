@@ -80,30 +80,48 @@ export const fetchBridgeGuidTransaction = async (
 
 export const handleFailedStatus = async (_: BridgeGuidTransaction) => {
   await submitTransaction("clear");
+
+  return {
+    clearedAt: new Date(),
+  };
 };
 
-export const handleInflightOrConfirming = async (bridgeTransaction: BridgeTransactionData) => {
+export const handleInflightOrConfirmingStatus = async (
+  bridgeTransaction: BridgeTransactionData,
+) => {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  // TODO
-  if (bridgeTransaction.updatedAt.toDate() < twentyFourHoursAgo) {
+  if (bridgeTransaction.createdAt.toDate() < twentyFourHoursAgo) {
+    Discord.getInstance().initialize();
     await Discord.getInstance().sendMessageWitForReady(
       "FATAL",
       `INFLIGHT/CONFIRMING status persists over 24 hours: ${bridgeTransaction.guid}`,
     );
+
+    return {
+      alertSent: true,
+      lastAlertAt: new Date(),
+    };
   }
+
+  return null;
 };
 
 export const handleVerifiedStatus = async (bridgeTransaction: BridgeTransactionData) => {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-  const verifiedTimestamp = bridgeTransaction.verifiedAt
-    ? bridgeTransaction.verifiedAt.toDate()
-    : bridgeTransaction.createdAt.toDate();
 
-  // TODO:
-  if (verifiedTimestamp < twentyFourHoursAgo) {
+  if (bridgeTransaction.verifiedAt && bridgeTransaction.verifiedAt.toDate() < twentyFourHoursAgo) {
     await submitTransaction("manualRetry");
+
+    return {
+      alertSent: true,
+      lastAlertAt: new Date(),
+    };
   }
+
+  return {
+    verifiedAt: new Date(),
+  };
 };
 
 export const handlePayloadStored = async (bridgeGuidTransaction: BridgeGuidTransaction) => {
@@ -111,12 +129,22 @@ export const handlePayloadStored = async (bridgeGuidTransaction: BridgeGuidTrans
 
   if (hasStored) {
     await submitTransaction("manualRetry");
-  } else {
-    await Discord.getInstance().sendMessageWitForReady(
-      "FATAL",
-      `PAYLOAD_STORED but hasStoredPayload is false: ${bridgeGuidTransaction.guid}`,
-    );
+
+    return {
+      manualRetryAt: new Date(),
+    };
   }
+
+  Discord.getInstance().initialize();
+  await Discord.getInstance().sendMessageWitForReady(
+    "FATAL",
+    `PAYLOAD_STORED but hasStoredPayload is false: ${bridgeGuidTransaction.guid}`,
+  );
+
+  return {
+    alertSent: true,
+    lastAlertAt: new Date(),
+  };
 };
 
 const hasStoredPayload = async () => {

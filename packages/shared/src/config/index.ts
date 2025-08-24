@@ -99,6 +99,7 @@ export const config = cleanEnv(process.env, {
   // discord
   DISCORD_BOT_TOKEN: str({ default: "dummy" }),
   DISCORD_BOT_INFO_CHANNEL_ID: str({ default: "dummy" }),
+  DISCORD_BOT_WARN_CHANNEL_ID: str({ default: "dummy" }),
   DISCORD_BOT_ERROR_CHANNEL_ID: str({ default: "dummy" }),
   // scroll
   SCROLL_GAS_MULTIPLIER: num({ default: 2 }),

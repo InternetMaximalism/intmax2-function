@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, type TextChannel } from "discord.js";
 import { config } from "../config";
+import { DiscordMessageType } from "../types";
 import { logger } from "./logger";
 
 export class Discord {
@@ -55,9 +56,16 @@ export class Discord {
     await this.sendMessage(messageType, message);
   }
 
-  private getChannelIDByMessageType(type: "INFO" | "WARN" | "FATAL") {
-    return type === "FATAL"
-      ? config.DISCORD_BOT_ERROR_CHANNEL_ID
-      : config.DISCORD_BOT_INFO_CHANNEL_ID;
+  private getChannelIDByMessageType(type: DiscordMessageType) {
+    switch (type) {
+      case "INFO":
+        return config.DISCORD_BOT_INFO_CHANNEL_ID;
+      case "WARN":
+        return config.DISCORD_BOT_WARN_CHANNEL_ID;
+      case "FATAL":
+        return config.DISCORD_BOT_ERROR_CHANNEL_ID;
+      default:
+        throw new Error(`Unknown message type: ${type}`);
+    }
   }
 }
