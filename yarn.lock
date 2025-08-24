@@ -1944,7 +1944,7 @@ __metadata:
     axios: "npm:^1.11.0"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -2305,7 +2305,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
@@ -3124,6 +3124,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hono@npm:^4.9.4":
+  version: 4.9.4
+  resolution: "hono@npm:4.9.4"
+  checksum: 10c0/2ecea6846d6fb2f9135e1287af849c5fbafac0394b2e38b1d00d4afe00b791c20e39b6a6d8dcd6c444b97aafcf7043509f53d00960da636ce395fe91e089ede5
+  languageName: node
+  linkType: hard
+
 "html-entities@npm:^2.5.2":
   version: 2.6.0
   resolution: "html-entities@npm:2.6.0"
@@ -3242,7 +3249,7 @@ __metadata:
     semver: "npm:^7.7.2"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3253,7 +3260,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3267,7 +3274,7 @@ __metadata:
     semver: "npm:^7.7.2"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3277,7 +3284,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
-    hono: "npm:^4.9.2"
+    hono: "npm:^4.9.4"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
   languageName: unknown
@@ -3654,7 +3661,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3796,7 +3803,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
   languageName: unknown
   linkType: soft
 
@@ -3817,7 +3824,7 @@ __metadata:
     ethers: "npm:^6.15.0"
     tsx: "npm:^4.20.4"
     typescript: "npm:^5.9.2"
-    viem: "npm:^2.33.3"
+    viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft
