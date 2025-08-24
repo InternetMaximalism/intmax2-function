@@ -1,7 +1,7 @@
 import { createWalletClient, fallback } from "viem";
 import { mnemonicToAccount, privateKeyToAccount } from "viem/accounts";
 import { config } from "../config";
-import type { NetworkLayer } from "./../types/blockchain";
+import type { NetworkLayer } from "./../types";
 import { getClientConfig } from "./client";
 
 type MockWalletType = "mockMessenger";

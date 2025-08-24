@@ -20,6 +20,7 @@ export const performJob = async () => {
       BridgeTransactionStatus.VERIFIED,
       BridgeTransactionStatus.BLOCKED,
     ],
+    alertSent: false,
   });
 
   const sortedTransactions = bridgeTransactions.sort((a, b) => a.nonce - b.nonce);

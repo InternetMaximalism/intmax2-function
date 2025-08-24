@@ -145,6 +145,9 @@ export class BridgeTransaction {
       if (filter?.statuses && filter.statuses.length > 0) {
         modified = modified.where("status", "in", filter.statuses);
       }
+      if (filter?.alertSent !== undefined) {
+        modified = modified.where("alertSent", "==", filter.alertSent);
+      }
       return modified;
     });
   }
