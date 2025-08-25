@@ -941,7 +941,7 @@ __metadata:
     node-cache: "npm:^5.1.2"
     pino: "npm:^9.9.0"
     pino-pretty: "npm:^13.1.1"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
     zod: "npm:4.1.1"
@@ -1974,7 +1974,7 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
@@ -2027,7 +2027,7 @@ __metadata:
   resolution: "bridge-event-watcher@workspace:packages/bridge-event-watcher"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     vitest: "npm:^3.2.4"
   languageName: unknown
@@ -2039,7 +2039,7 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
@@ -2335,7 +2335,7 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     ethers: "npm:^6.15.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
@@ -3279,7 +3279,7 @@ __metadata:
     "@types/semver": "npm:^7"
     axios: "npm:^1.11.0"
     semver: "npm:^7.7.2"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -3290,7 +3290,7 @@ __metadata:
   resolution: "indexer-event-watcher@workspace:packages/indexer-event-watcher"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -3304,7 +3304,7 @@ __metadata:
     "@types/semver": "npm:^7"
     axios: "npm:^1.11.0"
     semver: "npm:^7.7.2"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -3317,7 +3317,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.4"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -3691,7 +3691,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
     ethers: "npm:^6.15.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -3833,7 +3833,7 @@ __metadata:
   resolution: "mint-executor@workspace:packages/mint-executor"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -3854,7 +3854,7 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     ethers: "npm:^6.15.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
     vitest: "npm:^3.2.4"
@@ -3867,7 +3867,7 @@ __metadata:
   dependencies:
     "@intmax2-function/shared": "workspace:*"
     ethers: "npm:^6.15.0"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -4166,7 +4166,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
     hono: "npm:^4.9.4"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -4837,7 +4837,7 @@ __metadata:
   resolution: "token-map-register@workspace:packages/token-map-register"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -4850,7 +4850,7 @@ __metadata:
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
     coingecko-api-v3: "npm:^0.0.31"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
@@ -4863,7 +4863,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.4"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -4896,9 +4896,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.20.4":
-  version: 4.20.4
-  resolution: "tsx@npm:4.20.4"
+"tsx@npm:^4.20.5":
+  version: 4.20.5
+  resolution: "tsx@npm:4.20.5"
   dependencies:
     esbuild: "npm:~0.25.0"
     fsevents: "npm:~2.3.3"
@@ -4908,7 +4908,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10c0/2deb24b0c689031962901f29fc3411bc9a3753780e9a39b8bf0233dba7fc59dc8f9732f6ebbfe16f498fc27b6adf1eeecfa46360d1161081aafffaaa26371998
+  checksum: 10c0/70f9bf746be69281312a369c712902dbf9bcbdd9db9184a4859eb4859c36ef0c5a6d79b935c1ec429158ee73fd6584089400ae8790345dae34c5b0222bdb94f3
   languageName: node
   linkType: hard
 
@@ -4917,7 +4917,7 @@ __metadata:
   resolution: "tx-map-cleaner@workspace:packages/tx-map-cleaner"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -4929,7 +4929,7 @@ __metadata:
     "@hono/node-server": "npm:^1.19.0"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.4"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -5196,7 +5196,7 @@ __metadata:
   resolution: "wallet-observer@workspace:packages/wallet-observer"
   dependencies:
     "@intmax2-function/shared": "workspace:*"
-    tsx: "npm:^4.20.4"
+    tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     viem: "npm:^2.34.0"
   languageName: unknown
