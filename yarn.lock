@@ -912,12 +912,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/node-server@npm:^1.19.1":
-  version: 1.19.1
-  resolution: "@hono/node-server@npm:1.19.1"
+"@hono/node-server@npm:^1.19.3":
+  version: 1.19.3
+  resolution: "@hono/node-server@npm:1.19.3"
   peerDependencies:
     hono: ^4
-  checksum: 10c0/83457ebb15b0d04644c334dbd30036cfbcf3019164c29d8f4b67f070735c6cd21c7d1713e7db47f658530e0bf3c5583434fba03b0bc4dd6b26fc2c2fdf4ea1e5
+  checksum: 10c0/72a6f52feb9d9e5112b70077c6fc84184f484f2d6818622c480edcacd6d888e1a14d45dc1ab5112324bfcbd7c42ff647e71fecba6d372dc511a820c858085ad9
   languageName: node
   linkType: hard
 
@@ -927,7 +927,7 @@ __metadata:
   dependencies:
     "@google-cloud/firestore": "npm:^7.11.3"
     "@google-cloud/storage": "npm:^7.17.0"
-    "@hono/node-server": "npm:^1.19.1"
+    "@hono/node-server": "npm:^1.19.3"
     abitype: "npm:^1.0.9"
     alchemy-sdk: "npm:^3.6.3"
     axios: "npm:^1.11.0"
@@ -3314,7 +3314,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "indexer@workspace:packages/indexer"
   dependencies:
-    "@hono/node-server": "npm:^1.19.1"
+    "@hono/node-server": "npm:^1.19.3"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.6"
     tsx: "npm:^4.20.5"
@@ -4162,7 +4162,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "predicate@workspace:packages/predicate"
   dependencies:
-    "@hono/node-server": "npm:^1.19.1"
+    "@hono/node-server": "npm:^1.19.3"
     "@intmax2-function/shared": "workspace:*"
     axios: "npm:^1.11.0"
     hono: "npm:^4.9.6"
@@ -4860,7 +4860,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "token@workspace:packages/token"
   dependencies:
-    "@hono/node-server": "npm:^1.19.1"
+    "@hono/node-server": "npm:^1.19.3"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.6"
     tsx: "npm:^4.20.5"
@@ -4926,7 +4926,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tx-map@workspace:packages/tx-map"
   dependencies:
-    "@hono/node-server": "npm:^1.19.1"
+    "@hono/node-server": "npm:^1.19.3"
     "@intmax2-function/shared": "workspace:*"
     hono: "npm:^4.9.6"
     tsx: "npm:^4.20.5"

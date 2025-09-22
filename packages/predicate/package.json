@@ -2,7 +2,7 @@
   "name": "predicate",
   "version": "1.0.0",
   "dependencies": {
-    "@hono/node-server": "^1.19.1",
+    "@hono/node-server": "^1.19.3",
     "@intmax2-function/shared": "workspace:*",
     "axios": "^1.11.0",
     "hono": "^4.9.6"
