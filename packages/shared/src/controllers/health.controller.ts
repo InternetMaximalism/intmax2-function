@@ -1,7 +1,7 @@
-import type { Context } from "hono";
+import type { Context, TypedResponse } from "hono";
 import * as healthService from "../services/health.service";
 
-export const healthCheck = async (c: Context) => {
+export const healthCheck = (c: Context): TypedResponse => {
   const result = healthService.healthCheck();
   return c.json(result);
 };
