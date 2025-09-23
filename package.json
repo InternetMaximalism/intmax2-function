@@ -1,6 +1,6 @@
 {
   "name": "intmax2-function",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "license": "MIT",
   "description": "A collection of function for INTMAX2 blockchain",
   "repository": {
@@ -19,7 +19,7 @@
     "token"
   ],
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=22.0.0",
     "yarn": ">=4.0.0"
   },
   "workspaces": [
@@ -44,9 +44,9 @@
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
-  "packageManager": "yarn@4.9.3",
+  "packageManager": "yarn@4.10.2",
   "volta": {
-    "node": "24.6.0",
-    "yarn": "4.9.3"
+    "node": "24.8.0",
+    "yarn": "4.10.2"
   }
 }
