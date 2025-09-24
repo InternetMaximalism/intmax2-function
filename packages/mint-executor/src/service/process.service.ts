@@ -1,5 +1,4 @@
 import {
-  Alchemy,
   createNetworkClient,
   ITX_AMOUNT_TO_LIQUIDITY,
   logger,
@@ -148,7 +147,8 @@ const executeMintOperation = async (
   logger.info("Executing mint operation");
 
   const receipt = await mint(l1Client);
-  const block = await Alchemy.getInstance("l1").getBlock(BigInt(receipt.blockNumber));
+  const block = await l1Client.getBlock({ blockNumber: BigInt(receipt.blockNumber) });
+
   await mintEvent.addEvent({
     type: "mint",
     blockNumber: Number(receipt.blockNumber),
@@ -164,7 +164,8 @@ const executeTransferOperation = async (
   logger.info("Executing transfer to liquidity operation");
 
   const receipt = await transferToLiquidity(l1Client, BigInt(ITX_AMOUNT_TO_LIQUIDITY));
-  const block = await Alchemy.getInstance("l1").getBlock(BigInt(receipt.blockNumber));
+  const block = await l1Client.getBlock({ blockNumber: BigInt(receipt.blockNumber) });
+
   await mintEvent.addEvent({
     type: "transferToLiquidity",
     blockNumber: Number(receipt.blockNumber),

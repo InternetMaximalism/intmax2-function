@@ -1,10 +1,4 @@
-import {
-  Alchemy,
-  ITX_AMOUNT_TO_LIQUIDITY,
-  logger,
-  MintedEvent,
-  TransferredToLiquidityEvent,
-} from "@intmax2-function/shared";
+import { ITX_AMOUNT_TO_LIQUIDITY, logger } from "@intmax2-function/shared";
 import { hexToNumber } from "viem";
 import { afterEach, beforeEach, describe, expect, it, type MockedFunction, vi } from "vitest";
 import { getMintedEvent, getTransferredToLiquidityEvent } from "./event.service";
@@ -14,9 +8,6 @@ import { executeAutomaticOperations, processEvents } from "./process.service";
 import { transferToLiquidity } from "./transfer.service";
 
 vi.mock("@intmax2-function/shared", () => ({
-  Alchemy: {
-    getInstance: vi.fn(),
-  },
   ITX_AMOUNT_TO_LIQUIDITY: 1000000n,
   MINT_INTERVAL_WEEKS: 4,
   TRANSFER_INTERVAL_WEEKS: 1,
@@ -61,12 +52,9 @@ describe("Event Processing Service", () => {
       getLatestEventByType: vi.fn(),
       addEvent: vi.fn(),
     };
-
-    mockAlchemyInstance = {
+    mockEthereumClient = {
       getBlock: vi.fn(),
     };
-
-    (Alchemy.getInstance as any).mockReturnValue(mockAlchemyInstance);
     (hexToNumber as any).mockImplementation((hex: string) => parseInt(hex, 16));
   });
 
@@ -75,28 +63,15 @@ describe("Event Processing Service", () => {
     const currentBlockNumber = 2000n;
 
     it("should process new mint and transfer events", async () => {
-      const mockMintedEvent: MintedEvent = {
-        name: "Minted",
-        address: "0x1234567890123456789012345678901234567890",
+      const mockMintedEvent = {
         blockNumber: 1500n,
         blockTimestamp: "0x64a1b2c3",
-        blockHash: "0xblockhash123",
         transactionHash: "0xabc123",
-        args: {
-          amount: 1000n,
-        },
       };
-
-      const mockTransferEvent: TransferredToLiquidityEvent = {
-        name: "TransferredToLiquidity",
-        address: "0x1234567890123456789012345678901234567890",
+      const mockTransferEvent = {
         blockNumber: 1600n,
         blockTimestamp: "0x64a1b2c4",
-        blockHash: "0xblockhash456",
         transactionHash: "0xdef456",
-        args: {
-          amount: 2000n,
-        },
       };
 
       mockMintEvent.getLatestEventByType
@@ -200,7 +175,7 @@ describe("Event Processing Service", () => {
         .mockReturnValueOnce(true) // mint
         .mockReturnValueOnce(false); // transfer
       (mint as MockedFunction<any>).mockResolvedValue(mockReceipt);
-      mockAlchemyInstance.getBlock.mockResolvedValue(mockBlock);
+      mockEthereumClient.getBlock.mockResolvedValue(mockBlock);
 
       await executeAutomaticOperations(mockEthereumClient, mockMintEvent);
 
@@ -238,7 +213,7 @@ describe("Event Processing Service", () => {
         .mockReturnValueOnce(false) // mint
         .mockReturnValueOnce(true); // transfer
       (transferToLiquidity as MockedFunction<any>).mockResolvedValue(mockReceipt);
-      mockAlchemyInstance.getBlock.mockResolvedValue(mockBlock);
+      mockEthereumClient.getBlock.mockResolvedValue(mockBlock);
 
       await executeAutomaticOperations(mockEthereumClient, mockMintEvent);
 
@@ -286,7 +261,7 @@ describe("Event Processing Service", () => {
         .mockReturnValueOnce(true); // transfer
       (mint as MockedFunction<any>).mockResolvedValue(mockMintReceipt);
       (transferToLiquidity as MockedFunction<any>).mockResolvedValue(mockTransferReceipt);
-      mockAlchemyInstance.getBlock.mockResolvedValue(mockBlock);
+      mockEthereumClient.getBlock.mockResolvedValue(mockBlock);
 
       await executeAutomaticOperations(mockEthereumClient, mockMintEvent);
 
