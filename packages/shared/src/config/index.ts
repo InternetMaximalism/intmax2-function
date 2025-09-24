@@ -51,9 +51,6 @@ export const config = cleanEnv(process.env, {
   L2_CHAIN: l2Chain({ default: "scroll" }),
   L1_RPC_URLS: rpcUrls({ default: ["https://eth-sepolia.alchemyapi.io/v2/dummy"] }),
   L2_RPC_URLS: rpcUrls({ default: ["https://scroll-sepolia.alchemyapi.io/v2/dummy"] }),
-  ALCHEMY_API_KEY: str({ default: "dummy" }),
-  ALCHEMY_L1_NETWORK: str({ default: "ETH_SEPOLIA" }),
-  ALCHEMY_L2_NETWORK: str({ default: "SCROLL_SEPOLIA" }),
   TRANSACTION_WAIT_TRANSACTION_TIMEOUT: num({ default: 30_000 }),
   TRANSACTION_INCREMENT_RATE: num({
     default: 0.3,
