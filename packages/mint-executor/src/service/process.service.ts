@@ -1,5 +1,4 @@
 import {
-  Alchemy,
   createNetworkClient,
   ITX_AMOUNT_TO_LIQUIDITY,
   logger,
