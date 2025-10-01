@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import { HTTPException } from "hono/http-exception";
 import { ContentfulStatusCode } from "hono/utils/http-status";
 import { ZodError } from "zod";
 import { isProduction } from "../config";
@@ -10,6 +11,45 @@ export enum ErrorCode {
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
   VALIDATION_ERROR = "VALIDATION_ERROR",
 }
+
+interface HasStatus {
+  status: number;
+}
+
+const hasStatus = (err: unknown): err is HasStatus => {
+  return typeof err === "object" && err !== null && "status" in err;
+};
+
+const mapError = (status: ContentfulStatusCode, _: unknown) => {
+  if (status === 504) {
+    return {
+      code: "GATEWAY_TIMEOUT",
+      message: "Gateway Timeout",
+    };
+  }
+  if (status >= 400 && status < 500) {
+    return {
+      code: "BAD_REQUEST",
+      message: "Bad Request",
+    };
+  }
+
+  return {
+    code: "INTERNAL_SERVER_ERROR",
+    message: "Internal Server Error",
+  };
+};
+
+const getStatus = (err: unknown): number => {
+  if (hasStatus(err)) {
+    return err.status;
+  }
+  return 500;
+};
+
+export const TIMEOUT_ERROR = new HTTPException(504, {
+  message: "Request timed out",
+});
 
 export class AppError extends Error {
   constructor(
@@ -45,7 +85,11 @@ export class InternalServerError extends AppError {
   }
 }
 
-const IGNORE_ERROR_MESSAGES = ["URI malformed"];
+const IGNORE_ERROR_MESSAGES = [
+  "URI malformed",
+  "Request timed out",
+  "Response.clone: Body has already been consumed.",
+];
 
 export const handleError = (err: unknown, c: Context): Response => {
   if (err instanceof ZodError) {
@@ -73,9 +117,8 @@ export const handleError = (err: unknown, c: Context): Response => {
     return c.json({ code: err.code, message: err.message }, err.statusCode as ContentfulStatusCode);
   }
 
-  const statusCode = err instanceof Error ? 500 : 400;
-  const code = err instanceof Error ? "INTERNAL_SERVER_ERROR" : "BAD_REQUEST";
-  const message = err instanceof Error ? "Internal Server Error" : "Bad Request";
+  const statusCode = getStatus(err) as ContentfulStatusCode;
+  const { code, message } = mapError(statusCode, err);
 
   return c.json(
     {

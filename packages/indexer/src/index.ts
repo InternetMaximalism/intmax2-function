@@ -11,6 +11,7 @@ import {
   NotFoundError,
   requestMiddleware,
   shutdown,
+  TIMEOUT_ERROR,
 } from "@intmax2-function/shared";
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
@@ -26,7 +27,7 @@ const app = new Hono();
 app.use(corsMiddleware);
 app.use(secureHeaders());
 app.use(limiter);
-app.use(timeout(APP_TIMEOUT));
+app.use(timeout(APP_TIMEOUT, TIMEOUT_ERROR));
 app.use(requestMiddleware);
 
 app.use(prettyJSON());

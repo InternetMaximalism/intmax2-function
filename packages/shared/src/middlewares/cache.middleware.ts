@@ -1,16 +1,6 @@
 import type { Context, Next } from "hono";
 import { cache } from "../lib";
-
-export type CachedResponse = {
-  body: string;
-  headers: Record<string, string>;
-  status: number;
-};
-
-type CacheOptions = {
-  expire: number;
-  key?: string;
-};
+import type { CachedResponse, CacheOptions } from "../types";
 
 const validateKeys = ["perPage", "cursor", "tokenIndexes", "contractAddresses"];
 
