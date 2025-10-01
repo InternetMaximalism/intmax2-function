@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "dependencies": {
-    "@google-cloud/firestore": "^7.11.5",
+    "@google-cloud/firestore": "^7.11.6",
     "@google-cloud/storage": "^7.17.1",
     "@hono/node-server": "^1.19.4",
     "abitype": "^1.1.1",
