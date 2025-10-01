@@ -5,7 +5,7 @@
     "@intmax2-function/shared": "workspace:*",
     "axios": "^1.12.2",
     "ethers": "^6.15.0",
-    "viem": "^2.37.8"
+    "viem": "^2.37.9"
   },
   "scripts": {
     "start:withdrawal": "node dist/index.js withdrawal",
