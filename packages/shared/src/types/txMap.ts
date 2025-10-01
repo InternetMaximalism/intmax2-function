@@ -3,3 +3,14 @@ export type TxMapData = {
   data: string;
   expiresAt: Date;
 };
+
+export interface CachedResponse {
+  body: string;
+  headers: Record<string, string>;
+  status: number;
+}
+
+export interface CacheOptions {
+  expire: number;
+  key?: string;
+}
