@@ -40,7 +40,13 @@ curl "$ENDPOINT/v1/token-maps/list?tokenIndexes=1&tokenIndexes=2&perPage=2" | jq
 curl "$ENDPOINT/v1/health" | jq
 curl -X POST "$ENDPOINT/v1/predicate/evaluate-policy" \
   -H "Content-Type: application/json" \
-  -d '{"policy": "sample_policy_data"}' | jq
+  -d '{
+    "chain_id": 11155111,
+    "from": "0x",
+    "to": "0x",
+    "msg_value": "1000000000000000",
+    "data": "0x"
+  }' | jq
 
 # TX-Map Service
 curl "$ENDPOINT/v1/health" | jq
