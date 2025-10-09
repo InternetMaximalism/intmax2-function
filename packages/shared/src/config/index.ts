@@ -56,6 +56,7 @@ export const config = cleanEnv(process.env, {
     default: 0.3,
     desc: "Rate at which the transaction wait time increases on each retry",
   }),
+  // layer zero
   LAYER_ZERO_NETWORK: layerZeroNetwork({ default: "testnet" }),
   // mint
   MINT_AVAILABLE_FROM: str({
@@ -63,7 +64,7 @@ export const config = cleanEnv(process.env, {
     desc: "The date and time when minting becomes available",
   }),
   // predicate
-  PREDICATE_API_URL: url({ devDefault: "http://localhost:3002" }),
+  PREDICATE_API_URL: url({ devDefault: "http://localhost:4000" }),
   PREDICATE_API_KEY: str({ devDefault: "dummy", desc: "API key for the predicate service" }),
   // contract(must be lowercase for contract addresses)
   BUILDER_REGISTRY_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
@@ -81,6 +82,7 @@ export const config = cleanEnv(process.env, {
   BASE_BRIDGE_O_APP_CONTRACT_DEPLOYED_BLOCK: num({ devDefault: 0 }),
   // messenger contract
   L1_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ devDefault: "0x" }),
+  // mock messenger contract (for test and dev)
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ default: "0x" }),
   MOCK_L1_SCROLL_MESSENGER_CONTRACT_DEPLOYED_BLOCK: num({ default: 0 }),
   MOCK_L2_SCROLL_MESSENGER_CONTRACT_ADDRESS: str({ default: "0x" }),
@@ -89,6 +91,7 @@ export const config = cleanEnv(process.env, {
   MOCK_L1_SENDER_EVENT_DECODE_ENABLED: bool({ default: true }),
   // private key
   INTMAX2_OWNER_MNEMONIC: str({ devDefault: "", desc: "Owner mnemonic for Intmax2" }),
+  // mock messenger private key (for test and dev)
   MOCK_MESSENGER_PRIVATE_KEY: str({
     default: "0x",
     desc: "Private key for the mock messenger contract",
@@ -126,8 +129,9 @@ export const config = cleanEnv(process.env, {
     desc: "Probability threshold (0.0–1.0) used to allow allowlisted builders to be selected.",
   }),
   BLOCK_BUILDER_ALLOWED_TOKEN_INDICES: str({
-    default: "0,1,2",
+    default: "0",
     desc: "Comma-separated indices of tokens that builders are allowed to include in blocks. Options may include 0 for ETH, 1 for ITX, 2 for WBTC and 3 for USDC.",
+    example: "0,1,2,3",
   }),
   BLOCK_BUILDER_MAX_FEE_AMOUNT: str({
     default: "2500000000000",
