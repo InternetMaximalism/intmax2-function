@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "dependencies": {
     "@intmax2-function/shared": "workspace:*",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "ethers": "^6.15.0",
-    "viem": "^2.37.8"
+    "viem": "^2.40.3"
   },
   "scripts": {
     "start:withdrawal": "node dist/index.js withdrawal",
@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }
