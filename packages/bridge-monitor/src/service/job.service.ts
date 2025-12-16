@@ -30,6 +30,8 @@ export const performJob = async () => {
   for (const bridgeTransaction of sortedTransactions) {
     await processBridgeTransaction(bridgeTransaction);
   }
+
+  logger.info(`Processed ${sortedTransactions.length} bridge transactions`);
 };
 
 const processBridgeTransaction = async (bridgeTransaction: BridgeTransactionData) => {

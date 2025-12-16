@@ -1,4 +1,6 @@
 import {
+  BASE_BRIDGE_O_APP_CONTRACT_ADDRESS,
+  BaseBridgeOAppAbi,
   type ContractCallOptionsEthers,
   type ContractCallParameters,
   calculateGasMultiplier,
@@ -12,9 +14,7 @@ import {
   getNonce,
   getWalletClient,
   logger,
-  MAINNET_BRIDGE_O_APP_CONTRACT_ADDRESS,
   MainnetBridgeOApp__factory,
-  MainnetBridgeOAppAbi,
   type RetryOptions,
   replacedEthersTransaction,
   TRANSACTION_INCREMENT_RATE,
@@ -85,8 +85,8 @@ export const submitWithRetry = async (
   const walletClientData = getWalletClient("bridgeManager", "l1");
 
   const contractCallParams: ContractCallParameters = {
-    contractAddress: MAINNET_BRIDGE_O_APP_CONTRACT_ADDRESS,
-    abi: MainnetBridgeOAppAbi as Abi,
+    contractAddress: BASE_BRIDGE_O_APP_CONTRACT_ADDRESS,
+    abi: BaseBridgeOAppAbi as Abi,
     functionName: params.operation,
     account: walletClientData.account,
     args: params.args,
